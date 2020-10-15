@@ -1,26 +1,31 @@
-const mysql = require('mysql')
-const config = require('config')
+const mysql = require("mysql");
+const config = require("config");
 
 const connection = mysql.createConnection({
-    host: "localhost",
-    user: `${config.get('db_user')}`,
+  host: "localhost",
+  user: `${config.get("db_user")}`,
+});
+
+module.exports.connectToDatabase = function () {
+  connection.connect(function (err) {
+    if (err) throw err;
+    console.log("Connection to db success!");
   });
 
+  const createDBq = `CREATE DATABASE IF NOT EXISTS ${config.get("db_name")}`;
 
-module.exports = function(){
-    connection.connect(function(err){
-        if(err) throw err
-        console.log("Connection to db success!")
-    })
+  connection.query(createDBq, (err, result) => {
+    if (err) throw err;
+    console.log("Database Connected!");
+  });
 
-    const createDBq = `CREATE DATABASE IF NOT EXISTS ${config.get('db_name')}`
+  const usedb = `USE ${config.get("db_name")}`;
+  connection.query(usedb, (err, res) => {
+    if (err) throw err;
+    console.log("Using VGS");
+  });
+};
 
-    connection.query(createDBq, (err, result)=>{
-        if(err) throw err
-        console.log("Database created")
-    })
-
-    return connection
-    
-    
-}
+module.exports.getDatabase = function () {
+  return connection;
+};
