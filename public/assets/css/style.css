@@ -1,4 +1,7 @@
 .carousel-inner{
     max-height: 100vh;
 }
+.container-fluid{
+    padding: 0px;
+}
 

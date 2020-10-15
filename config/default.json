@@ -1,0 +1,6 @@
+{
+    "db_name":"VGS",
+    "db_user":"root",
+    "db_password":"root",
+    "session_secret":"session_secret"
+}
