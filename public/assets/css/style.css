@@ -1,7 +1,9 @@
-.carousel-inner{
-    max-height: 100vh;
+.carousel-inner {
+  max-height: 100vh;
 }
-.container-fluid{
-    padding: 0px;
+.container-fluid {
+  padding: 0px;
 }
-
+/* .bg-image {
+  background-image: url("../img/wp3660106.jpg");
+} */

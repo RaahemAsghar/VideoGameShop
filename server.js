@@ -20,6 +20,7 @@ app.use(
     secret: `${config.get("session_secret")}`,
     saveUninitialized: false,
     resave: true,
+    cookie: { secure: true },
   })
 );
 
@@ -31,6 +32,14 @@ const db = connectToDatabase();
 
 app.get("/", (req, res) => {
   res.render("index");
+});
+
+app.get("/c", (req, res) => {
+  res.cookie("name", "sameer", { maxAge: 9999999999999 });
+  res.send("done");
+});
+app.get("/gc", (req, res) => {
+  res.send(req.cookies);
 });
 
 app.get("/dashboard", (req, res) => {
