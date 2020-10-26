@@ -20,3 +20,8 @@ div#preloader {
 body {
   padding-top: 50px;
 }
+
+.fa.fa-gamepad {
+  color: purple;
+  font-size: 1.5em;
+}
