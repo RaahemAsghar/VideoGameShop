@@ -5,16 +5,14 @@ const config = require("config");
 const path = require("path");
 const session = require("express-session");
 const flash = require("connect-flash");
-
+const setRoutes = require("./middleware/setUpRoutes");
 const connectToDatabase = require("./db/db").connectToDatabase;
 const db_conn = require("./db/db").getDatabase();
-
 const { runInNewContext } = require("vm");
 
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
     secret: `${config.get("session_secret")}`,
@@ -27,53 +25,11 @@ app.use(
 app.use(flash());
 
 app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "public")));
 
 const db = connectToDatabase();
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
-
-app.get("/c", (req, res) => {
-  res.cookie("name", "sameer", { maxAge: 9999999999999 });
-  res.send("done");
-});
-app.get("/gc", (req, res) => {
-  res.send(req.cookies);
-});
-
-app.get("/dashboard", (req, res) => {
-  res.render("dashboard");
-});
-
-app.get("/table", (req, res) => {
-  db_conn.query(`SHOW TABLES`, (err, res) => {
-    if (err) throw err;
-    console.log(res);
-  });
-  res.send("beep beep boop boop");
-});
-
-app.get("/login", (req, res) => {
-  res.render("login", { msg: req.flash("error") });
-});
-
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
-  req.flash("error", "Credentials are incorrect.");
-  res.redirect("/login");
-});
-
-app.get("/register", (req, res) => {
-  res.render("register");
-});
-app.get("/profile", (req, res) => {
-  res.render("profile");
-});
-
-app.get("*", (req, res) => {
-  res.render("404");
-});
+setRoutes(app);
 
 app.listen(PORT, () => {
   console.log("Server started at port: ", PORT);
