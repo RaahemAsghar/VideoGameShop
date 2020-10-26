@@ -5,10 +5,9 @@ const config = require("config");
 const path = require("path");
 const session = require("express-session");
 const flash = require("connect-flash");
-
+const setRoutes = require("./middleware/setUpRoutes");
 const connectToDatabase = require("./db/db").connectToDatabase;
 const db_conn = require("./db/db").getDatabase();
-const authRouter = require("./routes/auth");
 const { runInNewContext } = require("vm");
 
 app.use(express.json({ extended: true }));
@@ -30,15 +29,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const db = connectToDatabase();
 
-app.use("/auth", authRouter);
-
-app.get("/", (req, res) => {
-  res.render("index");
-});
-
-app.get("*", (req, res) => {
-  res.render("404");
-});
+setRoutes(app);
 
 app.listen(PORT, () => {
   console.log("Server started at port: ", PORT);
