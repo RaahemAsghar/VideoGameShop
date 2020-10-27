@@ -1,33 +1,45 @@
-.form-control::placeholder{
-    color: white;
+.form-control::placeholder {
+  color: white;
 }
 
-input.form-control{
-    background-color: #5a5c68;
-    border-width: 0px;
-    /* border-image:   linear-gradient(to right, #8b407b 25%, #00709c 50%,#b02f36 50%, #014595 75%) 5; */
-
+input.form-control {
+  background-color: #5a5c68;
+  border-width: 0px;
 }
 
-input.form-control.form-control-user{
-    color: white;
-
+input.form-control.form-control-user {
+  color: white;
 }
 
-input.form-control.form-control-user:focus{
-    background-color: #5a5c68;
-    border-width: 0px;
+input.form-control.form-control-user:focus {
+  background-color: #5a5c68;
+  border-width: 0px;
 }
-.login-container{
-    max-width: 50%;
+.login-container {
+  max-width: 40%;
+  padding: 0px;
+}
+.row {
+  padding: 0px;
 }
 
-.login-card{
-    margin-top: 20%;
-    background-color: #1a1a1a;
-    background-position: fixed;
+.register-container {
+  max-width: 60%;
 }
-.login-background{
-    background-image: url('../img/wp3660106.jpg');
-    background-size: 100% 100%;
+.col-md-8 {
+  padding: 0px;
+}
+.card-body {
+  padding: 5px;
+}
+
+.login-card {
+  padding: 0px;
+  margin-top: 20%;
+  background-color: #1a1a1a;
+  background-position: fixed;
+}
+.login-background {
+  background-image: url("../img/wp3660106.jpg");
+  background-size: 100% 100%;
 }

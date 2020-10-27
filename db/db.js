@@ -1,10 +1,16 @@
 const mysql = require("mysql");
 const config = require("config");
+const path = require("path");
+const sqlFile = path.join(__dirname, config.get("db_init_file"));
+const fs = require("fs");
 
-const connection = mysql.createConnection({
+const db_config = {
   host: "localhost",
   user: `${config.get("db_user")}`,
-});
+  multipleStatements: true,
+};
+
+const connection = mysql.createConnection(db_config);
 
 module.exports.connectToDatabase = function () {
   connection.connect(function (err) {
@@ -12,17 +18,11 @@ module.exports.connectToDatabase = function () {
     console.log("Connection to db success!");
   });
 
-  const createDBq = `CREATE DATABASE IF NOT EXISTS ${config.get("db_name")}`;
+  const init_db = fs.readFileSync(sqlFile, "utf-8");
 
-  connection.query(createDBq, (err, result) => {
+  connection.query(init_db, (err, res) => {
     if (err) throw err;
-    console.log("Database Connected!");
-  });
-
-  const usedb = `USE ${config.get("db_name")}`;
-  connection.query(usedb, (err, res) => {
-    if (err) throw err;
-    console.log("Using VGS");
+    console.log("Tables created");
   });
 };
 
