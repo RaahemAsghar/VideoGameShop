@@ -15,26 +15,9 @@ input.form-control.form-control-user:focus {
   background-color: #5a5c68;
   border-width: 0px;
 }
-.login-container {
-  max-width: 40%;
-  padding: 0px;
-}
-.row {
-  padding: 0px;
-}
-
-.register-container {
-  max-width: 60%;
-}
-.col-md-8 {
-  padding: 0px;
-}
-.card-body {
-  padding: 5px;
-}
 
 .login-card {
-  padding: 0px;
+  
   margin-top: 20%;
   background-color: #1a1a1a;
   background-position: fixed;
