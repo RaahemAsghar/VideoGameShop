@@ -56,16 +56,10 @@ CREATE TABLE IF NOT EXISTS game(
 CREATE TABLE IF NOT EXISTS game_category(
     game_id INT,
     category_id INT,
-<<<<<<< HEAD
-    FOREIGN KEY (game_id) REFERENCES game(id),
-    FOREIGN KEY (category_id) REFERENCES category(id),
-    PRIMARY KEY(game_id, category_id)
-=======
     PRIMARY KEY(game_id, category_id),
     FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
     
->>>>>>> 166ad7086253e92084088907c6f51d673ba5b815
     );
 
 CREATE TABLE IF NOT EXISTS console(
@@ -103,16 +97,10 @@ CREATE TABLE rent
     game_id int NOT NULL,
     date_lent DATE,
     date_due DATE,
-<<<<<<< HEAD
-    FOREIGN KEY (game_id) REFERENCES game(id),
-    FOREIGN KEY (user_id) REFERENCES user(id),
-    PRIMARY KEY (user_id, game_id)
-=======
     PRIMARY KEY (user_id, game_id),
     FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
     
->>>>>>> 166ad7086253e92084088907c6f51d673ba5b815
 );
 
 CREATE TABLE user_purchase_history
