@@ -56,9 +56,9 @@ CREATE TABLE IF NOT EXISTS game(
 CREATE TABLE IF NOT EXISTS game_category(
     game_id INT,
     category_id INT,
-    PRIMARY KEY(game_id, category_id),
     FOREIGN KEY (game_id) REFERENCES game(id),
-    FOREIGN KEY (category_id) REFERENCES category(id)
+    FOREIGN KEY (category_id) REFERENCES category(id),
+    PRIMARY KEY(game_id, category_id)
     );
 
 CREATE TABLE IF NOT EXISTS console(
@@ -89,14 +89,14 @@ CREATE TABLE transaction_history
 
 );
 CREATE TABLE rent
-(
-    game_id int,
-    user_id int,
+(   
+    user_id int NOT NULL,
+    game_id int NOT NULL,
     date_lent DATE,
     date_due DATE,
-    PRIMARY KEY (user_id, game_id),
     FOREIGN KEY (game_id) REFERENCES game(id),
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    PRIMARY KEY (user_id, game_id)
 );
 
 CREATE TABLE user_purchase_history
