@@ -57,8 +57,9 @@ CREATE TABLE IF NOT EXISTS game_category(
     game_id INT,
     category_id INT,
     PRIMARY KEY(game_id, category_id),
-    FOREIGN KEY (game_id) REFERENCES game(id),
-    FOREIGN KEY (category_id) REFERENCES category(id)
+    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
+    
     );
 
 CREATE TABLE IF NOT EXISTS console(
@@ -71,7 +72,8 @@ CREATE TABLE IF NOT EXISTS console(
     image_url TEXT,
     stock INT,
     PRIMARY KEY(id),
-    FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(id)
+    FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(id) ON DELETE CASCADE
+    
 );
 
 CREATE TABLE transaction_history
@@ -83,8 +85,9 @@ CREATE TABLE transaction_history
     date_of_purchase DATE,
     Type_of_transaction varchar(10),
     PRIMARY KEY (id),
-    FOREIGN KEY (game_id) REFERENCES game(id),
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+    
 
 
 );
@@ -95,8 +98,9 @@ CREATE TABLE rent
     date_lent DATE,
     date_due DATE,
     PRIMARY KEY (user_id, game_id),
-    FOREIGN KEY (game_id) REFERENCES game(id),
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+    
 );
 
 CREATE TABLE user_purchase_history
@@ -104,8 +108,9 @@ CREATE TABLE user_purchase_history
     user_id int,
     transaction_id int ,
     PRIMARY KEY (user_id,transaction_id),
-    FOREIGN KEY (user_id) REFERENCES user(id),
-    FOREIGN KEY (transaction_id) REFERENCES transaction_history(id)
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (transaction_id) REFERENCES transaction_history(id) ON DELETE CASCADE
+    
 );
 
 CREATE TABLE returned_games
@@ -116,9 +121,9 @@ CREATE TABLE returned_games
     transaction_id int NOT NULL AUTO_INCREMENT,
     user_id int,
     PRIMARY KEY (transaction_id),
-    FOREIGN KEY (game_id) REFERENCES game(id),
-    FOREIGN KEY (transaction_id) REFERENCES transaction_history(id),
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
+    FOREIGN KEY (transaction_id) REFERENCES transaction_history(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 
 );
 
