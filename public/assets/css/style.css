@@ -25,3 +25,8 @@ body {
   color: purple;
   font-size: 1.5em;
 }
+
+.nav-separator{
+  border: 1px solid;
+  color: #D3D3D3;
+}
