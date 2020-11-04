@@ -30,3 +30,7 @@ body {
   border: 1px solid;
   color: #D3D3D3;
 }
+.cart-icon{
+  font-size: 17pt;
+  vertical-align: middle;
+}
