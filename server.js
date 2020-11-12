@@ -8,8 +8,6 @@ const flash = require("connect-flash");
 const setRoutes = require("./middleware/setUpRoutes");
 const connectToDatabase = require("./db/db").connectToDatabase;
 const db_conn = require("./db/db").getDatabase();
-const { runInNewContext } = require("vm");
-
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
 
@@ -25,6 +23,7 @@ app.use(
 app.use(flash());
 
 app.set("view engine", "ejs");
+
 app.use(express.static(path.join(__dirname, "public")));
 
 const db = connectToDatabase();
