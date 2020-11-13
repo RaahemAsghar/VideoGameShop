@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.render("login", { msg: req.flash("error") });
+  res.render("login", { msg: req.flash("login_msg") });
 });
 
 router.post("/", (req, res) => {
