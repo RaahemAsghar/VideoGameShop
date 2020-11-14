@@ -4,3 +4,4 @@ $(window).on("load", function () {
     $(this).remove();
   });
 });
+

@@ -19,6 +19,7 @@ module.exports.connectToDatabase = function () {
   });
 
   const init_db = fs.readFileSync(sqlFile, "utf-8");
+  console.log(init_db);
 
   connection.query(init_db, (err, res) => {
     if (err) throw err;
