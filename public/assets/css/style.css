@@ -42,14 +42,15 @@ body {
  display: block;
 }
 .card-Update{
-  width: 100%;
-    height: 21vw;
+  width: 20%;
+  height: 20vw;
     
  }@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
  body{
    background: #f2f2f2;
    font-family: 'Open Sans', sans-serif;
+   padding-top: 5%;
  }
  
  .search {
