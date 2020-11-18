@@ -8,7 +8,9 @@ module.exports = function (app) {
   });
 
   app.use("/register", registerRouter);
-
+  app.get("/dashboard", (req, res) => {
+    res.render("admin/dashboard");
+  });
   app.get("*", (req, res) => {
     res.render("404");
   });
