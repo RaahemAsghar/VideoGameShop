@@ -19,27 +19,34 @@ router.post("/", async (req, res) => {
   const password_check = `SELECT * FROM user WHERE email = '${username}'`;
   const [rows, fields] = await db.promise().query(password_check);
   //console.log(rows);
-  const queried_pass = rows[0].password;
-  //console.log(queried_pass);
   if (rows.length > 0) {
-  const pass_cmpare = bcrypt.compare(password,queried_pass);
-
+  const queried_pass = rows[0].password;
+  console.log(queried_pass);
+  // const pass_cmpare = await new Promise((resolve, reject) => {
+  //   bcrypt.hash(password, queried_pass, function(err, hash) {
+  //     if (err) reject(err)
+  //   });
+  // })
+  const pass_cmpare = await bcrypt.compare(password,queried_pass);
+  console.log(pass_cmpare);
   if(pass_cmpare)
   {
     res.redirect("/index");
 
-  }else{
-    errors.push(
+  }
+    error.push(
       "Your password does not match your Email"
     );
-    req.flash("login_msg", errors);
+    req.flash("login_msg", error);
     res.redirect("/login");
-  }
-}else{
-  errors.push(
+  
+}
+ 
+if(1)
+{error.push(
     "There is no user with this email, You might want to create an account"
   );
-  req.flash("login_msg", errors);
+  req.flash("login_msg", error);
   res.redirect("/login");
 }
 
