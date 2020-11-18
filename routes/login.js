@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const getDatabase = require("../db/db").getDatabase;
 
-//const router = express.Router();
 const db = getDatabase();
 
 router.get("/", (req, res) => {
@@ -14,42 +13,29 @@ router.post("/", async (req, res) => {
   const { username, password } = req.body;
 
   const error = [];
-  
 
   const password_check = `SELECT * FROM user WHERE email = '${username}'`;
   const [rows, fields] = await db.promise().query(password_check);
-  //console.log(rows);
-  if (rows.length > 0) {
-  const queried_pass = rows[0].password;
-  console.log(queried_pass);
-  // const pass_cmpare = await new Promise((resolve, reject) => {
-  //   bcrypt.hash(password, queried_pass, function(err, hash) {
-  //     if (err) reject(err)
-  //   });
-  // })
-  const pass_cmpare = await bcrypt.compare(password,queried_pass);
-  console.log(pass_cmpare);
-  if(pass_cmpare)
-  {
-    res.redirect("/index");
 
-  }
+  if (rows.length > 0) {
+    const queried_pass = rows[0].password;
+    console.log(queried_pass);
+    const pass_cmpare = await bcrypt.compare(password, queried_pass);
+    console.log(pass_cmpare);
+    if (pass_cmpare) {
+      res.redirect("/");
+    } else {
+      error.push("Your password does not match your Email");
+      req.flash("login_msg", error);
+      res.redirect("/login");
+    }
+  } else {
     error.push(
-      "Your password does not match your Email"
+      "There is no user with this email, You might want to create an account"
     );
     req.flash("login_msg", error);
     res.redirect("/login");
-  
-}
- 
-if(1)
-{error.push(
-    "There is no user with this email, You might want to create an account"
-  );
-  req.flash("login_msg", error);
-  res.redirect("/login");
-}
-
+  }
 
   res.end();
 });
