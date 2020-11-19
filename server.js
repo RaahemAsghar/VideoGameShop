@@ -16,10 +16,8 @@ app.use(
     secret: `${config.get("session_secret")}`,
     saveUninitialized: false,
     resave: true,
-    cookie: { secure: true },
   })
 );
-
 app.use(flash());
 
 app.set("view engine", "ejs");
