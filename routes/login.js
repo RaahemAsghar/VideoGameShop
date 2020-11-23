@@ -2,11 +2,24 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const getDatabase = require("../db/db").getDatabase;
-
+const resetSession = require('../middleware/middlewares').resetSession
 const db = getDatabase();
 
 router.get("/", (req, res) => {
-  res.render("login", { msg: req.flash("login_msg") });
+  if(req.session.isAuth){
+    res.redirect('/')
+  }
+  else{
+    res.render("login", { msg: req.flash("login_msg"), type: "user" });
+
+  }
+});
+
+router.get("/logout", (req, res,next) => {
+
+    resetSession(req,res)
+    res.redirect('/')
+  
 });
 
 router.post("/", async (req, res) => {
@@ -19,10 +32,10 @@ router.post("/", async (req, res) => {
 
   if (rows.length > 0) {
     const queried_pass = rows[0].password;
-    console.log(queried_pass);
     const pass_cmpare = await bcrypt.compare(password, queried_pass);
-    console.log(pass_cmpare);
     if (pass_cmpare) {
+      req.session.isAuth = true;
+      req.session.isUser = true
       res.redirect("/");
     } else {
       error.push("Your password does not match your Email");

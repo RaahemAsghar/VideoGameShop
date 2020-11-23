@@ -5,7 +5,10 @@ const config = require("config");
 const path = require("path");
 const session = require("express-session");
 const flash = require("connect-flash");
-const setRoutes = require("./middleware/setUpRoutes");
+const setRoutes = require("./middleware/setUpRoutes").setRoutes;
+const setGlobals = require('./middleware/middlewares').setGlobals
+const initSession = require('./middleware/middlewares').initSession
+
 const connectToDatabase = require("./db/db").connectToDatabase;
 const db_conn = require("./db/db").getDatabase();
 app.use(express.json({ extended: true }));
@@ -25,6 +28,9 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
 const db = connectToDatabase();
+
+app.use(initSession)
+app.use(setGlobals)
 
 setRoutes(app);
 
