@@ -6,7 +6,12 @@ const getDatabase = require("../db/db").getDatabase;
 const db = getDatabase();
 
 router.get("/", (req, res) => {
-  res.render("register", { msg: req.flash("register_msg") });
+  if(req.session.isAuth){
+    res.redirect('/')
+  }
+  else{
+    res.render("register", { msg: req.flash("register_msg") });
+  }
 });
 
 router.post("/", async (req, res) => {
