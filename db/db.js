@@ -4,11 +4,21 @@ const path = require("path");
 const sqlFile = path.join(__dirname, config.get("db_init_file"));
 const fs = require("fs");
 
+// const db_config = {
+//   host: "localhost",
+//   user: `${config.get("db_user")}`,
+//   multipleStatements: true,
+// };
+
 const db_config = {
-  host: "localhost",
-  user: `${config.get("db_user")}`,
+  host: "www.vgs.educationhost.cloud",
+  user: "qmkvilgx_vgs",
   multipleStatements: true,
+  database:"qmkvilgx_vgs",
+  password:"VideoGameShop123"
 };
+
+
 
 var connection = mysql.createConnection(db_config);
 
