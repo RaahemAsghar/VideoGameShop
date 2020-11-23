@@ -23,12 +23,13 @@ body {
 
 .fa.fa-gamepad {
   color: purple;
-  font-size: 1.5em;
+  font-size: 2em;
 }
 
 .nav-separator{
   border: 1px solid;
   color: #D3D3D3;
+  background-color: #D3D3D3 
 }
 .cart-icon{
   font-size: 17pt;
@@ -42,14 +43,15 @@ body {
  display: block;
 }
 .card-Update{
-  width: 100%;
-    height: 21vw;
+  width: 20%;
+  height: 20vw;
     
  }@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
  body{
    background: #f2f2f2;
    font-family: 'Open Sans', sans-serif;
+   padding-top: 5%;
  }
  
  .search {

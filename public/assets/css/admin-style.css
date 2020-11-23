@@ -1,0 +1,21 @@
+.nav-separator{
+    border: 1px solid;
+    color: #D3D3D3;
+    background-color: #D3D3D3 
+  }
+
+.custom-sidebar{
+    background-color: #212121;
+}
+
+.custom-body{
+    background-color: #424242;
+}
+
+.custom-navbar{
+    background-color: #212121;
+}
+
+#wrapper #content-wrapper {
+background-color: transparent;    
+}

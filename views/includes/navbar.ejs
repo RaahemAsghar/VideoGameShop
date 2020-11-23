@@ -7,16 +7,23 @@
   
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav ml-auto mt-2 mt-lg-0 font-weight-bold">
-         
+        <%if(!locals.isAuth){ %> 
         <li class="nav-item active">
           <a class="nav-link" href="/register">Create an account</a>
         </li>
         <li class="nav-item active">
           <a class="nav-link" href="/login">Login</a>
         </li>
-        <li class="nav-item active">
+        <%}%>
+        <%if(locals.isAuth){%>
+          <li class="nav-item active">
+            <a class="nav-link" href="/login/logout">Logout</a>
+          </li>
+        <%}%>
+
+        <!-- <li class="nav-item active">
           <a class="nav-link" href="/register">About Us</a>
-        </li>
+        </li> -->
         <div class="nav-separator mt-2 mb-2"></div>
         <li class="nav-item active align-content-between">
           <a class="nav-link">Shopping Cart <i class="fa cart-icon fa-cart-plus"></i></a>
