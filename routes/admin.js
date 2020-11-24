@@ -60,8 +60,30 @@ router.get("/add-game", /*protectedRouteAdmin,*/ (req, res) => {
   res.render("admin/games/add-game");
 });
 
+<<<<<<< HEAD
 router.get("/add-console", /*protectedRouteAdmin,*/ (req, res) => {
   res.render("admin/consoles/add-console");
+=======
+router.post("/add-game", async (req, res) => {
+  //console.log(req.body.post_title)
+  //console.log(title)
+  const stock = 0;
+  const add_query = `INSERT INTO game
+    (title, description, tags, sale_price, rent_price, platform, image_url, stock)
+     VALUES ('${req.body.title}', '${req.body.description}', '${req.body.tags}', '${req.body.sale_price}', '${req.body.rent_price}', '${req.body.platform}', '${req.body.image}', '${stock}')`;
+
+    db.query(add_query, (err, result) => {
+      if (err) throw err;
+      console.log("Item added!");
+    });
+
+    //req.flash("login_msg", "Item added successfully!");
+    res.redirect("/admin/add-game");
+});
+
+router.get("/consoles", /*protectedRouteAdmin,*/ (req, res) => {
+  res.render("admin/consoles");
+>>>>>>> fe5e760c211a64780c8c1ec38150f3da686850dc
 });
 router.get('/categories',(req,res)=>{
   res.render('admin/games/categories')
