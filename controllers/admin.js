@@ -63,7 +63,14 @@ module.exports.addGame = async (req, res) => {
   const stock = 0;
   const add_query = `INSERT INTO game
     (title, description, tags, sale_price, rent_price, platform, image_url, stock)
-     VALUES ('${req.body.title}', '${req.body.description}', '${req.body.tags}', '${req.body.sale_price}', '${req.body.rent_price}', '${req.body.platform}', '${req.body.image}', '${stock}')`;
+     VALUES 
+     ('${req.body.title}',
+      '${req.body.description}',
+       '${req.body.tags}',
+        '${req.body.sale_price}',
+         '${req.body.rent_price}',
+          '${req.body.platform}', '${req.body.image}', '${stock}')`;
+    console.log(req.body.description)
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
@@ -74,11 +81,10 @@ module.exports.addGame = async (req, res) => {
   res.redirect("/admin/add-game");
 };
 
-module.exports.allGames = (req,res)=>{
-    res.render('admin/games/all-games')
-}
+module.exports.allGames = (req, res) => {
+  res.render("admin/games/all-games");
+};
 //End Game Controllers
-
 
 //Console Controllers
 module.exports.showAddConsoleForm = (req, res) => {
@@ -101,21 +107,18 @@ module.exports.addConsole = (req, res) => {
   });
 
   res.redirect("/admin/add-console");
-
 };
 
-module.exports.allConsoles = (req,res)=>{
-    res.render('admin/consoles/all-consoles')
-}
+module.exports.allConsoles = (req, res) => {
+  res.render("admin/consoles/all-consoles");
+};
 
 //End Console Controllers
-
 
 module.exports.categories = (req, res) => {
   res.render("admin/games/categories");
 };
 
-module.exports.manufacturers = (req,res)=>{
-    res.render("admin/consoles/manufacturers");
-   
-}
+module.exports.manufacturers = (req, res) => {
+  res.render("admin/consoles/manufacturers");
+};
