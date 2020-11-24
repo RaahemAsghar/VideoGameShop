@@ -10,6 +10,16 @@ const db_config = {
   multipleStatements: true,
 };
 
+// const db_config = {
+//   host: "www.vgs.educationhost.cloud",
+//   user: "qmkvilgx_vgs",
+//   multipleStatements: true,
+//   database:"qmkvilgx_vgs",
+//   password:"VideoGameShop123"
+// };
+
+
+
 var connection = mysql.createConnection(db_config);
 
 module.exports.connectToDatabase = function () {
