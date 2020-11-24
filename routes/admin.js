@@ -59,13 +59,14 @@ router.get("/dashboard", /*protectedRouteAdmin,*/ (req, res) => {
 router.get("/add-game", /*protectedRouteAdmin,*/ (req, res) => {
   res.render("admin/add-games");
 });
+
 router.post("/add-game", async (req, res) => {
   //console.log(req.body.post_title)
   //console.log(title)
   const stock = 0;
   const add_query = `INSERT INTO game
     (title, description, tags, sale_price, rent_price, platform, image_url, stock)
-     VALUES ('${req.body.post_title}', '${req.body.post_content}', '${req.body.post_tags}', '${req.body.post_author[1]}', '${req.body.post_author[2]}', '${req.body.post_author[0]}', '${req.body.image}', '${stock}')`;
+     VALUES ('${req.body.title}', '${req.body.description}', '${req.body.tags}', '${req.body.sale_price}', '${req.body.rent_price}', '${req.body.platform}', '${req.body.image}', '${stock}')`;
 
     db.query(add_query, (err, result) => {
       if (err) throw err;
