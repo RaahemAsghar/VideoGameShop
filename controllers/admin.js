@@ -58,7 +58,7 @@ module.exports.showAddGameForm = function (req, res) {
 };
 
 module.exports.addGame = async (req, res) => {
-  //console.log(req.body.post_title)
+  console.log(req.body)
   //console.log(title)
   const stock = 0;
   const add_query = `INSERT INTO game
