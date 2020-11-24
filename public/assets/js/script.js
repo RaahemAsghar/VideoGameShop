@@ -13,3 +13,4 @@ $(window).on("load", function () {
   });
 });
 
+// document.getElementById('wrapper').style.backgroundColor = 'black'
