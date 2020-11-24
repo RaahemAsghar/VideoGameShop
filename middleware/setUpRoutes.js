@@ -14,7 +14,6 @@ module.exports.setRoutes = function (app) {
   });
   app.use("/admin", adminRouter);
   app.use("/register", registerRouter);
-
   app.get("/make-admin", (req, res) => {
     const first_name = "vgs";
     const last_name = "shop";
