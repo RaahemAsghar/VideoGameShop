@@ -1,0 +1,60 @@
+<%-include('../includes/header')%>
+
+<div class="row justify-content-center">
+  <div class="col"> 
+    <form action="" method="post">
+      <div class="form-group">
+        <label class="text-light" for="post_title">Game Title</label>
+        <input class="form-control" type="text" name="post_title" />
+      </div>
+      <div class="form-group">
+        <label class="text-light" for="post_author">Platform</label>
+        <input class="form-control" type="text" name="post_author" value="" />
+      </div>
+      <div class="form-group">
+        <label class="text-light" for="post_author">Sale Price</label>
+        <input class="form-control" type="text" name="post_author" value="" />
+      </div>
+      <div class="form-group">
+        <label class="text-light" for="post_author">Rent Price</label>
+        <input class="form-control" type="text" name="post_author" value="" />
+      </div>
+      <div class="form-group">
+        <label class="text-light" for="post_category">Choose Category</label>
+        <select class="form-control" name="post_category" id="">
+          <option value="cat_id">Category</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="text-light" for="image">Image URL</label><br />
+        <input class="form-control" type="text" name="image" />
+      </div>
+      <div class="form-group"></div>
+      <div class="form-group">
+        <label class="text-light" for="post_tags">Tags</label>
+        <input type="text" class="form-control" name="post_tags" />
+      </div>
+      <div class="form-group">
+        <label class="text-light" for="post_content">Game Description</label>
+        <textarea
+          class="form-control"
+          cols="30"
+          rows="10"
+          id="editor"
+          name="post_content"
+        ></textarea>
+      </div>
+      <!-- <script src = "../js/scripts.js"></script> -->
+      <div class="form-group">
+        <input
+          type="submit"
+          class="btn btn-success"
+          name="submit_post"
+          value="Add Game"
+        />
+      </div>
+    </form>
+  </div>
+</div>
+
+<%-include('../includes/footer')%>

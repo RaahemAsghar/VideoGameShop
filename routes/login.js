@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const getDatabase = require("../db/db").getDatabase;
 const resetSession = require('../middleware/middlewares').resetSession
-const db = getDatabase();
 
 router.get("/", (req, res) => {
   if(req.session.isAuth){
@@ -28,6 +27,8 @@ router.post("/", async (req, res) => {
   const error = [];
 
   const password_check = `SELECT * FROM user WHERE email = '${username}'`;
+  var db = getDatabase()
+
   const [rows, fields] = await db.promise().query(password_check);
 
   if (rows.length > 0) {

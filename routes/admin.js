@@ -57,11 +57,11 @@ router.get("/dashboard", /*protectedRouteAdmin,*/ (req, res) => {
 });
 
 router.get("/add-game", /*protectedRouteAdmin,*/ (req, res) => {
-  res.render("admin/games/add-games");
+  res.render("admin/games/add-game");
 });
 
-router.get("/consoles", /*protectedRouteAdmin,*/ (req, res) => {
-  res.render("admin/consoles/consoles");
+router.get("/add-console", /*protectedRouteAdmin,*/ (req, res) => {
+  res.render("admin/consoles/add-console");
 });
 router.get('/categories',(req,res)=>{
   res.render('admin/games/categories')
