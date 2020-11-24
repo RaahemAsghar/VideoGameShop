@@ -1,33 +1,20 @@
 <%-include('../includes/header')%>
 
 <div class="row justify-content-center">
-<<<<<<< HEAD:views/admin/consoles/add-console.ejs
   <div class="col"> 
     <form action="" method="post">
-=======
-  <div class="col">
-    <form method="POST" action="/admin/add-game">
->>>>>>> fe5e760c211a64780c8c1ec38150f3da686850dc:views/admin/add-games.ejs
       <div class="form-group">
-        <label class="text-light" for="title">Game Title</label>
-        <input class="form-control" type="text" name="title" />
-      </div>
-      <div class="form-group">
-        <label class="text-light" for="platform">Platform</label>
-        <input class="form-control" type="text" name="platform" value="" />
+        <label class="text-light" for="name">Console Name</label>
+        <input class="form-control" type="text" name="name" />
       </div>
       <div class="form-group">
         <label class="text-light" for="sale_price">Sale Price</label>
         <input class="form-control" type="text" name="sale_price" value="" />
       </div>
       <div class="form-group">
-        <label class="text-light" for="rent_price">Rent Price</label>
-        <input class="form-control" type="text" name="rent_price" value="" />
-      </div>
-      <div class="form-group">
-        <label class="text-light" for="category">Choose Category</label>
+        <label class="text-light" for="category">Choose Manufacturer</label>
         <select class="form-control" name="category" id="">
-          <option value="cat_id">Category</option>
+          <option value="cat_id">Manufacturer</option>
         </select>
       </div>
       <div class="form-group">
@@ -40,7 +27,7 @@
         <input type="text" class="form-control" name="tags" />
       </div>
       <div class="form-group">
-        <label class="text-light" for="description">Game Description</label>
+        <label class="text-light" for="post_content">Description</label>
         <textarea
           class="form-control"
           cols="30"
