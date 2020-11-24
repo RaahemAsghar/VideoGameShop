@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const getDatabase = require("../db/db").getDatabase;
 
-const db = getDatabase();
 
 router.get("/", (req, res) => {
   if(req.session.isAuth){
@@ -37,6 +36,8 @@ router.post("/", async (req, res) => {
 
   //Check for a user with same email in the Database
   const existing_user_q = `SELECT * FROM user WHERE email = '${email}'`;
+  var db = getDatabase();
+
   const [rows, fields] = await db.promise().query(existing_user_q);
 
   if (rows.length > 0) {
@@ -55,6 +56,7 @@ router.post("/", async (req, res) => {
     const register_query = `INSERT INTO user
     (first_name, last_name, email, password, address, phone_number)
      VALUES ('${first_name}', '${last_name}', '${email}', '${pass_hash}', '${address}', '${phone}')`;
+     db = getDatabase();
 
     db.query(register_query, (err, result) => {
       if (err) throw err;
