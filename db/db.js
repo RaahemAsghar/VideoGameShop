@@ -4,19 +4,19 @@ const path = require("path");
 const sqlFile = path.join(__dirname, config.get("db_init_file"));
 const fs = require("fs");
 
-// const db_config = {
-//   host: "localhost",
-//   user: `${config.get("db_user")}`,
-//   multipleStatements: true,
-// };
-
 const db_config = {
-  host: "www.vgs.educationhost.cloud",
-  user: "qmkvilgx_vgs",
+  host: "localhost",
+  user: `${config.get("db_user")}`,
   multipleStatements: true,
-  database:"qmkvilgx_vgs",
-  password:"VideoGameShop123"
 };
+
+// const db_config = {
+//   host: "www.vgs.educationhost.cloud",
+//   user: "qmkvilgx_vgs",
+//   multipleStatements: true,
+//   database:"qmkvilgx_vgs",
+//   password:"VideoGameShop123"
+// };
 
 
 
