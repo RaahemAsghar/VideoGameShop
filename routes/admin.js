@@ -57,12 +57,15 @@ router.get("/dashboard", /*protectedRouteAdmin,*/ (req, res) => {
 });
 
 router.get("/add-game", /*protectedRouteAdmin,*/ (req, res) => {
-  res.render("admin/add-games");
+  res.render("admin/games/add-games");
 });
 
 router.get("/consoles", /*protectedRouteAdmin,*/ (req, res) => {
-  res.render("admin/consoles");
+  res.render("admin/consoles/consoles");
 });
+router.get('/categories',(req,res)=>{
+  res.render('admin/games/categories')
+})
 
 router.get("*", (req, res) => {
   res.redirect("/admin/dashboard");
