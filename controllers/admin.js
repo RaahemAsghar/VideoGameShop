@@ -82,8 +82,18 @@ module.exports.addGame = async (req, res) => {
 };
 
 module.exports.allGames = (req, res) => {
-  res.render("admin/games/all-games");
+  const add_query = `SELECT * FROM game`;
+  var db = getDatabase();
+
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    //console.log(result);
+    res.render("admin/games/all-games", {data:result});
+  });  
 };
+
+
+
 //End Game Controllers
 
 //Console Controllers
@@ -110,15 +120,62 @@ module.exports.addConsole = (req, res) => {
 };
 
 module.exports.allConsoles = (req, res) => {
-  res.render("admin/consoles/all-consoles");
+  const add_query = `SELECT * FROM console`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    res.render("admin/consoles/all-consoles", {data:result});
+  });
 };
 
 //End Console Controllers
 
 module.exports.categories = (req, res) => {
-  res.render("admin/games/categories");
+  const add_query = `SELECT * FROM category`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    //console.log(result);
+    res.render("admin/games/categories", {data:result});
+  });
+};
+
+module.exports.addCategories = (req, res) =>{
+  const add_query = `INSERT INTO category
+    (name) 
+    VALUES 
+    ('${req.body.title}')`;
+  var db = getDatabase();
+
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    console.log("Category added!");
+  });
+
+  res.redirect("/admin/categories");
 };
 
 module.exports.manufacturers = (req, res) => {
-  res.render("admin/consoles/manufacturers");
+  const add_query = `SELECT * FROM manufacturer`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    //console.log(result);
+    res.render("admin/consoles/manufacturers", {data:result});
+  });
+};
+
+module.exports.addManufacturers = (req, res) => {
+  const add_query = `INSERT INTO manufacturer
+    (name) 
+    VALUES 
+    ('${req.body.name}')`;
+  var db = getDatabase();
+  //console.log(req.body);
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    console.log("Manufacturer added!");
+    
+  });
+  res.redirect("/admin/manufacturers");
 };

@@ -13,7 +13,6 @@ router.get("/dashboard", /*protectedRouteAdmin,*/ adminController.getDashboard);
 router.get("/add-game", /*protectedRouteAdmin,*/ adminController.showAddGameForm);
 router.post("/add-game", adminController.addGame);
 router.get("/all-games", /*protectedRouteAdmin,*/ adminController.allGames);
-
 //End Game Routes
 
 //Console Routes
@@ -26,9 +25,9 @@ router.get("/all-consoles", /*protectedRouteAdmin,*/ adminController.allConsoles
 
 
 router.get('/categories', adminController.categories);
-
+router.post('/categories', adminController.addCategories);
 router.get('/manufacturers',adminController.manufacturers)
-
+router.post('/manufacturers', adminController.addManufacturers)
 
 router.get("*", (req, res) => {
   res.redirect("/admin/dashboard");
