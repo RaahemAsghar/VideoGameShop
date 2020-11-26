@@ -1,0 +1,41 @@
+<%-include('includes/header')%>
+
+<div class="row justify-content-center">
+  <div class="col-md-6 col-6 m-5">
+
+
+    <form class="user" method="POST">
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user"
+                    type="text" id="exampleFirstName" placeholder="First Name"
+                    name="first_name" required="required"></div>
+            <div class="col-sm-6"><input class="form-control form-control-user" type="text"
+                    id="exampleFirstName" placeholder="Last Name" name="last_name" required="required"></div>
+        </div>
+        <div class="form-group"><input class="form-control form-control-user" type="email"
+                id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address"
+                name="email" required="required"></div>
+                <div class="form-group">
+                    <input class="form-control form-control-user" type="text"
+                    id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Address"
+                    name="address" required="required"></div>
+        <div class="form-group"><input class="form-control form-control-user" type="text"
+                id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Phone Number"
+                name="phone" required="required"></div>
+            
+                <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user"
+                    type="password" id="examplePasswordInput" placeholder="Password"
+                    name="password" required="required"></div>
+            <div class="col-sm-6"><input class="form-control form-control-user" type="password"
+                    id="exampleRepeatPasswordInput" placeholder="Repeat Password"
+                    name="password2" required="required"></div>
+        </div><button class="btn btn-dark btn-block text-white btn-user" type="submit">Register
+            Account</button>
+        <hr>
+    </form>
+  </div>
+</div>
+
+
+<%-include('includes/footer')%>

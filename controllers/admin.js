@@ -1,7 +1,8 @@
 const bcrypt = require("bcryptjs");
+const { get } = require("config");
 const getDatabase = require("../db/db").getDatabase;
 const resetSession = require("../middleware/middlewares").resetSession;
-
+const mysql = require("mysql2");
 module.exports.adminLoginGET = function (req, res) {
   if (req.session.isAuth) {
     res.redirect("/admin");
@@ -61,16 +62,33 @@ module.exports.addGame = async (req, res) => {
   console.log(req.body)
   //console.log(title)
   const stock = 0;
+  var {
+    title,
+    description,
+    tags,
+    sale_price,
+    rent_price,
+    platform,
+    image,
+  } = req.body;
+
+  title = mysql.escape(title);
+  description = mysql.escape(description);
+  tags = mysql.escape(tags);
+  sale_price = mysql.escape(sale_price);
+  rent_price = mysql.escape(rent_price);
+  platform = mysql.escape(platform);
+  image = mysql.escape(image);
+
   const add_query = `INSERT INTO game
     (title, description, tags, sale_price, rent_price, platform, image_url, stock)
      VALUES 
-     ('${req.body.title}',
-      '${req.body.description}',
-       '${req.body.tags}',
-        '${req.body.sale_price}',
-         '${req.body.rent_price}',
-          '${req.body.platform}', '${req.body.image}', '${stock}')`;
-    console.log(req.body.description)
+     (${title},
+      ${description},
+       ${tags},
+        ${sale_price},
+         ${rent_price},
+          ${platform}, ${image}, ${stock})`;
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
@@ -93,6 +111,51 @@ module.exports.allGames = (req, res) => {
 };
 
 
+module.exports.getAddStockGame = async (req, res) => {
+  const get_stock_q = "SELECT id, stock FROM game";
+
+  const db = getDatabase();
+
+  const [rows, fields] = await db.promise().query(get_stock_q);
+
+  res.render("admin/games/add-stock", {
+    msg: req.flash("error_updating_game_stock"),
+    data: rows,
+  });
+};
+module.exports.addStockGame = async (req, res) => {
+  const { game_id, stock } = req.body;
+
+  const check_q = `SELECT COUNT(*) AS n_id, stock FROM game WHERE id = ${game_id}`;
+  var db = getDatabase();
+  const [rows, fields] = await db.promise().query(check_q);
+
+  if (rows[0].n_id == "0") {
+    const err_msg = {
+      msg: "Game does not exist",
+      type: "alert-danger",
+    };
+    req.flash("error_updating_game_stock", err_msg);
+  } else {
+    const total = parseInt(stock) + parseInt(rows[0].stock);
+    const update_stock = `UPDATE game SET stock = ${total} WHERE id = ${game_id}`;
+    const succ_msg = {
+      msg: "Stock updated",
+      type: "alert-success",
+    };
+    req.flash("error_updating_game_stock", succ_msg);
+
+    db.query(update_stock, (err, res) => {
+      if (err) throw err;
+
+      console.log("Stock Updated.");
+    });
+  }
+
+  res.redirect("/admin/add-stock-game");
+};
+
+
 
 //End Game Controllers
 
@@ -102,15 +165,21 @@ module.exports.showAddConsoleForm = (req, res) => {
 };
 
 module.exports.addConsole = (req, res) => {
-  const { name, sale_price, image, tags, description } = req.body;
+  var { name, sale_price, image, tags, description } = req.body;
   const stock = 0;
+
+  name = mysql.escape(name);
+  sale_price = mysql.escape(sale_price);
+  image = mysql.escape(image);
+  tags = mysql.escape(tags);
+  description = mysql.escape(description);
 
   const add_query = `INSERT INTO console
     (name, description, tags, sale_price,image_url, stock) 
     VALUES 
-    ('${name}', '${description}', '${tags}', '${sale_price}', '${image}','${stock}')`;
-  var db = getDatabase();
+    (${name}, ${description}, ${tags}, ${sale_price}, ${image},${stock})`;
 
+  const db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
     console.log("Item added!");
@@ -126,6 +195,51 @@ module.exports.allConsoles = (req, res) => {
     if (err) throw err;
     res.render("admin/consoles/all-consoles", {data:result});
   });
+};
+
+module.exports.getAddStockConsole = async (req, res) => {
+  const get_stock_q = "SELECT id, stock FROM console";
+
+  const db = getDatabase();
+
+  const [rows, fields] = await db.promise().query(get_stock_q);
+
+  res.render("admin/consoles/add-stock", {
+    msg: req.flash("error_updating_console_stock"),
+    data: rows,
+  });
+};
+
+module.exports.addStockConsole = async (req, res) => {
+  const { console_id, stock } = req.body;
+  const check_q = `SELECT COUNT(*) AS n_id, stock FROM console WHERE id = ${console_id}`;
+  var db = getDatabase();
+  const [rows, fields] = await db.promise().query(check_q);
+
+  if (rows[0].n_id == "0") {
+    const err_msg = {
+      msg: "Console does not exist",
+      type: "alert-danger",
+    };
+    req.flash("error_updating_console_stock", err_msg);
+  } else {
+    const total = parseInt(stock) + parseInt(rows[0].stock);
+    const update_stock = `UPDATE console SET stock = ${total} WHERE id = ${console_id}`;
+    const succ_msg = {
+      msg: "Stock updated",
+      type: "alert-success",
+    };
+    req.flash("error_updating_console_stock", succ_msg);
+
+    db.query(update_stock, (err, res) => {
+      if (err) throw err;
+
+      console.log("Stock Updated.");
+    });
+  }
+
+  console.log(console_id, stock);
+  res.redirect("/admin/add-stock-console");
 };
 
 //End Console Controllers

@@ -38,3 +38,15 @@ module.exports.protectedAdmin = function(req,res,next){
     next()
   }
 }
+
+module.exports.protectedUser = function(req,res,next){
+  if(!req.session.isAuth){
+    res.redirect('/login')  
+  }
+  else if(req.session.isAuth && req.session.isAdmin){
+    res.redirect('/admin')   
+  }
+  else{
+    next()
+  }
+}
