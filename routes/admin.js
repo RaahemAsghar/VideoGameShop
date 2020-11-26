@@ -13,6 +13,8 @@ router.get("/dashboard", /*protectedRouteAdmin,*/ adminController.getDashboard);
 router.get("/add-game", /*protectedRouteAdmin,*/ adminController.showAddGameForm);
 router.post("/add-game", adminController.addGame);
 router.get("/all-games", /*protectedRouteAdmin,*/ adminController.allGames);
+router.get("/add-stock-game",adminController.getAddStockGame)
+router.post("/add-stock-game",adminController.addStockGame)
 
 //End Game Routes
 
@@ -20,6 +22,8 @@ router.get("/all-games", /*protectedRouteAdmin,*/ adminController.allGames);
 router.get("/add-console", /*protectedRouteAdmin,*/ adminController.showAddConsoleForm);
 router.post('/add-console', adminController.addConsole)
 router.get("/all-consoles", /*protectedRouteAdmin,*/ adminController.allConsoles);
+router.get("/add-stock-console",adminController.getAddStockConsole)
+router.post("/add-stock-console",adminController.addStockConsole)
 
 //End Console Routes
 

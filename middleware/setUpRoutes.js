@@ -2,7 +2,7 @@ const loginRouter = require("../routes/login");
 const registerRouter = require("../routes/register");
 const adminRouter = require("../routes/admin");
 const bcrypt = require('bcryptjs')
-
+const userRouter = require("../routes/user");
 const db = require('../db/db').getDatabase()
 
 
@@ -13,6 +13,7 @@ module.exports.setRoutes = function (app) {
     res.render("index");
   });
   app.use("/admin", adminRouter);
+  app.use('/user',userRouter)
   app.use("/register", registerRouter);
   app.get("/make-admin", (req, res) => {
     const first_name = "vgs";

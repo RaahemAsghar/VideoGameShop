@@ -1,0 +1,63 @@
+<%-include('../includes/header')%>
+
+<div class="row">
+  <div class="col-4">
+    <%msg.forEach((m)=>{%>
+
+    <div class="alert <%=m.type%> alert-dismissible fade show" role="alert">
+      <!--<strong>Username</strong> or <strong>Password</strong> is incorrect-->
+      <%=m.msg%>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <%})%>
+
+    <form method="post" action="/admin/add-stock-game">
+      <div class="form-group">
+        <label class="text-success">Game ID</label>
+        <input class="form-control" type="text" name="game_id" />
+      </div>
+      <div class="form-group">
+        <label class="text-warning">Stock</label>
+        <input class="form-control" type="text" name="stock" />
+      </div>
+
+      <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="Add" />
+      </div>
+    </form>
+  </div>
+  <div class="col-6">
+    <div>
+      <div
+        class="table-responsive text-success"
+        style="filter: blur(0px) brightness(100%)"
+      >
+        <table class="table table-hover">
+          <thead class="text-success">
+            <tr>
+              <th>Game ID</th>
+              <th>Stock</th>
+            </tr>
+          </thead>
+          <tbody class="text-light">
+              <%data.forEach((d)=>{%>
+            <tr>
+              <td><%=d.id%></td>
+              <td><%=d.stock%></td>
+            </tr>
+            <%})%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%-include('../includes/footer')%>

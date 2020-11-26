@@ -54,8 +54,8 @@ router.post("/", async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const pass_hash = bcrypt.hashSync(password, salt);
     const register_query = `INSERT INTO user
-    (first_name, last_name, email, password, address, phone_number)
-     VALUES ('${first_name}', '${last_name}', '${email}', '${pass_hash}', '${address}', '${phone}')`;
+    (first_name, last_name, email, password, address, phone_number, credits)
+     VALUES ('${first_name}', '${last_name}', '${email}', '${pass_hash}', '${address}', '${phone}','0')`;
      db = getDatabase();
 
     db.query(register_query, (err, result) => {
