@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="col-6">
-    <form method="post" action="/admin/categories">
+    <form method="post" action="/admin/manufacturers">
       <label class="text-success">Enter Manufacturer to add</label>
       <div class="form-group">
         <input class="form-control" type="text" name="name" />
@@ -29,6 +29,12 @@
               <th>Manufacturer Name</th>
               <th>Edit</th>
               <th>Delete</th>
+              <% for(var i =0; i < data.length; i++){%>
+                <tr>
+                  <td><%= data[i].id %></td>
+                  <td><%= data[i].name %></td>
+                </tr>
+              <% } %>
             </tr>
           </thead>
           <tbody></tbody>

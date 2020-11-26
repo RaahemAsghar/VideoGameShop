@@ -13,6 +13,20 @@
         <th class="text-info">Stock</th>
         <th class="text-warning">Edit</th>
         <th class="text-danger">Delete</th>
+        <% for(var i =0; i < data.length; i++){%>
+            <tr>
+              <td><%= data[i].id %></td>
+              <td><%= data[i].title %></td>
+              <td><%= data[i].id %></td>
+              <td><%= data[i].tags %></td>
+              <td><%= data[i].sale_price %></td>
+              <td><%= data[i].rent_price %></td>
+              <td><%= data[i].platform %></td>
+              <td><%= data[i].stock %></td>
+            </tr>
+            
+
+          <% } %>
     </tr>
     </thead>
     <tbody>
