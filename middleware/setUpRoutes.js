@@ -4,14 +4,12 @@ const adminRouter = require("../routes/admin");
 const bcrypt = require('bcryptjs')
 const userRouter = require("../routes/user");
 const db = require('../db/db').getDatabase()
-
+const usercontroller = require("../controllers/user");
 
 module.exports.setRoutes = function (app) {
   app.use("/login", loginRouter);
 
-  app.get("/", (req, res) => {
-    res.render("index");
-  });
+  app.get("/",usercontroller.allGames);
   app.use("/admin", adminRouter);
   app.use('/user',userRouter)
   app.use("/register", registerRouter);
