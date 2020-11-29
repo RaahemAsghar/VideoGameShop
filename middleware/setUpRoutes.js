@@ -6,10 +6,12 @@ const userRouter = require("../routes/user");
 const db = require('../db/db').getDatabase()
 const usercontroller = require("../controllers/user");
 const Accedit = require("../routes/editAccount");
+const protectedUser = require('../middleware/middlewares').protectedUser
 
 module.exports.setRoutes = function (app) {
   app.use("/login", loginRouter);
-  app.use("/user/edit-account", Accedit);
+  //app.use("/user/edit-account", protectedUser,Accedit);
+
   app.get("/",usercontroller.allGames);
   app.use("/admin", adminRouter);
   app.use('/user',userRouter)
