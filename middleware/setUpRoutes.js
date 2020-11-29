@@ -5,7 +5,6 @@ const bcrypt = require('bcryptjs')
 const userRouter = require("../routes/user");
 const db = require('../db/db').getDatabase()
 const usercontroller = require("../controllers/user");
-const Accedit = require("../routes/editAccount");
 const protectedUser = require('../middleware/middlewares').protectedUser
 
 module.exports.setRoutes = function (app) {
