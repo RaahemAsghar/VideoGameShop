@@ -13,9 +13,12 @@
       </div>
       <div class="form-group">
         <label class="text-light" for="category">Choose Manufacturer</label>
-        <select class="form-control" name="category" id="">
-          <option value="cat_id">Manufacturer</option>
+        <select required='required' class="form-control" name="manufacturer" id="">
+          <%manufacturers.forEach((m) => {%>
+            <option value=<%=m.id%>><%=m.name%></option>
+          <%})%>
         </select>
+        <a class="text-light" href="/admin/manufacturers">Add a new manufacturer.</a>
       </div>
       <div class="form-group">
         <label class="text-light" for="image">Image URL</label><br />
