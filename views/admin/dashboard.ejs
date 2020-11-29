@@ -1,7 +1,25 @@
 <%-include('./includes/header')%>
+<%msg.forEach((m)=>{%>
+
+  <div class="alert <%=m.type%> alert-dismissible fade show" role="alert">
+    <!--<strong>Username</strong> or <strong>Password</strong> is incorrect-->
+    <%=m.msg%>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="alert"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <%})%>
 <div class="d-sm-flex justify-content-between align-items-center mt-5 mb-4">
   <h3 class="text-light mb-0">Dashboard</h3>
 </div>
+
+<a class="btn btn-success" href="/admin/backup">Backup System</a>
+
 <!-- <div class="row">
   <div class="col-md-6 col-xl-3 mb-4">
     <div class="card shadow border-left-primary py-2">
