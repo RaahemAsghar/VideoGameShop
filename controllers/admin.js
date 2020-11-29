@@ -1,8 +1,12 @@
 const bcrypt = require("bcryptjs");
-const { get } = require("config");
 const getDatabase = require("../db/db").getDatabase;
 const resetSession = require("../middleware/middlewares").resetSession;
 const mysql = require("mysql2");
+var exec = require('child_process').exec;
+const fs = require('fs')
+const spawn = require('child_process').spawn
+const dumpFileName = `vgs.dump.sql`
+
 module.exports.adminLoginGET = function (req, res) {
   if (req.session.isAuth) {
     res.redirect("/admin");
@@ -51,8 +55,15 @@ module.exports.adminLogout = function (req, res) {
 };
 
 module.exports.getDashboard = function (req, res) {
-  res.render("admin/dashboard");
+  res.render("admin/dashboard", {msg:req.flash("admin_msg")});
 };
+
+module.exports.backup = function (req, res) {
+  var child = exec('mysqldump -u root -p vgs > vgs_backup.sql');
+  req.flash('admin_msg',{type:'alert-success', msg:'Database was backed up!'})
+  res.redirect('/admin')
+};
+
 //Game Controllers
 module.exports.showAddGameForm = function (req, res) {
   res.render("admin/games/add-game");
@@ -99,8 +110,23 @@ module.exports.addGame = async (req, res) => {
   res.redirect("/admin/add-game");
 };
 
+module.exports.deleteGame = async (req,res) => {
+  console.log("delete game",req.params.id)
+
+  const deleteQuer = `DELETE FROM game WHERE id = ${req.params.id}`
+
+  const db = getDatabase()
+
+  db.query(deleteQuer, (err, res)=>{
+    if(err) throw err
+  })
+  
+  res.redirect('/admin/all-games')
+}
+
+
 module.exports.allGames = (req, res) => {
-  const add_query = `SELECT * FROM game`;
+  const add_query = `SELECT * FROM game ORDER BY id DESC`;
   var db = getDatabase();
 
   db.query(add_query, (err, result) => {
@@ -160,12 +186,20 @@ module.exports.addStockGame = async (req, res) => {
 //End Game Controllers
 
 //Console Controllers
-module.exports.showAddConsoleForm = (req, res) => {
-  res.render("admin/consoles/add-console");
+module.exports.showAddConsoleForm = async (req, res) => {
+  const get_manq = 'SELECT * FROM manufacturer'
+  const db = getDatabase()
+
+  const [rows,fields] = await db.promise().query(get_manq)
+
+  console.log(rows)
+
+
+  res.render("admin/consoles/add-console", { manufacturers:rows });
 };
 
 module.exports.addConsole = (req, res) => {
-  var { name, sale_price, image, tags, description } = req.body;
+  var { name, sale_price, image, tags, description,manufacturer } = req.body;
   const stock = 0;
 
   name = mysql.escape(name);
@@ -173,11 +207,12 @@ module.exports.addConsole = (req, res) => {
   image = mysql.escape(image);
   tags = mysql.escape(tags);
   description = mysql.escape(description);
+  manufacturer = mysql.escape(manufacturer)
 
   const add_query = `INSERT INTO console
-    (name, description, tags, sale_price,image_url, stock) 
+    (name, description, tags, sale_price,image_url, stock,manufacturer_id) 
     VALUES 
-    (${name}, ${description}, ${tags}, ${sale_price}, ${image},${stock})`;
+    (${name}, ${description}, ${tags}, ${sale_price}, ${image},${stock}, ${manufacturer})`;
 
   const db = getDatabase();
   db.query(add_query, (err, result) => {
@@ -188,8 +223,23 @@ module.exports.addConsole = (req, res) => {
   res.redirect("/admin/add-console");
 };
 
+module.exports.deleteConsole = async (req,res) => {
+  console.log("delete console",req.params.id)
+
+  const deleteQuer = `DELETE FROM console WHERE id = ${req.params.id}`
+
+  const db = getDatabase()
+
+  db.query(deleteQuer, (err, res)=>{
+    if(err) throw err
+  })
+  
+  res.redirect('/admin/all-consoles')
+}
+
+
 module.exports.allConsoles = (req, res) => {
-  const add_query = `SELECT * FROM console`;
+  const add_query = `SELECT * FROM console ORDER BY id DESC`;
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;

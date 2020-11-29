@@ -9,6 +9,8 @@ router.post("/login", adminController.adminLoginPOST);
 router.get("/logout", adminController.adminLogout);
 
 router.get("/dashboard", /*protectedRouteAdmin,*/ adminController.getDashboard);
+router.get('/backup', adminController.backup)
+
 /// Game Routes
 router.get("/add-game", /*protectedRouteAdmin,*/ adminController.showAddGameForm);
 router.post("/add-game", adminController.addGame);
@@ -17,6 +19,7 @@ router.get("/all-games", /*protectedRouteAdmin,*/ adminController.allGames);
 router.get("/add-stock-game",adminController.getAddStockGame)
 router.post("/add-stock-game",adminController.addStockGame)
 
+router.get('/del-game/:id',adminController.deleteGame)
 
 //End Game Routes
 
@@ -26,6 +29,7 @@ router.post('/add-console', adminController.addConsole)
 router.get("/all-consoles", /*protectedRouteAdmin,*/ adminController.allConsoles);
 router.get("/add-stock-console",adminController.getAddStockConsole)
 router.post("/add-stock-console",adminController.addStockConsole)
+router.get('/del-console/:id',adminController.deleteConsole)
 
 //End Console Routes
 
