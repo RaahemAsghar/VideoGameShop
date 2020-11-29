@@ -8,6 +8,10 @@ module.exports.getAccount = (req,res)=>{
     res.render('my-account',{user:req.session.user})
 }
 
+module.exports.editAccount = (req,res)=>{
+  res.render('edit-account',{user:req.session.user})
+}
+
 module.exports.allGames = (req, res) => {
     const add_query = `SELECT * FROM game`;
     var db = getDatabase();
