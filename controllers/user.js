@@ -54,7 +54,7 @@ module.exports.editAccount = async (req, res) => {
 }
 
 module.exports.allGames = (req, res) => {
-    const add_query = `SELECT * FROM game`;
+    const add_query = `SELECT * FROM game ORDER BY id DESC`;
     var db = getDatabase();
   
     db.query(add_query, (err, result) => {
