@@ -138,7 +138,7 @@ module.exports.allGames = (req, res) => {
 
 
 module.exports.getAddStockGame = async (req, res) => {
-  const get_stock_q = "SELECT id, stock FROM game";
+  const get_stock_q = "SELECT id, title,stock FROM game ORDER BY id DESC";
 
   const db = getDatabase();
 
@@ -248,7 +248,7 @@ module.exports.allConsoles = (req, res) => {
 };
 
 module.exports.getAddStockConsole = async (req, res) => {
-  const get_stock_q = "SELECT id, stock FROM console";
+  const get_stock_q = "SELECT id, name, stock FROM console ORDER BY id DESC";
 
   const db = getDatabase();
 

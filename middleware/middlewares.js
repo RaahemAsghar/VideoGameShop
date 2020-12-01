@@ -1,5 +1,6 @@
 module.exports.initSession = (req, res, next) => {
   if (req.session.isInit == undefined) {
+    console.log('called')
     req.session.isInit = true;
     req.session.user = {};
     req.session.isAuth = false;
@@ -9,6 +10,8 @@ module.exports.initSession = (req, res, next) => {
   }
   next();
 };
+
+
 
 module.exports.resetSession = (req, res) => {
   req.session.isInit = true;

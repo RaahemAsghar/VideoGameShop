@@ -5,7 +5,8 @@ const bcrypt = require('bcryptjs')
 const userRouter = require("../routes/user");
 const db = require('../db/db').getDatabase()
 const usercontroller = require("../controllers/user");
-const protectedUser = require('../middleware/middlewares').protectedUser
+const gameRouter = require('../routes/game')
+
 
 module.exports.setRoutes = function (app) {
   app.use("/login", loginRouter);
@@ -15,6 +16,9 @@ module.exports.setRoutes = function (app) {
   app.use("/admin", adminRouter);
   app.use('/user',userRouter)
   app.use("/register", registerRouter);
+  app.use('/game', gameRouter)
+
+
   app.get("/make-admin", (req, res) => {
     const first_name = "vgs";
     const last_name = "shop";

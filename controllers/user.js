@@ -60,6 +60,6 @@ module.exports.allGames = (req, res) => {
     db.query(add_query, (err, result) => {
       if (err) throw err;
       //console.log(result);
-      res.render("index", {data:result});
+      res.render("index", {data:result, msg:req.flash('index_msg')});
     });  
   };

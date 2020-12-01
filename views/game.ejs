@@ -1,0 +1,51 @@
+<%-include('includes/header')%>
+
+<div class="row justify-content-center">
+  <div class="col-10">
+    <div class="card shadow mb-3">
+      <img
+        class="img-fluid img-thumbnail card-img game-image-big"
+        src=<%=data.image_url%>
+        alt=""
+      />
+      <div class="card-body">
+        <h1 class="text-primary"><%=data.title%> </h1>
+        <p class="card-text text-secondary"><%= data.tags %> </p>
+        <p class="card-text text-secondary">Categories</p>
+        <p class="card-text text-secondary">Platform: <%= data.platform%> </p>
+        <h2>Description:-</h2>
+        <p class="card-text">
+            <%=data.description%>
+        </p>
+        <p class="card-text text-success fa-3x">
+            <i class="fa fa-money"></i> PKR<%=data.sale_price%>
+          </p>
+        <%  let class_name = 'text-warning';
+            let text = 'Stock Available'; 
+            let stock_available = true
+            if(data.stock == 0 || data.stock == null ){
+                class_name = 'text-danger'
+                text = 'Stock not Available'
+                stock_available = false
+            }
+        %>
+          <p class="card-text <%=class_name%> fa-2x">
+            <i class="fa fa-square"></i>
+            <%=text%>  
+          </p>
+        <%
+            let disable = ''
+            if(!stock_available){
+                disable = 'disabled'
+            }
+        %>
+        <a class="btn btn-primary  <%=disable%>"  href="">Add to Cart</a>
+        <a href="/game/rent/<%=data.id%>" class="btn btn-success <%=disable%>">Rent this game for PKR1000 per month</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- body here -->
+
+<%-include('includes/footer')%>

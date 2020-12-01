@@ -1,5 +1,14 @@
 <%-include('includes/header')%>
-
+<%msg.forEach((m)=>{%>
+                                
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <!--<strong>Username</strong> or <strong>Password</strong> is incorrect-->
+      <%=m%>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <%})%>
 <div class="row justify-content-center">
   <div class="col-lg-6 col-md-6 col-xl-6 col-sm-10">
     <form class="form" action="" method="">
@@ -19,21 +28,27 @@
     <% for(var i =0; i < data.length; i++){%>
     <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
       <div class="card shadow shadow-sm">
-        <img
+        <a href="/game/<%=data[i].id%>">
+          <img
           class="game-image img-thumbnail img-responsive"
           src="<%=data[i].image_url%>"
           alt="Card image cap"
         />
+        </a>
         <div class="card-body">
           <p class="card-text">Title: <%= data[i].title %></p>
           <!-- <p class="card-text"><%= data[i].tags %></p> -->
           <p class="card-text text-gray-700">
             Platform: <%= data[i].platform %>
           </p>
-          <p class="card-text text-success"
-            ><i class="fa fa-money"></i> PKR<%=data[i].sale_price%></p
-          >
+
+          <p class="card-text text-success">
+            <i class="fa fa-money"></i> PKR<%=data[i].sale_price%>
+          </p>
+          <div class="float-right">
           <a href="#" class="btn btn-primary">Add to Cart</a>
+        </div>
+
         </div>
       </div>
     </div>

@@ -30,14 +30,14 @@ CREATE TABLE IF NOT EXISTS manufacturer(
 );
 CREATE TABLE IF NOT EXISTS game(
     id INT NOT NULL AUTO_INCREMENT,
-    title VARCHAR(30),
+    title TEXT,
     description TEXT,
     tags text,
     sale_price VARCHAR(10),
     rent_price VARCHAR(10),
     platform VARCHAR(50),
     image_url TEXT,
-    stock INT,
+    stock INT DEFAULT 0,
     PRIMARY KEY(id)
 );
 CREATE TABLE IF NOT EXISTS game_category(
@@ -49,13 +49,13 @@ CREATE TABLE IF NOT EXISTS game_category(
 );
 CREATE TABLE IF NOT EXISTS console(
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(30),
+    name TEXT,
     description TEXT,
     tags text,
     sale_price VARCHAR(10),
     manufacturer_id INT,
     image_url TEXT,
-    stock INT,
+    stock INT DEFAULT 0,
     PRIMARY KEY(id),
     FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(id) ON DELETE CASCADE
 );
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS transaction_history (
     game_id int,
     user_id int,
     price VARCHAR(10),
-    date_of_purchase DATE,
+    date_of_purchase DATE DEFAULT CURRENT_DATE,
     Type_of_transaction varchar(10),
     PRIMARY KEY (id),
     FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS transaction_history (
 CREATE TABLE IF NOT EXISTS rent (
     user_id int NOT NULL,
     game_id int NOT NULL,
-    date_lent DATE,
+    date_lent DATE DEFAULT CURRENT_DATE,
     date_due DATE,
     PRIMARY KEY (user_id, game_id),
     FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,

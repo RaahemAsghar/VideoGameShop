@@ -42,6 +42,7 @@
           <thead class="text-success">
             <tr>
               <th>Console ID</th>
+              <th>Name</th>
               <th>Stock</th>
             </tr>
           </thead>
@@ -49,6 +50,7 @@
             <%data.forEach((d)=>{%>
             <tr>
               <td><%=d.id%></td>
+              <td><%=d.name%></td>
               <td><%=d.stock%></td>
             </tr>
             <%})%>
