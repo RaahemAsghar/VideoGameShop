@@ -11,6 +11,10 @@ router.get("/logout", adminController.adminLogout);
 router.get("/dashboard", /*protectedRouteAdmin,*/ adminController.getDashboard);
 router.get('/backup', adminController.backup)
 
+//games-due
+router.get("/games-due",adminController.rentGames);
+
+
 /// Game Routes
 router.get("/add-game", /*protectedRouteAdmin,*/ adminController.showAddGameForm);
 router.post("/add-game", adminController.addGame);

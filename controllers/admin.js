@@ -247,6 +247,16 @@ module.exports.allConsoles = (req, res) => {
   });
 };
 
+// games-due 
+module.exports.rentGames = (req, res) => {
+  const add_query = `SELECT * FROM rent`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    res.render("admin/games-due", {data:result});
+  });
+};
+
 module.exports.getAddStockConsole = async (req, res) => {
   const get_stock_q = "SELECT id, stock FROM console";
 
@@ -259,6 +269,9 @@ module.exports.getAddStockConsole = async (req, res) => {
     data: rows,
   });
 };
+
+
+
 
 module.exports.addStockConsole = async (req, res) => {
   const { console_id, stock } = req.body;
