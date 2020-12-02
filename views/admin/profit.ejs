@@ -1,0 +1,17 @@
+<%-include('./includes/header')%>
+<h1>Calculate your Revenue</h1>
+<form name="calculator" method="post" action="">
+        <div>
+            <div class="form-group">
+                <label class="text-light" for="title">Start Date</label>
+                <input class="form-control" type="text" name="start"/>
+              </div>
+              <div class="form-group">
+                <label class="text-light" for="title">End Date</label>
+                <input class="form-control" type="text" name="end"/>
+              </div>
+        <div class="button">
+        <input type="submit" value="Calculate Revenue" class="btn btn-success">
+        </div>
+        </form>
+<%-include('includes/footer')%>

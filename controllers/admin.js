@@ -7,6 +7,13 @@ const fs = require('fs')
 const spawn = require('child_process').spawn
 const dumpFileName = `vgs.dump.sql`
 
+function multiply(){
+  a = Number(document.profit.people.value);
+  b = Number(document.profi.price.value);
+  c = a * b;
+  document.profit.total.value=c;
+}
+
 module.exports.adminLoginGET = function (req, res) {
   if (req.session.isAuth) {
     res.redirect("/admin");
@@ -63,7 +70,17 @@ module.exports.backup = function (req, res) {
   req.flash('admin_msg',{type:'alert-success', msg:'Database was backed up!'})
   res.redirect('/admin')
 };
-
+module.exports.showProfitForm = function (req, res) {
+  //console.log(req.body);
+  res.render('admin/profit')
+};
+module.exports.Profit = function (req, res) {
+  //console.log(req.body)
+  res.redirect('/admin/showProfit')
+};
+module.exports.showProfit = function (req, res) {
+  res.render('admin/showProfit')
+};
 //Game Controllers
 module.exports.showAddGameForm = function (req, res) {
   res.render("admin/games/add-game");
