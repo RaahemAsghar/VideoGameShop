@@ -8,6 +8,18 @@ module.exports.getAccount = (req,res)=>{
     res.render('my-account',{user:req.session.user})
 }
 
+module.exports.getsearchResults = (req,res)=>{
+  // eval(require('locus'))
+  var db = getDatabase();
+  var inputSearch = req.query.search
+  const Searchquery = `SELECT * FROM game WHERE title LIKE '%${inputSearch}%'` 
+
+  db.query(Searchquery, (err, result) => {
+    if (err) throw err;
+  res.render('search-results',{user:req.session.user, data:result});
+  });
+}
+
 module.exports.getEditAccount = (req,res)=>{
   res.render("edit-account", { msg: req.flash("edit_msg"), type: "user" });
 }

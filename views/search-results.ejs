@@ -1,0 +1,94 @@
+<%-include('includes/header')%>
+<div
+  class="table-responsive text-primary"
+  style="filter: blur(0px) brightness(100%)"
+>
+  <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class="text-info">Id</th>
+            <th class="text-info">Title</th>
+            <th class="text-info">Categories</th>
+            <th class="text-info">Tags</th>
+            <th class="text-primary">Sale Price</th>
+            <th class="text-success">Rent Price</th>
+            <th class="text-info">Platform</th>
+            <th class="text-info">Stock</th>
+        </tr>
+        </thead>
+        <tbody>
+          <% if (data.length == 0) { %>
+            <div class="alert alert-info">
+              <strong>No Records Found Matching This Criteria</strong> 
+            </div>
+              <% } %>
+        <% for(var i =0; i < data.length; i++){%>
+        <tr>
+            <td class="text-dark"><strong><%= data[i].id %></strong></td>
+            <td class="text-dark"><strong><%= data[i].title %></strong></td>
+            <td class="text-dark"><strong><%= data[i].id %></strong></td>
+            <td class="text-dark"><strong><%= data[i].tags %></strong></td>
+            <td class="text-dark"><strong><%= data[i].sale_price %></strong></td>
+            <td class="text-dark"><strong><%= data[i].rent_price %></strong></td>
+            <td class="text-dark"><strong><%= data[i].platform %></strong></td>
+            <td class="text-dark"><strong><%= data[i].stock %></strong></td>
+            <td>
+            <!-- <a class="btn btn-success pt-0 pb-0 pl-1 pr-1" href="#">Edit</a>
+            </td>
+            <td>
+            <button
+                id = "delete-game-btn"
+                value="12"
+                type="button"
+                class="btn btn-danger pt-0 pb-0 pl-1 pr-1"
+                data-toggle="modal"
+                data-target="#delete-game-modal"
+            >
+                Delete
+            </button>
+            </td> -->
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Modal -->
+<!-- <div
+  class="modal fade"
+  id="delete-game-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id='delete-game-body'>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          No!
+        </button>
+        <a type="link" href="#" id="confirm-delete" class="btn btn-danger">
+          Yes!
+        </a>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<%-include('includes/footer')%>
