@@ -76,10 +76,14 @@ module.exports.showProfitForm = function (req, res) {
 };
 module.exports.Profit = function (req, res) {
   //console.log(req.body)
-  res.redirect('/admin/showProfit')
+  res.render('admin/showProfit')
 };
 module.exports.showProfit = function (req, res) {
   res.render('admin/showProfit')
+};
+module.exports.showTrans = function (req, res) {
+  //console.log(req.body)
+  res.render('admin/showTrans')
 };
 //Game Controllers
 module.exports.showAddGameForm = function (req, res) {

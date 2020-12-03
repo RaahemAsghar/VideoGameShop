@@ -13,6 +13,7 @@ router.get('/backup', adminController.backup)
 router.get('/profit', adminController.showProfitForm)
 router.post('/profit', adminController.Profit)
 router.get("/showProfit", /*protectedRouteAdmin,*/ adminController.showProfit);
+router.get("/showTrans", /*protectedRouteAdmin,*/ adminController.showTrans);
 /// Game Routes
 router.get("/add-game", /*protectedRouteAdmin,*/ adminController.showAddGameForm);
 router.post("/add-game", adminController.addGame);
