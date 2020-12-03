@@ -89,6 +89,7 @@ module.exports.showTrans = function (req, res) {
     if (err) throw err;
     res.render('admin/showTrans', {data:result});
   });
+  
 };
 module.exports.sortTransDate = function (req, res) {
   //console.log(req.body)
@@ -101,11 +102,20 @@ module.exports.sortTransDate = function (req, res) {
 };
 module.exports.sortTransPrice = function (req, res) {
   //console.log(req.body)
-  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history ORDER BY cast(price as unsigned)`;
+  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history ORDER BY cast(price as unsigned) DESC`;
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
     res.render('admin/showTrans', {data:result});
+  });
+};
+module.exports.groupbyTrans = function (req, res) {
+  //console.log(req.body)
+  const add_query = `SELECT COUNT(Type_of_transaction) as number, SUM(cast(price as unsigned)) as sum, Type_of_transaction FROM transaction_history GROUP BY Type_of_transaction`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    res.render('admin/groupbyTrans', {data:result});
   });
 };
 

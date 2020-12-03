@@ -16,6 +16,7 @@ router.get("/showProfit", /*protectedRouteAdmin,*/ adminController.showProfit);
 router.get("/showTrans", /*protectedRouteAdmin,*/ adminController.showTrans);
 router.get("/sortTransDate", /*protectedRouteAdmin,*/ adminController.sortTransDate);
 router.get("/sortTransPrice", /*protectedRouteAdmin,*/ adminController.sortTransPrice);
+router.get("/groupbyTrans", /*protectedRouteAdmin,*/ adminController.groupbyTrans);
 /// Game Routes
 router.get("/add-game", /*protectedRouteAdmin,*/ adminController.showAddGameForm);
 router.post("/add-game", adminController.addGame);

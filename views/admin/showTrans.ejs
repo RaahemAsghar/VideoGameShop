@@ -24,13 +24,15 @@
               <td class="text-light"><%= data[i].date %></td>
               <td class="text-light"><%= data[i].Type_of_transaction %></td>
               <% } %>
+    </tr>
     </tbody>
   </table>
 </div>
+<div class="text-center">
 <a class="btn btn-success" href="/admin/sortTransDate">Sort by Date</a>
 <a class="btn btn-success" href="/admin/sortTransPrice">Sort by Price</a>
+<a class="btn btn-success" href="/admin/groupbyTrans">Group by Type</a>
+</div>
 <p></p>
-<p></p>
-<p>Note: Ascending order of date</p>
-<p>Note: Descending order of price</p>
+
 <%-include('includes/footer')%>

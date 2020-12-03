@@ -1,0 +1,24 @@
+<%-include('./includes/header')%>
+<div
+  class="table-responsive text-primary"
+  style="filter: blur(0px) brightness(100%)"
+>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="text-info">Type</th>
+        <th class="text-info">Number of Transactions</th>
+        <th class="text-info">Income</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% for(var i =0; i < data.length; i++){%>
+            <tr>
+              <td class="text-light"><%= data[i].Type_of_transaction %></td>
+              <td class="text-light"><%= data[i].number %></td>
+              <td class="text-light"><%= data[i].sum %></td>
+              <% } %>
+    </tbody>
+  </table>
+</div>
+<%-include('includes/footer')%>
