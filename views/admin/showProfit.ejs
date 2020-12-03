@@ -15,16 +15,34 @@
       </tr>
     </thead>
     <tbody>
+      
+      <% if (data.length == 0) { %>
+        <div class="alert alert-info">
+          <strong>No Records Found Matching This Criteria</strong> 
+        </div>
+          <% } %>
+          <% for(var i =0; i < data.length; i++){%>
+        
+            <tr>
+              <td class="text-light"><%= data[i].id %></td>
+              <td class="text-light"><%= data[i].game_id %></td>
+              <td class="text-light"><%= data[i].user_id %></td>
+              <td class="text-light"><%= data[i].price %></td>
+              <td class="text-light"><%= data[i].date %></td>
+              <td class="text-light"><%= data[i].Type_of_transaction %></td>
+              <% } %>
+        
     </tbody>
   </table>
 </div>
 
-<div class="card shadow">
-  <div class="card-body">
-      <h2 class="text-center text-primary mb-4">Revenue for Given Period</h2>
+<div class="card bg-dark text-white">
+  <h2 class="text-center text-primary mb-4">Revenue for Given Period</h2>
+      <h2 class="text-center text-primary mb-4"><%= data2[0].revenue %></h2>
       <div class="row text-center">
+</div>
+      
         </div>
-        </div>
-        </div>
+
 
 <%-include('includes/footer')%>
