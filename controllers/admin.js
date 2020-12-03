@@ -83,8 +83,32 @@ module.exports.showProfit = function (req, res) {
 };
 module.exports.showTrans = function (req, res) {
   //console.log(req.body)
-  res.render('admin/showTrans')
+  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    res.render('admin/showTrans', {data:result});
+  });
 };
+module.exports.sortTransDate = function (req, res) {
+  //console.log(req.body)
+  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history ORDER BY date_of_purchase`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    res.render('admin/showTrans', {data:result});
+  });
+};
+module.exports.sortTransPrice = function (req, res) {
+  //console.log(req.body)
+  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history ORDER BY cast(price as unsigned)`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    res.render('admin/showTrans', {data:result});
+  });
+};
+
 //Game Controllers
 module.exports.showAddGameForm = function (req, res) {
   res.render("admin/games/add-game");
