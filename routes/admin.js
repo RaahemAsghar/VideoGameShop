@@ -12,7 +12,7 @@ router.get("/dashboard", /*protectedRouteAdmin,*/ adminController.getDashboard);
 router.get('/backup', adminController.backup)
 
 //games-due
-router.get("/games-due",adminController.rentGames);
+router.get("/games-due",adminController.dueGames);
 
 
 /// Game Routes

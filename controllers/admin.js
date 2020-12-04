@@ -248,7 +248,7 @@ module.exports.allConsoles = (req, res) => {
 };
 
 // games-due 
-module.exports.rentGames = (req, res) => {
+module.exports.dueGames = (req, res) => {
   const add_query = `SELECT * FROM rent`;
   var db = getDatabase();
   db.query(add_query, (err, result) => {
