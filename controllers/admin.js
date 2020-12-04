@@ -249,10 +249,21 @@ module.exports.allConsoles = (req, res) => {
 
 // games-due 
 module.exports.dueGames = (req, res) => {
-  const add_query = `SELECT * FROM rent`;
+  const due_q = `
+  SELECT
+  user.email, 
+  game.title, 
+  DATE_FORMAT(rent.date_lent,"%d-%m-%Y") AS date_lent, 
+  DATE_FORMAT(rent.date_due,"%d-%m-%Y") AS date_due 
+  FROM (
+  (rent INNER JOIN user ON rent.user_id = user.id) 
+  INNER JOIN game ON rent.game_id = game.id)`
+
   var db = getDatabase();
-  db.query(add_query, (err, result) => {
+  
+  db.query(due_q, (err, result) => {
     if (err) throw err;
+    console.log(result)
     res.render("admin/games-due", {data:result});
   });
 };
