@@ -79,13 +79,13 @@ module.exports.allGames = (req, res) => {
   module.exports.userHistory = (req, res) => {
     const useHist_query = `SELECT game.title as title, T.price, T.date_of_purchase, T.Type_of_transaction FROM
      (SELECT * FROM transaction_history WHERE Type_of_transaction = 'Game/Buy' AND user_id = '${req.session.user.id}') AS T
-      INNER JOIN game ON T.game_id = game.id; 
+      INNER JOIN game ON T.product_id = game.id; 
       SELECT game.title as title, T.price, T.date_of_purchase, T.Type_of_transaction FROM
      (SELECT * FROM transaction_history WHERE Type_of_transaction = 'Game/Rent' AND user_id = '${req.session.user.id}') AS T
-      INNER JOIN game ON T.game_id = game.id;
+      INNER JOIN game ON T.product_id = game.id;
       SELECT console.name as title, T.price, T.date_of_purchase, T.Type_of_transaction FROM
      (SELECT * FROM transaction_history WHERE Type_of_transaction = 'Console/Buy' AND user_id = '${req.session.user.id}') AS T
-      INNER JOIN console ON T.game_id = console.id`
+      INNER JOIN console ON T.product_id = console.id`
     var db = getDatabase();
   
     db.query(useHist_query, (err, result) => {
