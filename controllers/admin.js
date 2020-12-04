@@ -7,6 +7,13 @@ const fs = require('fs')
 const spawn = require('child_process').spawn
 const dumpFileName = `vgs.dump.sql`
 
+function multiply(){
+  a = Number(document.profit.people.value);
+  b = Number(document.profi.price.value);
+  c = a * b;
+  document.profit.total.value=c;
+}
+
 module.exports.adminLoginGET = function (req, res) {
   if (req.session.isAuth) {
     res.redirect("/admin");
@@ -62,6 +69,71 @@ module.exports.backup = function (req, res) {
   var child = exec('mysqldump -u root -p vgs > vgs_backup.sql');
   req.flash('admin_msg',{type:'alert-success', msg:'Database was backed up!'})
   res.redirect('/admin')
+};
+module.exports.showProfitForm = function (req, res) {
+  //console.log(req.body);
+  res.render('admin/profit')
+};
+module.exports.Profit = function (req, res) {
+  //console.log(req.body)
+  var start = mysql.escape(req.body.start);
+  var end = mysql.escape(req.body.end);
+  //console.log(start)
+  //console.log(end)
+  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history WHERE date_of_purchase BETWEEN ${start} AND ${end} ORDER BY date`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    else
+    {
+      const add_query_2 = `SELECT id, game_id, user_id, sum(price) as revenue, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history WHERE date_of_purchase BETWEEN ${start} AND ${end} ORDER BY date`;
+      db.query(add_query_2, (err, result2) => {
+      if (err) throw err;
+      res.render('admin/showProfit', {data:result, data2:result2});
+  });
+    }
+    
+  });
+};
+module.exports.showProfit = function (req, res) {
+  res.render('admin/showProfit')
+};
+module.exports.showTrans = function (req, res) {
+  //console.log(req.body)
+  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    res.render('admin/showTrans', {data:result});
+  });
+  
+};
+module.exports.sortTransDate = function (req, res) {
+  //console.log(req.body)
+  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history ORDER BY date_of_purchase`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    res.render('admin/showTrans', {data:result});
+  });
+};
+module.exports.sortTransPrice = function (req, res) {
+  //console.log(req.body)
+  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history ORDER BY cast(price as unsigned) DESC`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    res.render('admin/showTrans', {data:result});
+  });
+};
+module.exports.groupbyTrans = function (req, res) {
+  //console.log(req.body)
+  const add_query = `SELECT COUNT(Type_of_transaction) as number, SUM(cast(price as unsigned)) as sum, Type_of_transaction FROM transaction_history GROUP BY Type_of_transaction`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    res.render('admin/groupbyTrans', {data:result});
+  });
 };
 
 //Game Controllers

@@ -1,0 +1,38 @@
+<%-include('./includes/header')%>
+<div
+  class="table-responsive text-primary"
+  style="filter: blur(0px) brightness(100%)"
+>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="text-info">id</th>
+        <th class="text-info">game_id</th>
+        <th class="text-info">user_id</th>
+        <th class="text-info">price</th>
+        <th class="text-primary">date_of_purchase</th>
+        <th class="text-success">type_of_transaction</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% for(var i =0; i < data.length; i++){%>
+            <tr>
+              <td class="text-light"><%= data[i].id %></td>
+              <td class="text-light"><%= data[i].game_id %></td>
+              <td class="text-light"><%= data[i].user_id %></td>
+              <td class="text-light"><%= data[i].price %></td>
+              <td class="text-light"><%= data[i].date %></td>
+              <td class="text-light"><%= data[i].Type_of_transaction %></td>
+              <% } %>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="text-center">
+<a class="btn btn-success" href="/admin/sortTransDate">Sort by Date</a>
+<a class="btn btn-success" href="/admin/sortTransPrice">Sort by Price</a>
+<a class="btn btn-success" href="/admin/groupbyTrans">Group by Type</a>
+</div>
+<p></p>
+
+<%-include('includes/footer')%>
