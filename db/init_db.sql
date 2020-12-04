@@ -60,14 +60,13 @@ CREATE TABLE IF NOT EXISTS console(
     FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS transaction_history (
-    id int NOT NULL AUTO_INCREMENT,
-    game_id int,
+    id VARCHAR(100) NOT NULL,
+    product_id int DEFAULT NULL,
     user_id int,
     price VARCHAR(10),
     date_of_purchase DATE DEFAULT CURRENT_DATE,
-    Type_of_transaction varchar(10),
+    Type_of_transaction ENUM ('Game/Rent','Game/Buy','Console/Buy'),
     PRIMARY KEY (id),
-    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS rent (
@@ -81,7 +80,7 @@ CREATE TABLE IF NOT EXISTS rent (
 );
 CREATE TABLE IF NOT EXISTS user_purchase_history (
     user_id int,
-    transaction_id int,
+    transaction_id VARCHAR(100),
     PRIMARY KEY (user_id, transaction_id),
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
     FOREIGN KEY (transaction_id) REFERENCES transaction_history(id) ON DELETE CASCADE
@@ -90,7 +89,7 @@ CREATE TABLE IF NOT EXISTS returned_games (
     game_id int,
     reason_for_return varchar(20),
     credit_returned int,
-    transaction_id int NOT NULL AUTO_INCREMENT,
+    transaction_id VARCHAR(100),
     user_id int,
     PRIMARY KEY (transaction_id),
     FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,

@@ -41,7 +41,9 @@
         </li> -->
         <div class="nav-separator mt-2 mb-2"></div>
         <li class="nav-item active align-content-between">
-          <a class="nav-link">Shopping Cart <i class="fa cart-icon fa-cart-plus"></i></a>
+          <a class="nav-link" href="/cart"><i class="fa cart-icon fa-cart-plus"></i>
+            <span class="badge-counter text-info"><%= locals.shoppingcart.games.length + locals.shoppingcart.consoles.length%></span>
+          </a>
         </li>
       </ul>
       <!-- <form class="form-inline my-2 my-lg-0">

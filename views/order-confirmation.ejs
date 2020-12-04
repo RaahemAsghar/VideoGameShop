@@ -1,0 +1,67 @@
+<%-include('includes/header')%>
+ 
+<div class="row justify-content-center"> 
+<h3 class="text-info">Your order has been received. The Products will be shipped to you address.</h3>
+</div>
+
+<div class="row justify-content-center">
+    <p class="text-danger" id = 'counter'></p>
+</div>
+
+
+<div class="row justify-content-center">
+    <div class="col-8">
+      <div
+        class="table-responsive text-success"
+        style="filter: blur(0px) brightness(100%)"
+      >
+        <table class="table table-hover">
+          <thead class="text-success">
+            <tr>
+              <th>Product</th>
+              <th>Price PKR</th>
+              <th>Amount</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <%var total = 0%>
+            <% data.forEach((e)=>{%> 
+              <tr>
+                <td> <img class="img-responsive img-thumbnail cart-img" src=<%=e.game.image_url%>>  <%=e.game.title%></td>
+                <td><%=e.game.sale_price%></td>
+                <td><%=e.amount%></td>
+              </tr>  
+            <%
+          
+              total = total + parseInt(e.game.sale_price)
+          })%>
+          <%if(total > 0){%>
+          <tr>
+            <td class="text-info fa-2x">Total Price</td>
+            <td class="text-success fa-2x"><%=total%> PKR</td>
+          </tr>
+          <%}%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+      function re(){
+        location.replace("/")
+      }
+
+      var i = 10;
+        setInterval(function(){ 
+             document.getElementById('counter').innerHTML = 'Redirecting in ...'+i+'s'
+             i=i-1
+        }, 1000);
+    
+
+      setTimeout(re,10000)
+      
+  </script>
+
+<%-include('includes/footer')%>

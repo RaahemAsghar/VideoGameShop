@@ -6,6 +6,7 @@ const userRouter = require("../routes/user");
 const db = require('../db/db').getDatabase()
 const usercontroller = require("../controllers/user");
 const gameRouter = require('../routes/game')
+const cartRouter = require('../routes/cart')
 
 
 module.exports.setRoutes = function (app) {
@@ -17,6 +18,7 @@ module.exports.setRoutes = function (app) {
   app.use('/user',userRouter)
   app.use("/register", registerRouter);
   app.use('/game', gameRouter)
+  app.use('/cart', cartRouter)
 
 
   app.get("/make-admin", (req, res) => {

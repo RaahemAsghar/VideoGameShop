@@ -8,11 +8,7 @@
         <input class="form-control" type="text" name="title" />
       </div>
       <div class="form-group">
-        <input
-          class="btn btn-primary"
-          type="submit"
-          value="Add"
-        />
+        <input class="btn btn-primary" type="submit" value="Add" />
       </div>
     </form>
   </div>
@@ -29,15 +25,16 @@
               <th>Category Name</th>
               <th>Edit</th>
               <th>Delete</th>
-              <% for(var i =0; i < data.length; i++){%>
-                <tr>
-                  <td><%= data[i].id %></td>
-                  <td><%= data[i].name %></td>
-                </tr>
-              <% } %>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            <% for(var i =0; i < data.length; i++){%>
+            <tr>
+              <td><%= data[i].id %></td>
+              <td><%= data[i].name %></td>
+            </tr>
+            <% } %>
+          </tbody>
         </table>
       </div>
     </div>

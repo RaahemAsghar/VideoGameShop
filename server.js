@@ -8,7 +8,7 @@ const flash = require("connect-flash");
 const setRoutes = require("./middleware/setUpRoutes").setRoutes;
 const setGlobals = require('./middleware/middlewares').setGlobals
 const initSession = require('./middleware/middlewares').initSession
-
+var cookieParser = require('cookie-parser');
 const connectToDatabase = require("./db/db").connectToDatabase;
 const db_conn = require("./db/db").getDatabase();
 app.use(express.json({ extended: true }));
@@ -21,6 +21,8 @@ app.use(
     resave: true,
   })
 );
+app.use(cookieParser());
+
 app.use(flash());
 
 app.set("view engine", "ejs");

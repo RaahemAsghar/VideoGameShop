@@ -6,5 +6,4 @@ router.get('/:id', gameController.getGame)
 
 router.get('/rent/:id', gameController.rentGame)
 
-
 module.exports = router;

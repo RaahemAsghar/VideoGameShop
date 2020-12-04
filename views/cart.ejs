@@ -1,0 +1,58 @@
+<%-include('includes/header')%>
+<%msg.forEach((m)=>{%>
+                                
+  <div class="alert alert-info alert-dismissible fade show" role="alert">
+      <!--<strong>Username</strong> or <strong>Password</strong> is incorrect-->
+      <%=m%>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <%})%>
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div
+      class="table-responsive text-success"
+      style="filter: blur(0px) brightness(100%)"
+    >
+      <table class="table table-hover">
+        <thead class="text-success">
+          <tr>
+            <th>Product</th>
+            <th>Price PKR</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%var total = 0%>
+          <% data.forEach((e)=>{%> 
+            <tr>
+              <td> <img class="img-responsive img-thumbnail cart-img" src=<%=e.game.image_url%>>  <%=e.game.title%></td>
+              <td><%=e.game.sale_price%></td>
+              <td><%=e.amount%></td>
+              <td><a href="/cart/increase/game/<%=e.game.id%>" class="btn p-0 m-0"><span class="fa-2x text-danger">+</span></a></td>
+              <td><a href="/cart/decrease/game/<%=e.game.id%>" class="btn p-0 m-0"><span class="fa-2x text-danger">-</span></a></td>
+            </tr>  
+          <%
+        
+            total = total + parseInt(e.game.sale_price)
+        })%>
+        <%if(total > 0){%>
+        <tr>
+          <td class="text-info fa-2x">Total Price</td>
+          <td class="text-success fa-2x"><%=total%> PKR</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <a href="/cart/checkout" class="btn btn-outline-success">Checkout</a>
+          </td>
+        </tr>
+        <%}%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%-include('includes/footer')%>

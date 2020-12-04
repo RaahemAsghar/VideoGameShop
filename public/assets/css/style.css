@@ -10,6 +10,10 @@ div#preloader {
   background: #fff url("../img/preloader.gif") no-repeat center center;
 }
 
+.cart-img{
+  height: 50px;
+  width: 90px;
+}
 .game-image{
   height: 200px;
   width: 100%;
