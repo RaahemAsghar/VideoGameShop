@@ -3,7 +3,7 @@
   class="table-responsive text-primary"
   style="filter: blur(0px) brightness(100%)"
 >
-  <table class="table table-hover">
+  <!-- <table class="table table-hover">
         <thead>
         <tr>
             <th class="text-info">Id</th>
@@ -32,7 +32,7 @@
             <td class="text-dark"><strong><%= data[i].rent_price %></strong></td>
             <td class="text-dark"><strong><%= data[i].platform %></strong></td>
             <td class="text-dark"><strong><%= data[i].stock %></strong></td>
-            <td>
+            <td> -->
             <!-- <a class="btn btn-success pt-0 pb-0 pl-1 pr-1" href="#">Edit</a>
             </td>
             <td>
@@ -47,10 +47,35 @@
                 Delete
             </button>
             </td> -->
-        </tr>
+        <!-- </tr>
         <% } %>
         </tbody>
-    </table>
+    </table> -->
+    
+<h1 class="text-danger text-center mt-3">Relevant Titles</h1>
+<% if (data.length == 0) { %>
+  <div class="alert alert-info">
+    <strong>No Records Found Matching This Criteria</strong> 
+  </div>
+    <% } %>
+<div class="p-3">
+  <div class="row justify-content-center">
+  <% for(var i =0; i < data.length; i++){%>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+      <div class="card">
+        <!-- <img class="card-Update" src="https://steamshop.pk/wp-content/uploads/2019/11/red-dead-redemption-2-standard-edition-500x600.jpg" alt="Card image cap"> -->
+        <div class="card-body">
+
+          <p class="card-text"><%= data[i].title %></p>
+          <p class="card-text"><%= data[i].tags %></p>
+          <p class="card-text"><%= data[i].platform %></p>
+          <a href="#" class="btn btn-primary">Add to Cart</a>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</div>
 </div>
 
 
