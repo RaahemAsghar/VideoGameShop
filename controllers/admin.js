@@ -80,13 +80,13 @@ module.exports.Profit = function (req, res) {
   var end = mysql.escape(req.body.end);
   //console.log(start)
   //console.log(end)
-  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history WHERE date_of_purchase BETWEEN ${start} AND ${end} ORDER BY date`;
+  const add_query = `SELECT id, product_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history WHERE date_of_purchase BETWEEN ${start} AND ${end} ORDER BY date`;
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
     else
     {
-      const add_query_2 = `SELECT id, game_id, user_id, sum(price) as revenue, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history WHERE date_of_purchase BETWEEN ${start} AND ${end} ORDER BY date`;
+      const add_query_2 = `SELECT id, product_id, user_id, sum(price) as revenue, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history WHERE date_of_purchase BETWEEN ${start} AND ${end} ORDER BY date`;
       db.query(add_query_2, (err, result2) => {
       if (err) throw err;
       res.render('admin/showProfit', {data:result, data2:result2});
@@ -100,7 +100,7 @@ module.exports.showProfit = function (req, res) {
 };
 module.exports.showTrans = function (req, res) {
   //console.log(req.body)
-  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history`;
+  const add_query = `SELECT id, product_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history`;
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
@@ -110,7 +110,7 @@ module.exports.showTrans = function (req, res) {
 };
 module.exports.sortTransDate = function (req, res) {
   //console.log(req.body)
-  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history ORDER BY date_of_purchase`;
+  const add_query = `SELECT id, product_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history ORDER BY date_of_purchase`;
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
@@ -119,7 +119,7 @@ module.exports.sortTransDate = function (req, res) {
 };
 module.exports.sortTransPrice = function (req, res) {
   //console.log(req.body)
-  const add_query = `SELECT id, game_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history ORDER BY cast(price as unsigned) DESC`;
+  const add_query = `SELECT id, product_id, user_id, price, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history ORDER BY cast(price as unsigned) DESC`;
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;

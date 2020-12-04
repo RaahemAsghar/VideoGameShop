@@ -8,6 +8,18 @@ module.exports.getAccount = (req,res)=>{
     res.render('my-account',{user:req.session.user})
 }
 
+module.exports.getsearchResults = (req,res)=>{
+  // eval(require('locus'))
+  var db = getDatabase();
+  var inputSearch = req.query.search
+  const Searchquery = `SELECT * FROM game WHERE title LIKE '%${inputSearch}%'` 
+
+  db.query(Searchquery, (err, result) => {
+    if (err) throw err;
+  res.render('search-results',{user:req.session.user, data:result});
+  });
+}
+
 module.exports.getEditAccount = (req,res)=>{
   res.render("edit-account", { msg: req.flash("edit_msg"), type: "user" });
 }
@@ -61,5 +73,27 @@ module.exports.allGames = (req, res) => {
       if (err) throw err;
       //console.log(result);
       res.render("index", {data:result, msg:req.flash('index_msg')});
+    });  
+  };
+
+  module.exports.userHistory = (req, res) => {
+    const useHist_query = `SELECT game.title as title, T.price, T.date_of_purchase, T.Type_of_transaction FROM
+     (SELECT * FROM transaction_history WHERE Type_of_transaction = 'Game/Buy' AND user_id = '${req.session.user.id}') AS T
+      INNER JOIN game ON T.game_id = game.id; 
+      SELECT game.title as title, T.price, T.date_of_purchase, T.Type_of_transaction FROM
+     (SELECT * FROM transaction_history WHERE Type_of_transaction = 'Game/Rent' AND user_id = '${req.session.user.id}') AS T
+      INNER JOIN game ON T.game_id = game.id;
+      SELECT console.name as title, T.price, T.date_of_purchase, T.Type_of_transaction FROM
+     (SELECT * FROM transaction_history WHERE Type_of_transaction = 'Console/Buy' AND user_id = '${req.session.user.id}') AS T
+      INNER JOIN console ON T.game_id = console.id`
+    var db = getDatabase();
+  
+    db.query(useHist_query, (err, result) => {
+      if (err) throw err;
+      //console.log(result);
+      //var arr =[]
+
+      console.log(result)
+      res.render("user-history", {data1:result[0],data2:result[1],data3:result[2]});
     });  
   };

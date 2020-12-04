@@ -1,4 +1,10 @@
 <%-include('./includes/header')%>
+
+<div class="card bg-dark text-white">
+  <h2 class="text-center text-primary mt-4 mb-4">Revenue for Given Period</h2>
+  <h2 class="text-center text-primary mb-4">PKR<%= data2[0].revenue %></h2>
+  <div class="row text-center"></div>
+</div>
 <div
   class="table-responsive text-primary"
   style="filter: blur(0px) brightness(100%)"
@@ -6,43 +12,33 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th class="text-info">id</th>
-        <th class="text-info">item_id</th>
-        <th class="text-info">user_id</th>
-        <th class="text-info">price</th>
-        <th class="text-primary">date_of_purchase</th>
-        <th class="text-success">type_of_transaction</th>
+        <th class="text-info">T-ID</th>
+        <th class="text-info">Product ID</th>
+        <th class="text-info">User ID</th>
+        <th class="text-info">Price</th>
+        <th class="text-primary">Date Purchased</th>
+        <th class="text-success">Type of Transaction</th>
       </tr>
     </thead>
     <tbody>
-      
       <% if (data.length == 0) { %>
-        <div class="alert alert-info">
-          <strong>No Records Found Matching This Criteria</strong> 
-        </div>
-          <% } %>
-          <% for(var i =0; i < data.length; i++){%>
-        
-            <tr>
-              <td class="text-light"><%= data[i].id %></td>
-              <td class="text-light"><%= data[i].game_id %></td>
-              <td class="text-light"><%= data[i].user_id %></td>
-              <td class="text-light"><%= data[i].price %></td>
-              <td class="text-light"><%= data[i].date %></td>
-              <td class="text-light"><%= data[i].Type_of_transaction %></td>
-              <% } %>
-        
+      <div class="alert alert-info">
+        <strong>No Records Found Matching This Criteria</strong>
+      </div>
+      <% } %> <% for(var i =0; i < data.length; i++){%>
+
+      <tr>
+        <td class="text-light"><%= data[i].id %></td>
+        <td class="text-light"><%= data[i].product_id %></td>
+        <td class="text-light"><%= data[i].user_id %></td>
+        <td class="text-light"><%= data[i].price %></td>
+        <td class="text-light"><%= data[i].date %></td>
+        <td class="text-light"><%= data[i].Type_of_transaction %></td>
+      </tr>
+      <% } %>
     </tbody>
   </table>
 </div>
-
-<div class="card bg-dark text-white">
-  <h2 class="text-center text-primary mb-4">Revenue for Given Period</h2>
-      <h2 class="text-center text-primary mb-4"><%= data2[0].revenue %></h2>
-      <div class="row text-center">
-</div>
-      
-        </div>
 
 
 <%-include('includes/footer')%>

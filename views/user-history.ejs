@@ -1,0 +1,49 @@
+<%-include('includes/header')%>
+<div
+  class="table-responsive text-primary"
+  style="filter: blur(0px) brightness(100%)"
+>
+
+
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="text-info">Title</th>
+        <th class="text-info">Price</th>
+        <th class="text-info">Date of purchase</th>
+        <th class="text-primary">Type of purchase</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i =0; i < data1.length; i++){%>
+      <tr>
+        <td class="text-dark"><strong><%= data1[i].title %></strong></td>
+        <td class="text-dark"><strong><%= data1[i].price %></strong></td>
+        <td class="text-dark"><strong><%= data1[i].date_of_purchase %></strong></td>
+        <td class="text-dark"><strong><%= data1[i].Type_of_transaction %></strong></td>
+    </tr>
+
+    <% } %>
+    <% for(var i =0; i < data2.length; i++){%>
+        <tr>
+          <td class="text-dark"><strong><%= data2[i].title %></strong></td>
+          <td class="text-dark"><strong><%= data2[i].price %></strong></td>
+          <td class="text-dark"><strong><%= data2[i].date_of_purchase %></strong></td>
+          <td class="text-dark"><strong><%= data2[i].Type_of_transaction %></strong></td>
+      </tr>
+  
+      <% } %>
+      <% for(var i =0; i < data3.length; i++){%>
+        <tr>
+          <td class="text-dark"><strong><%= data3[i].title %></strong></td>
+          <td class="text-dark"><strong><%= data3[i].price %></strong></td>
+          <td class="text-dark"><strong><%= data3[i].date_of_purchase %></strong></td>
+          <td class="text-dark"><strong><%= data3[i].Type_of_transaction %></strong></td>
+      </tr>
+  
+      <% } %>
+  </tbody>
+</table>
+</div>
+<%-include('includes/footer')%>

@@ -9,6 +9,9 @@ const userController = require('../controllers/user')
 router.get('/my-account',protectedUser, userController.getAccount)
 router.get('/edit-account',protectedUser, userController.getEditAccount)
 router.post('/edit-account', protectedUser, userController.editAccount)
+router.get('/search-result',protectedUser, userController.getsearchResults)
+router.get('/user-history',protectedUser, userController.userHistory)
+
 
 
 module.exports = router;

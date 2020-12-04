@@ -10,12 +10,21 @@
   </div>
   <%})%>
 <div class="row justify-content-center">
+<<<<<<< HEAD
   <div class="col-lg-6 col-md-6 col-xl-6 col-sm-10">
     <form class="form" action="" method="">
       <div class="form-group">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Search..." />
           <button class="btn btn-dark" type="submit">Search</button>
+=======
+  <div class="col-6">
+    <form class="form" action="/user/search-result" method="GET">
+      <div class="form-group">
+        <div class="input-group">
+          <input type="text" name="search" class="form-control" placeholder="Search...">
+          <button class="btn btn-dark" type="submit" value="search">Search</button>
+>>>>>>> 9d7415b1562a5914e5f64e9972ebb69385b8ee4b
         </div>
       </div>
     </form>
@@ -42,6 +51,7 @@
             Platform: <%= data[i].platform %>
           </p>
 
+<<<<<<< HEAD
           <p class="card-text text-success">
             <i class="fa fa-money"></i> PKR<%=data[i].sale_price%>
           </p>
@@ -59,6 +69,50 @@
 
         </div>
       </div>
+=======
+          <p class="card-text"><%= data[i].title %></p>
+          <p class="card-text"><%= data[i].tags %></p>
+          <p class="card-text"><%= data[i].platform %></p>
+          <a href="#" class="btn btn-primary">Add to Cart</a>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</div>
+<div class="card-deck">
+  <!-- <div class="row justify-content-center">
+  <div class="col-auto mb-3">
+  <div class="card" style="width: 18rem;" >
+    <img class="card-Update" src="https://upload.wikimedia.org/wikipedia/en/a/a3/Spider-Man_Miles_Morales.jpeg" alt="Card image cap">
+    <div class="card-body">
+      <p class="card-text">Spider-Man: Miles Morales</p>
+      <p class="card-text">Description: Action, Adventure</p>
+      <p class="card-text">Platform: Playstation 4</p>
+      <a href="#" class="btn btn-primary">Add to Cart</a>
+    </div>
+  </div>
+  </div>
+  <div class="col-auto mb-3">
+  <div class="card" style="width: 18rem;">
+    <img class="card-Update" src="https://images-na.ssl-images-amazon.com/images/I/81OFTUvFX4L._AC_SX522_.jpg" alt="Card image cap">
+    <div class="card-body">
+      <p class="card-text">Last of Us Part II</p>
+      <p class="card-text">Description: Thriller, Horror</p>
+      <p class="card-text">Platform: Playstation</p>
+      <a href="#" class="btn btn-primary">Add to Cart</a>
+    </div>
+  </div>
+  </div>
+  <div class="col-auto mb-3">
+  <div class="card" style="width: 18rem;">
+    <img class="card-Update" src="https://upload.wikimedia.org/wikipedia/en/c/c0/Avengers_2020_cover_art.png" alt="Card image cap">
+    <div class="card-body">
+      <p class="card-text">Marvel's Avengers</p>
+      <p class="card-text">Description: Action, Superhero</p>
+      <p class="card-text">Platform: Playstation, Xbox, PCs</p>
+      <a href="#" class="btn btn-primary">Add to Cart</a>
+>>>>>>> 9d7415b1562a5914e5f64e9972ebb69385b8ee4b
     </div>
     <% } %>
   </div>
