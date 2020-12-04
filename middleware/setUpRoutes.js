@@ -8,6 +8,7 @@ const usercontroller = require("../controllers/user");
 const gameRouter = require('../routes/game')
 const cartRouter = require('../routes/cart')
 
+const protectedUser = require('../middleware/middlewares').protectedUser
 
 module.exports.setRoutes = function (app) {
   app.use("/login", loginRouter);
