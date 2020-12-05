@@ -81,12 +81,21 @@ module.exports.checkout = async (req, res) => {
 
     //buy all games in cart
     var games = cart.games;
+    var sum = 0;
+    var count  = 0;
     for (var i = 0; i < games.length; i++) {
       var game_id = parseInt(games[i].id);
       for (var j = 0; j < games[i].amount; j++) {
         const db = getDatabase();
         var id = uuid.v4();
         console.log(id);
+        // store credit start
+        var price_query = `(SELECT sale_price FROM game WHERE id = ${game_id})`;
+        var price = db.query(price_query);
+        var sum = sum + price ; 
+        count = count+1;
+      
+        // end 
         var buy_game_query = `INSERT 
         INTO 
         transaction_history 
@@ -108,7 +117,16 @@ module.exports.checkout = async (req, res) => {
         });
       }
     }
-
+// store credit
+    var credit_query= `SELECT credits FROM user WHERE id = ${req.session.user.id}`;
+        var credit = db.query(credit_query);
+        if(sum >= 5000 && count >= 2) 
+        {
+          sum = sum*0.1;
+          var update_query = `UPDATE user SET credits = credit + sum WHERE id = ${req.session.user.id}`;
+          db.query(update_query);
+        }
+ // end
     //buy consoles
     var consoles = cart.consoles;
     for (var i = 0; i < consoles.length; i++) {}
