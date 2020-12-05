@@ -13,6 +13,7 @@ router.get('/search-result',protectedUser, userController.getsearchResults)
 router.get('/user-history',protectedUser, userController.userHistory)
 router.get('/return-game',protectedUser, userController.showReturnGame)
 router.post('/return-game', userController.returnGame)
+router.get("/return-game-result", protectedUser, userController.returnGameResult);
 
 
 module.exports = router;

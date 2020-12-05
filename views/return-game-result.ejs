@@ -1,0 +1,50 @@
+<%-include('includes/header')%>
+<% if (data.length == 0) { %>
+    <div class="alert alert-danger">
+      <strong>No Game Found in Database Matching This Name</strong> 
+    </div>
+      <% } %>
+      <% if (data2.length == 0) { %>
+        <div class="alert alert-danger">
+          <strong>No Transaction took place with this game</strong> 
+        </div>
+          <% } %>
+
+          <% for(var i =0; i < data.length; i++){%>
+            <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+              <div class="card shadow shadow-sm">
+                <a href="/game/<%=data[i].id%>">
+                  <img
+                  class="game-image img-thumbnail img-responsive"
+                  src="<%=data[i].image_url%>"
+                  alt="Card image cap"
+                />
+                </a>
+                <div class="card-body">
+                  <p class="card-text">Title: <%= data[i].title %></p>
+                  <!-- <p class="card-text"><%= data[i].tags %></p> -->
+                  <p class="card-text text-gray-700">
+                    Platform: <%= data[i].platform %>
+                  </p>
+        
+                  <p class="card-text text-success">
+                    <i class="fa fa-money"></i> PKR<%=data[i].sale_price%>
+                  </p>
+        
+                </div>
+              </div>
+            </div>
+            <% } %>
+            <% if (data.length != 0 && data2.length != 0) { %>
+                <div class="alert alert-info">
+                    <strong>Request for return has been made!</strong> 
+                  </div>
+                  <div class="alert alert-info">
+                    <strong>Admin will review and update credit</strong> 
+                  </div>
+                  <% } %>
+            
+            
+                  <h1 class="text-danger text-center mt-3">Press GamePad to return to index</h1>
+
+<%-include('includes/footer')%>

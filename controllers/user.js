@@ -102,7 +102,56 @@ module.exports.allGames = (req, res) => {
   module.exports.showReturnGame = (req,res)=>{
     res.render("return-game",{user:req.session.user});
   };
+  module.exports.returnGameResult = (req,res)=>{
+    res.render("return-game-result",{user:req.session.user});
+  };
   module.exports.returnGame = (req,res)=>{
     console.log(req.body)
-    //res.render("return-game",{user:req.session.user});
+    var name = mysql.escape(req.body.title);
+    var platform = mysql.escape(req.body.platform);
+    var reason = mysql.escape(req.body.reason);
+    const search_query = `SELECT * FROM game WHERE title=${name}`;
+    var db = getDatabase();
+    var id = ""
+    var Tid=""
+    var rees=""
+    var rees2=""
+    var credit = 0
+    var success = ""
+    db.query(search_query, (err, result) => {
+      if (err) throw err;
+      rees=result
+      if (result!="")
+      {
+      const test_query = `SELECT id, product_id, user_id FROM transaction_history WHERE user_id=${req.session.user.id} AND product_id=${mysql.escape(result[0].id)}`;
+      db.query(test_query, (err, result2) => {
+        if (err) throw err;
+        rees2=result2
+        //console.log(result[0].id)
+        //console.log(result2[0].id)
+        //res.render("return-game-result",{user:req.session.user, data:result});
+        if (result2!=""){
+        const add_query = `INSERT INTO returned_games
+     (game_id, reason_for_return, credit_returned, transaction_id, user_id)
+      VALUES 
+      (${mysql.escape(result[0].id)},
+       ${reason},
+      ${credit},
+         ${mysql.escape(result2[0].id)},
+          ${req.session.user.id})`;
+          db.query(add_query, (err, result3) => {
+          if (err) throw err;
+          console.log("Item added!");
+
+        });
+        success="Y"
+        res.render("return-game-result",{user:req.session.user, data:result, data2:result2, succ:success});
+      }
+      });
+    }
+    res.render("return-game-result",{user:req.session.user, data:result, data2:id, suc:success});
+    });
+    
+
+    //
   };
