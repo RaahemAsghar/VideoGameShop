@@ -11,7 +11,8 @@ router.get('/edit-account',protectedUser, userController.getEditAccount)
 router.post('/edit-account', protectedUser, userController.editAccount)
 router.get('/search-result',protectedUser, userController.getsearchResults)
 router.get('/user-history',protectedUser, userController.userHistory)
-
+router.get('/return-game',protectedUser, userController.showReturnGame)
+router.post('/return-game', userController.returnGame)
 
 
 module.exports = router;

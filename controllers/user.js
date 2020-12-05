@@ -3,6 +3,7 @@ const { get } = require("config");
 const getDatabase = require("../db/db").getDatabase;
 const resetSession = require("../middleware/middlewares").resetSession;
 const mysql = require("mysql2");
+const { showAddConsoleForm } = require("./admin");
 
 module.exports.getAccount = (req,res)=>{
     res.render('my-account',{user:req.session.user})
@@ -96,4 +97,12 @@ module.exports.allGames = (req, res) => {
       console.log(result)
       res.render("user-history", {data1:result[0],data2:result[1],data3:result[2]});
     });  
+   
+  };
+  module.exports.showReturnGame = (req,res)=>{
+    res.render("return-game",{user:req.session.user});
+  };
+  module.exports.returnGame = (req,res)=>{
+    console.log(req.body)
+    //res.render("return-game",{user:req.session.user});
   };
