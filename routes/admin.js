@@ -31,7 +31,7 @@ router.get("/add-stock-game",adminController.getAddStockGame)
 router.post("/add-stock-game",adminController.addStockGame)
 
 router.get('/del-game/:id',adminController.deleteGame)
-router.get('/return-games-ad',adminController.adReturnGame)
+router.get('/return-games-ad/',adminController.adReturnGame)
 router.get('/approveReturn',adminController.approve)
 
 //End Game Routes
