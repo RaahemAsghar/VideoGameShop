@@ -439,3 +439,32 @@ module.exports.addManufacturers = (req, res) => {
   });
   res.redirect("/admin/manufacturers");
 };
+
+module.exports.adReturnGame = (req, res) => {
+  const search_query = `SELECT * FROM returned_games`;
+  var db = getDatabase();
+    db.query(search_query, (err, result) => {
+      if (err) throw err;
+      console.log(result)
+    const search_query_2 = `SELECT * FROM game WHERE id=${result[0].game_id}`;
+    db.query(search_query_2, (err, result2) => {
+      if (err) throw err;
+      console.log(result2)
+      const update_query = `UPDATE game SET stock = ${result2[0].stock + 1} WHERE id=${result[0].game_id}`;
+      db.query(update_query, (err, result3) => {
+        if (err) throw err;
+        const delete_query = `SELECT * FROM game WHERE id=${result[0].game_id}`;
+         
+});
+});
+});
+};
+module.exports.approve = (req, res) => {
+  const search_query = `SELECT * FROM returned_games`;
+  var db = getDatabase();
+    db.query(search_query, (err, result) => {
+      if (err) throw err;
+    res.render("admin/return-games-ad",{data:result})
+
+});
+};
