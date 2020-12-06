@@ -463,7 +463,7 @@ module.exports.adReturnGame = (req, res) => {
           const update_query_2 =  `UPDATE user SET credits = ${result5[0].credits + result2[0].sale_price} WHERE id=${result[0].user_id}`
           db.query(update_query_2, (err, result6) => {
             if (err) throw err;
-            res.render("admin/dashboard")     
+            res.redirect("/admin/dashboard");     
 });
 });
 });
