@@ -126,7 +126,7 @@ module.exports.allGames = (req, res) => {
   };
   module.exports.returnGameResult = (req,res)=>{
     const search_query = `SELECT * FROM transaction_history WHERE user_id=${req.session.user.id} AND Type_of_transaction = 'Game/Buy'`;
-    console.log("delete console",req.params.title)
+    //console.log("delete console",req.params.title)
     var db = getDatabase();
     db.query(search_query, (err, result) => {
       if (err) throw err;
@@ -164,3 +164,6 @@ module.exports.allGames = (req, res) => {
     
       res.render("Success");
   };
+  module.exports.gamesDue = (req, res) => {
+    res.render("games_due", {user:req.session.user});
+};

@@ -15,6 +15,7 @@ router.get('/return-game',protectedUser, userController.showReturnGame)
 router.post('/return-game-result', userController.returnGame)
 router.get("/return-game-result", protectedUser, userController.returnGameResult);
 router.get("/Success", protectedUser, userController.success);
+router.get("/games_due", protectedUser, userController.gamesDue);
 
 
 module.exports = router;
