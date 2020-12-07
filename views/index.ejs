@@ -71,15 +71,17 @@
     <% for(var i =0; i < data2.length; i++){%>
     <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
       <div class="card shadow shadow-sm">
-        <a href="/console/<%=data2[i].id%>">
           <img
           class="game-image img-thumbnail img-responsive"
           src="<%=data2[i].image_url%>"
-          alt="Card image cap"
+          alt="./coollogo_com-12786558.png"
         />
-        </a>
         <div class="card-body">
+          <a href="/console/<%=data2[i].id%>">
+
           <p class="card-text">Title: <%= data2[i].name %></p>
+        </a>
+
           <!-- <p class="card-text text-gray-700">
             Platform: <%= data2[i].platform %>
           </p> -->

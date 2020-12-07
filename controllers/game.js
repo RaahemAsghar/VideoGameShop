@@ -3,7 +3,8 @@ const getDatabase = require("../db/db").getDatabase;
 const mysql = require("mysql2");
 const uuid = require('uuid')
 module.exports.getGame = async (req, res) => {
-  const game_id = req.params.id;
+  const game_id = req.params.gid;
+  console.log(game_id)
   const get_q = `SELECT * FROM game WHERE id=${game_id}`;
   const db = getDatabase();
   const [rows, fields] = await db.promise().query(get_q);
