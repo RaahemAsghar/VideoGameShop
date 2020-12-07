@@ -3,11 +3,16 @@
 <div class="row justify-content-center">
   <div class="col-10">
     <div class="card shadow mb-3">
-      <img
-        class="img-fluid img-thumbnail card-img game-image-big"
-        src=<%=data.image_url%>
-        alt=""
+      <% 
+      var show_image = false
+      if(data.image_url.slice(0,4) == 'http'){
+        show_image = true
+      }
+      %>
+      <%if(show_image){%>
+      <img class="img-fluid img-thumbnail card-img game-image-big" src='<%=data.image_url%>' alt="......."
       />
+      <%}%>
       <div class="card-body">
         <h1 class="text-primary"><%=data.title%> </h1>
         <p class="card-text text-secondary"><%= data.tags %> </p>

@@ -105,6 +105,8 @@ module.exports.allGamesConsoles = (req, res) => {
       //console.log(result);
       db.query(console_query, (err2, result2)=>{
         if(err2) throw err2
+        
+
         res.render("index", {data1:result,data2:result2 ,msg:req.flash('index_msg')});
       })
     });  
