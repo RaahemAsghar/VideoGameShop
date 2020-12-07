@@ -165,5 +165,12 @@ module.exports.allGames = (req, res) => {
       res.render("Success");
   };
   module.exports.gamesDue = (req, res) => {
-    res.render("games_due", {user:req.session.user});
+    const search_query = `SELECT game.id as id, game.title as title, DATE_FORMAT(rent.date_lent, "%d/%m/%Y") as lent, DATE_FORMAT(rent.date_due, "%d/%m/%Y") as due, rent.user_id FROM
+    game INNER JOIN rent on game.id=rent.game_id WHERE rent.user_id=${req.session.user.id}`;
+  var db = getDatabase();
+    db.query(search_query, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+    res.render("games_due", {user:req.session.user, data:result});
+  });
 };

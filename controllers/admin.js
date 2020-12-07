@@ -442,7 +442,7 @@ module.exports.addManufacturers = (req, res) => {
 
 module.exports.adReturnGame = (req, res) => {
   
-  console.log("Logging bosssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss, ",req.params.id);
+  //console.log("Logging bosssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss, ",req.params.id);
   const search_query = `SELECT * FROM returned_games WHERE user_id = ${req.params.id}`;
   var db = getDatabase();
     db.query(search_query, (err, result) => {
