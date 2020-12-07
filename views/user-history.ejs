@@ -44,6 +44,15 @@
       </tr>
   
       <% } %>
+      <% for(var i =0; i < data4.length; i++){%>
+        <tr>
+          <td class="text-dark"><strong><%= data4[i].title %></strong></td>
+          <td class="text-dark"><strong><%= data4[i].price %></strong></td>
+          <td class="text-dark"><strong><%= data4[i].date_of_purchase %></strong></td>
+          <td class="text-dark"><strong><%= data4[i].Type_of_transaction %></strong></td>
+      </tr>
+  
+      <% } %>
   </tbody>
 </table>
 </div>

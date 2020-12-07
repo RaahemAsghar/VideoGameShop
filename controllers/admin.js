@@ -442,10 +442,12 @@ module.exports.addManufacturers = (req, res) => {
 
 module.exports.adReturnGame = (req, res) => {
   const search_query = `SELECT * FROM returned_games`;
+  
   var db = getDatabase();
     db.query(search_query, (err, result) => {
       if (err) throw err;
-      console.log(result[0])
+      var T_ID = result[0].id
+      console.log("lol ",result[0].transaction_id)
     const search_query_2 = `SELECT * FROM game WHERE id=${result[0].game_id}`;
     db.query(search_query_2, (err, result2) => {
       if (err) throw err;
@@ -463,7 +465,12 @@ module.exports.adReturnGame = (req, res) => {
           const update_query_2 =  `UPDATE user SET credits = ${result5[0].credits + result2[0].sale_price} WHERE id=${result[0].user_id}`
           db.query(update_query_2, (err, result6) => {
             if (err) throw err;
-            res.redirect("/admin/dashboard");     
+            const update_query_3 =  `UPDATE transaction_history SET Type_of_transaction = 'Game/Returned' WHERE user_id=${result[0].user_id}`
+          db.query(update_query_3, (err, result7) => {  
+            if (err) throw err;
+            res.redirect("/admin/dashboard");   
+
+});
 });
 });
 });
