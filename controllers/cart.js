@@ -81,7 +81,7 @@ module.exports.checkout = async (req, res) => {
 
     //buy all games in cart
     var games = cart.games;
-    var sum = 100;
+    var sum = 0;
     var count  = 0;
     const d_b = getDatabase();
     for (var i = 0; i < games.length; i++) {

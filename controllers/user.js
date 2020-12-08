@@ -5,7 +5,17 @@ const resetSession = require("../middleware/middlewares").resetSession;
 const mysql = require("mysql2");
 
 module.exports.getAccount = (req,res)=>{
-    res.render('my-account',{user:req.session.user})
+  var db = getDatabase();
+  var inputSearch = req.query.search
+  const Searchquery = `SELECT * FROM user WHERE id = ${req.session.user.id}` 
+
+  db.query(Searchquery, (err, result) => {
+    if (err) throw err;
+    res.render('my-account',{user: req.session.user, data:result});
+  
+  });
+
+    
 }
 
 module.exports.getsearchResults = (req,res)=>{
