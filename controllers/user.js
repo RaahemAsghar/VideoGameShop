@@ -103,7 +103,7 @@ module.exports.allGames = (req, res) => {
    
   };
   module.exports.showReturnGame = (req,res)=>{
-    const useHist_query = `SELECT game.title as title, T.price, T.date_of_purchase, T.Type_of_transaction FROM
+    const useHist_query = `SELECT game.title as title, T.id, T.price, T.date_of_purchase, T.Type_of_transaction FROM
      (SELECT * FROM transaction_history WHERE Type_of_transaction = 'Game/Buy' AND user_id = '${req.session.user.id}') AS T
       INNER JOIN game ON T.product_id = game.id; 
       SELECT game.title as title, T.price, T.date_of_purchase, T.Type_of_transaction FROM
@@ -119,17 +119,19 @@ module.exports.allGames = (req, res) => {
       //console.log(result);
       //var arr =[]
 
-      console.log(result)
+      console.log("KAMEHAMEHA ",result)
       res.render("return-game",{data1:result[0],data2:result[1],data3:result[2],user:req.session.user});
     });  
     
   };
   module.exports.returnGameResult = (req,res)=>{
-    const search_query = `SELECT * FROM transaction_history WHERE user_id=${req.session.user.id} AND Type_of_transaction = 'Game/Buy'`;
+    
+    const search_query = `SELECT * FROM transaction_history WHERE id=${mysql.escape(req.params.id)} AND Type_of_transaction = 'Game/Buy'`;
     //console.log("delete console",req.params.title)
     var db = getDatabase();
     db.query(search_query, (err, result) => {
       if (err) throw err;
+      console.log(result)
       const search_query_2 = `SELECT * FROM game WHERE id=${result[0].product_id}`;
       db.query(search_query_2, (err, result2) => {
         if (err) throw err;

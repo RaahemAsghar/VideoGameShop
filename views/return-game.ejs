@@ -31,55 +31,14 @@
             class="btn btn-danger pt-0 pb-0 pl-1 pr-1"
             
           >
-          <a href="/user/return-game-result"  class="btn btn-danger"> Return</a>
+          <a href="/user/return-game-result/<%=data1[i].id%>"  class="btn btn-danger"> Return</a>
            
           </button>
         </td>
     </tr>
 
     <% } %>
-    <% for(var i =0; i < data2.length; i++){%>
-        <tr>
-          <td class="text-dark"><strong><%= data2[i].title %></strong></td>
-          <td class="text-dark"><strong><%= data2[i].price %></strong></td>
-          <td class="text-dark"><strong><%= data2[i].date_of_purchase %></strong></td>
-          <td class="text-dark"><strong><%= data2[i].Type_of_transaction %></strong></td>
-          <td>
-            <button
-                id = "delete-game-btn"
-                value="<%=data2[i]%>"
-                type="button"
-                class="btn btn-danger pt-0 pb-0 pl-1 pr-1"
-                
-              >
-              <a href="/user/return-game-result" class="btn btn-danger"> Return</a>
-              
-              </button>
-            </td>
-      </tr>
-  
-      <% } %>
-      <% for(var i =0; i < data3.length; i++){%>
-        <tr>
-          <td class="text-dark"><strong><%= data3[i].title %></strong></td>
-          <td class="text-dark"><strong><%= data3[i].price %></strong></td>
-          <td class="text-dark"><strong><%= data3[i].date_of_purchase %></strong></td>
-          <td class="text-dark"><strong><%= data3[i].Type_of_transaction %></strong></td>
-          <td>
-            <button
-                id = "delete-game-btn"
-                value="<%=data3[i]%>"
-                type="button"
-                class="btn btn-danger pt-0 pb-0 pl-1 pr-1"
-                
-              >
-              <a href="/user/return-game-result"  class="btn btn-danger"> Return</a>
-               
-              </button>
-            </td>
-      </tr>
-  
-      <% } %>
+    
       
   </tbody>
 </table>

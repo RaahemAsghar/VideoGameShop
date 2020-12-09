@@ -12,8 +12,8 @@ router.post('/edit-account', protectedUser, userController.editAccount)
 router.get('/search-result',protectedUser, userController.getsearchResults)
 router.get('/user-history',protectedUser, userController.userHistory)
 router.get('/return-game',protectedUser, userController.showReturnGame)
-router.post('/return-game-result', userController.returnGame)
-router.get("/return-game-result", protectedUser, userController.returnGameResult);
+router.post('/return-game-result/:id', userController.returnGame)
+router.get("/return-game-result/:id", protectedUser, userController.returnGameResult);
 router.get("/Success", protectedUser, userController.success);
 router.get("/games_due", protectedUser, userController.gamesDue);
 
