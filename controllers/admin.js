@@ -456,7 +456,7 @@ module.exports.adReturnGame = (req, res) => {
       const update_query = `UPDATE game SET stock = ${result2[0].stock + 1} WHERE id=${result[0].game_id}`;
       db.query(update_query, (err, result3) => {
         if (err) throw err;
-        const delete_query = `DELETE FROM returned_games WHERE game_id=${result[0].game_id} AND user_id=${result[0].user_id}`;
+        const delete_query = `DELETE FROM returned_games WHERE game_id=${result[0].game_id} AND user_id=${result[0].user_id} AND transaction_id=${mysql.escape(req.params.id)}`;
         db.query(delete_query, (err, result4) => {
           console.log(result4)
           if (err) throw err;
@@ -485,6 +485,15 @@ module.exports.approve = (req, res) => {
     db.query(search_query, (err, result) => {
       if (err) throw err;
     res.render("admin/return-games-ad",{data:result})
+
+});
+};
+module.exports.reject = (req, res) => {
+  const delete_query = `DELETE FROM returned_games WHERE transaction_id = ${mysql.escape(req.params.id)}`;
+  var db = getDatabase();
+    db.query(delete_query, (err, result) => {
+      if (err) throw err;
+      res.redirect("/admin/dashboard");
 
 });
 };
