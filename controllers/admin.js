@@ -140,16 +140,16 @@ module.exports.groupbyTrans = function (req, res) {
 module.exports.showAddGameForm = function (req, res) {
   var query = `SELECT * from category`
   var db = getDatabase();
-  db.query(add_query, (err, result) => {
-    
+  db.query(query, (err, result) => {
     if (err) throw err;
-    res.render("admin/games/add-game",{data:result});
+    console.log(result)
+    res.render("admin/games/add-game",{categories:result});
   }); 
   
 };
 
 module.exports.addGame = async (req, res) => {
-  console.log(req.body)
+  console.log("body",req.body)
   //console.log(title)
   const stock = 0;
   var {
@@ -160,6 +160,7 @@ module.exports.addGame = async (req, res) => {
     rent_price,
     platform,
     image,
+    categories
   } = req.body;
 
   title = mysql.escape(title);
@@ -178,12 +179,23 @@ module.exports.addGame = async (req, res) => {
        ${tags},
         ${sale_price},
          ${rent_price},
-          ${platform}, ${image}, ${stock})`;
+          ${platform}, ${image}, ${stock});`;
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
     console.log("Item added!");
+    console.log(result);
+    categories = [...categories]
+    categories.forEach(element => {
+      var addc = `INSERT INTO game_category VALUES(${result.insertId},${element})`
+      db.query(addc, (err, result2)=>{
+        if(err) throw err
+      })
+    });
+
   });
+
+  
 
   //req.flash("login_msg", "Item added successfully!");
   res.redirect("/admin/add-game");
