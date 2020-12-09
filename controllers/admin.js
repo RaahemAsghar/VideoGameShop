@@ -138,7 +138,14 @@ module.exports.groupbyTrans = function (req, res) {
 
 //Game Controllers
 module.exports.showAddGameForm = function (req, res) {
-  res.render("admin/games/add-game");
+  var query = `SELECT * from category`
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    
+    if (err) throw err;
+    res.render("admin/games/add-game",{data:result});
+  }); 
+  
 };
 
 module.exports.addGame = async (req, res) => {

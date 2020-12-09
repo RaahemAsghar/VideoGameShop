@@ -14,7 +14,30 @@ module.exports.getAccount = (req,res)=>{
     res.render('my-account',{user: req.session.user, data:result});
   
   });
+    
+}
 
+module.exports.groupByCategory = (req,res)=>{
+  var db = getDatabase();
+
+  const Searchquery = `SELECT * FROM game_category GROUP BY category` ;
+  db.query(Searchquery, (err, result) => {
+    if (err) throw err;
+    res.render('index',{user: req.session.user, data:result});
+  
+  });
+    
+}
+
+module.exports.sortByPrice = (req,res)=>{
+  var db = getDatabase();
+  const Searchquery = `SELECT * FROM game ORDER BY sale_price ASC` 
+
+  db.query(Searchquery, (err, result) => {
+    if (err) throw err;
+    res.render("index", {data:result, msg:req.flash('index_msg')});
+  
+  });
     
 }
 
