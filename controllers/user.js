@@ -66,13 +66,18 @@ module.exports.editAccount = async (req, res) => {
 }
 
 module.exports.allGames = (req, res) => {
-    const add_query = `SELECT * FROM game ORDER BY id DESC`;
+    const add_query = `SELECT * FROM game ORDER BY id DESC;
+    SELECT game.title, game.platform, game.sale_price, game.stock, T.count_product FROM 
+    ( SELECT count(product_id) as count_product, product_id FROM transaction_history
+    WHERE Type_of_transaction = 'Game/Buy' OR Type_of_transaction = 'Game/Rent' GROUP BY product_id )
+    AS T INNER JOIN game ON T.product_id = game.id
+    ORDER BY count_product DESC`;
     var db = getDatabase();
   
     db.query(add_query, (err, result) => {
       if (err) throw err;
-      //console.log(result);
-      res.render("index", {data:result, msg:req.flash('index_msg')});
+      console.log(result[1]);
+      res.render("index", {data:result[0] ,msg:req.flash('index_msg'), data2:result[1]});
     });  
   };
 
@@ -93,7 +98,7 @@ module.exports.allGames = (req, res) => {
       //console.log(result);
       //var arr =[]
 
-      console.log(result)
+      //console.log(result)
       res.render("user-history", {data1:result[0],data2:result[1],data3:result[2]});
     });  
   };
