@@ -181,11 +181,20 @@ module.exports.groupbyTrans = function (req, res) {
 
 //Game Controllers
 module.exports.showAddGameForm = function (req, res) {
-  res.render("admin/games/add-game", { msg: req.flash("add_game_msg") });
+
+  var query = `SELECT * from category`
+  var db = getDatabase();
+  db.query(query, (err, result) => {
+    if (err) throw err;
+    console.log(result)
+    res.render("admin/games/add-game",{categories:result});
+  }); 
+  
 };
 
 module.exports.addGame = async (req, res) => {
-  console.log(req.body);
+  console.log("body",req.body)
+
   //console.log(title)
   const stock = 0;
   var {
@@ -196,6 +205,7 @@ module.exports.addGame = async (req, res) => {
     rent_price,
     platform,
     image,
+    categories
   } = req.body;
 
   title = mysql.escape(title);
@@ -214,9 +224,10 @@ module.exports.addGame = async (req, res) => {
        ${tags},
         ${sale_price},
          ${rent_price},
-          ${platform}, ${image}, ${stock})`;
+          ${platform}, ${image}, ${stock});`;
   var db = getDatabase();
   db.query(add_query, (err, result) => {
+
     if (err) {
       req.flash("add_game_msg", {
         msg: "An Error occured! Please Try Again.",
@@ -231,7 +242,20 @@ module.exports.addGame = async (req, res) => {
       });
       res.redirect("/admin/add-game");
     }
-  });
+    console.log("Item added!");
+    console.log(result);
+    categories = [...categories]
+    categories.forEach(element => {
+      var addc = `INSERT INTO game_category VALUES(${result.insertId},${element})`
+      db.query(addc, (err, result2)=>{
+        if(err) throw err
+      })
+    });
+
+
+  
+
+  
 
   //req.flash("login_msg", "Item added successfully!");
 };

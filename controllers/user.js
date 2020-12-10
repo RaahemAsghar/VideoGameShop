@@ -6,7 +6,56 @@ const mysql = require("mysql2");
 const { showAddConsoleForm } = require("./admin");
 
 module.exports.getAccount = (req,res)=>{
-    res.render('my-account',{user:req.session.user})
+  var db = getDatabase();
+  var inputSearch = req.query.search
+  const Searchquery = `SELECT * FROM user WHERE id = ${req.session.user.id}` 
+
+  db.query(Searchquery, (err, result) => {
+    if (err) throw err;
+    res.render('my-account',{user: req.session.user, data:result});
+  
+  });
+    
+}
+
+module.exports.groupByCategory =async  (req,res)=>{
+  var db = getDatabase();
+
+  var cat_id  = req.params.id;
+
+  var search = `SELECT * FROM category`;
+    const [categories,f]=await db.promise().query(search);
+    console.log(categories)
+
+  const Searchquery = `SELECT
+  *
+FROM
+  game_category
+  INNER JOIN game ON game.id = game_category.game_id
+WHERE
+  game_category.category_id = '${cat_id}'` ;
+  db.query(Searchquery, (err, result) => {
+    if (err) throw err;
+    res.render('index',{user: req.session.user,categories, data:result , msg:req.flash('index_msg')});
+
+  });
+    
+}
+
+module.exports.sortByPrice = async (req,res)=>{
+  var db = getDatabase();
+
+  var search = `SELECT * FROM category`;
+    const [categories,f]=await db.promise().query(search);
+    console.log(categories)
+  const Searchquery = `SELECT * FROM game ORDER BY sale_price ASC` 
+
+  db.query(Searchquery, (err, result) => {
+    if (err) throw err;
+    res.render("index", {data:result, categories,msg:req.flash('index_msg')});
+  
+  });
+    
 }
 
 
@@ -98,21 +147,28 @@ module.exports.editAccount = async (req, res) => {
   }
 }
 
+
 module.exports.allGamesConsoles = (req, res) => {
     const game_query = `SELECT * FROM game ORDER BY id DESC LIMIT 4`;
     const console_query = `SELECT * FROM console ORDER BY id DESC limit 0`;
 
     var db = getDatabase();
+
+    var search = `SELECT * FROM category`;
+    const [categories,f]=await db.promise().query(search);
+    console.log(categories)
   
     db.query(game_query, (err, result) => {
       if (err) throw err;
       //console.log(result);
+
       db.query(console_query, (err2, result2)=>{
         if(err2) throw err2
         
 
-        res.render("index", {data1:result,data2:result2 ,msg:req.flash('index_msg')});
+        res.render("index", {data1:result,data2:result2,categories ,msg:req.flash('index_msg')});
       })
+
     });  
   };
 

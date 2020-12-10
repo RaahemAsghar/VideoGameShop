@@ -22,6 +22,8 @@ router.get('*', (req,res)=>{
     res.redirect('/user/my-account')
 })
 
+router.get('/sortprice',protectedUser, userController.sortByPrice)
+router.get('/groupCategory/:id',protectedUser, userController.groupByCategory)
 
 
 module.exports = router;

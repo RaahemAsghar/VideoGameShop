@@ -225,12 +225,28 @@ module.exports.checkout = async (req, res) => {
 
     //buy all games in cart
     var games = cart.games;
+    var sum = 0;
+    var count  = 0;
+    const d_b = getDatabase();
     for (var i = 0; i < games.length; i++) {
       var game_id = parseInt(games[i].id);
       for (var j = 0; j < games[i].amount; j++) {
-        const db = getDatabase();
+        
         var id = uuid.v4();
         console.log(id);
+        // store credit start
+        var price_query = `(SELECT sale_price FROM game WHERE id = ${game_id})`;
+        d_b.query(price_query,(err,presult)=>
+        {
+          if(err) throw err;
+
+          sum = sum + parseInt(presult[0].sale_price) ; 
+
+        });
+        
+        
+        count = count+1; 
+        // end 
         var buy_game_query = `INSERT 
         INTO 
         transaction_history 
@@ -247,12 +263,32 @@ module.exports.checkout = async (req, res) => {
         UPDATE game SET stock = stock - 1 WHERE id = ${game_id};
         `;
 
-        db.query(buy_game_query, (err, result) => {
+        d_b.query(buy_game_query, (err, result) => {
           if (err) throw err;
         });
       }
     }
+// store credit
 
+    const credit_query= `SELECT credits FROM user WHERE id = ${req.session.user.id}`;
+        d_b.query(credit_query,(err,cresult)=>{
+          if(err) throw err;
+          
+          console.log(sum);
+          if(sum >= 5000 && count >= 2){
+          sum = sum*0.1;
+          var update_query = `UPDATE user SET credits = ${cresult[0].credits + sum} WHERE id = ${req.session.user.id}`;
+          d_b.query(update_query,(err,result)=>
+          {
+            if(err) throw err;
+            
+          });
+
+        }
+        });
+          
+        
+ // end
     //buy consoles
     var consoles = cart.consoles;
     for (var i = 0; i < consoles.length; i++) {
