@@ -20,7 +20,7 @@ module.exports.getsearchResults = (req,res)=>{
   db.query(Searchquery, (err, result) => {
     if (err) throw err;
     var allresults = result[0].concat(result[1], result[2],);
-  res.render('search-results',{user:req.session.user, data:allresults, data2:result[3]});
+  res.render('search-results',{ data:allresults, data2:result[3]});
   });
 }
 
@@ -103,6 +103,8 @@ module.exports.allGames = (req, res) => {
       //var arr =[]
 
       //console.log(result)
-      res.render("user-history", {data1:result[0],data2:result[1],data3:result[2]});
+      var allhist = result[0].concat(result[1], result[2],);
+
+      res.render("user-history", {data1:allhist});
     });  
   };
