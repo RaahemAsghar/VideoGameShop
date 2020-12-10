@@ -1,54 +1,87 @@
 <%-include('includes/header')%>
 
     
-<h1 class="text-danger text-center mt-3">Relevant Products</h1>
-<% if (data.length == 0 && data2.length ==0) { %>
+<h1 class="text-danger text-center mt-3">Relevant Titles & Consoles</h1>
+<% if (data.length == 0) { %>
   <div class="alert alert-info">
     <strong>No Records Found Matching This Criteria</strong> 
   </div>
-<% } %>
-
-<div class="p-2 pt-5">
-  <% if (data.length > 0) {%>
-  <span><h2 class="text-info text-center">Games</h2></span>
-  <%}%>
-  <div class="row">
+    <% } %>
+<div class="p-3">
+  <div class="row justify-content-center">
     <% for(var i =0; i < data.length; i++){%>
-    <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
-      <div class="card shadow shadow-sm">
-        <a href="/game/<%=data[i].id%>">
-          <img
-          class="game-image img-thumbnail img-responsive"
-          src="<%=data[i].image_url%>"
-          alt="Card image cap"
-        />
-        </a>
-        <div class="card-body">
-          <p class="card-text">Title: <%= data[i].title %></p>
-          <!-- <p class="card-text"><%= data[i].tags %></p> -->
-          <p class="card-text text-gray-700">
-            Platform: <%= data[i].platform %>
-          </p>
-
-          <p class="card-text text-success">
-            <i class="fa fa-money"></i> PKR<%=data[i].sale_price%>
-          </p>
-          <% 
-            let stock = data[i].stock  
-            let dis = ''
-            if(stock == 0){
-              dis = 'disabled'
-            }
-          %>
-          Stock: <%=stock%>
-          <div class="float-right">
-          <a href="/cart/add/game/<%=data[i].id%>" class="btn btn-primary <%=dis%>">Add to Cart</a>
-        </div>
+      <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+        <div class="card shadow shadow-sm">
+          <a href="/game/<%=data[i].id%>">
+            <img
+            class="game-image img-thumbnail img-responsive"
+            src="<%=data[i].image_url%>"
+            alt="Card image cap"
+          />
+          </a>
+          <div class="card-body">
+            <p class="card-text">Title: <%= data[i].title %></p>
+            <!-- <p class="card-text"><%= data[i].tags %></p> -->
+            <p class="card-text text-gray-700">
+              Platform: <%= data[i].platform %>
+            </p>
+  
+            <p class="card-text text-success">
+              <i class="fa fa-money"></i> PKR<%=data[i].sale_price%>
+            </p>
+            <% 
+              let stock = data[i].stock  
+              let dis = ''
+              if(stock == 0){
+                dis = 'disabled'
+              }
+            %>
+            Stock: <%=stock%>
+            <div class="float-right">
+            <a href="/cart/add/game/<%=data[i].id%>" class="btn btn-primary <%=dis%>">Add to Cart</a>
+          </div>
+  
+          </div>
 
         </div>
       </div>
-    </div>
-    <% } %>
+      <% } %>
+      <% for(var i =0; i < data2.length; i++){%>
+        <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+          <div class="card shadow shadow-sm">
+            <a href="/game/<%=data2[i].id%>">
+              <img
+              class="game-image img-thumbnail img-responsive"
+              src="<%=data2[i].image_url%>"
+              alt="Card image cap"
+            />
+            </a>
+            <div class="card-body">
+              <p class="card-text">Title: <%= data2[i].title %></p>
+              <!-- <p class="card-text"><%= data[i].tags %></p> -->
+              <p class="card-text text-gray-700">
+                Platform: <%= data[i].platform %>
+              </p>
+    
+              <p class="card-text text-success">
+                <i class="fa fa-money"></i> PKR<%=data2[i].sale_price%>
+              </p>
+              <% 
+                let stock = data2[i].stock  
+                let dis = ''
+                if(stock == 0){
+                  dis = 'disabled'
+                }
+              %>
+              Stock: <%=stock%>
+              <div class="float-right">
+              <a href="/cart/add/game/<%=data2[i].id%>" class="btn btn-primary <%=dis%>">Add to Cart</a>
+            </div>
+    
+            </div>
+          </div>
+        </div>
+        <% } %>
   </div>
 </div>
 

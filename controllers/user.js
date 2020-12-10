@@ -64,41 +64,17 @@ module.exports.sortByPrice = async (req,res)=>{
 module.exports.getsearchResults = async (req,res)=>{
   // eval(require('locus'))
   var db = getDatabase();
-  var inputSearch = req.body.search
-  var insplit = inputSearch.split(" ")
-  var Searchquery = `SELECT * FROM game WHERE`
-
-  for(var i = 0;i < insplit.length;i++){
-    Searchquery = Searchquery + ` tags LIKE '%${insplit[i]}%' `
-
-    if(i != insplit.length - 1){
-      Searchquery = Searchquery + 'OR'
-    }
-    
-
-  }
-
-  var Searchquery2 = `SELECT * FROM console WHERE`
-
-  for(var i = 0;i < insplit.length;i++){
-    Searchquery2 = Searchquery2 + ` tags LIKE '%${insplit[i]}%' `
-
-    if(i != insplit.length - 1){
-      Searchquery2 = Searchquery2 + 'OR'
-    }
-    
-
-  }
-
+  var inputSearch = req.query.search
+  const Searchquery = `SELECT * FROM game WHERE title LIKE '%${inputSearch}%';
+  SELECT * FROM game WHERE tags LIKE '%${inputSearch}%';
+  SELECT * FROM game WHERE description LIKE '%${inputSearch}%';
+  SELECT * FROM console WHERE name LIKE '%${inputSearch}%'` 
 
   db.query(Searchquery, (err, result) => {
     if (err) throw err;
-    db.query(Searchquery2, (err2,result2)=>{
-      if(err2) throw err2
+    var allresults = result[0].concat(result[1], result[2],);
+  res.render('search-results',{ data:allresults, data2:result[3]});
 
-      res.render('search-results',{user:req.session.user, data:result, data2:result2});
-
-    })
   });
 }
 
@@ -147,26 +123,30 @@ module.exports.editAccount = async (req, res) => {
   }
 }
 
-
 module.exports.allGamesConsoles = (req, res) => {
-    const game_query = `SELECT * FROM game ORDER BY id DESC LIMIT 4`;
-    const console_query = `SELECT * FROM console ORDER BY id DESC limit 0`;
-
+    const add_query = `SELECT * FROM game ORDER BY id DESC LIMIT 4;
+    SELECT game.title, game.platform, game.sale_price, game.stock, T.count_product FROM 
+    ( SELECT count(product_id) as count_product, product_id FROM transaction_history
+    WHERE Type_of_transaction = 'Game/Buy' OR Type_of_transaction = 'Game/Rent' GROUP BY product_id )
+    AS T INNER JOIN game ON T.product_id = game.id
+    ORDER BY count_product DESC`;
+    const console_query = 'SELECT * FROM console ORDER BY id DESC limit 4;'
     var db = getDatabase();
 
     var search = `SELECT * FROM category`;
     const [categories,f]=await db.promise().query(search);
     console.log(categories)
   
-    db.query(game_query, (err, result) => {
+    db.query(add_query, (err, result) => {
       if (err) throw err;
-      //console.log(result);
 
       db.query(console_query, (err2, result2)=>{
         if(err2) throw err2
+           
         
+        res.render("index", {data:result[0] ,msg:req.flash('index_msg'), data2:result2,categories,data3:result[1]});
 
-        res.render("index", {data1:result,data2:result2,categories ,msg:req.flash('index_msg')});
+
       })
 
     });  
@@ -194,8 +174,11 @@ module.exports.allGamesConsoles = (req, res) => {
       //console.log(result);
       //var arr =[]
 
-      console.log(result)
-      res.render("user-history", {data1:result[0],data2:result[1],data3:result[2], data4:result[3]});
+      //console.log(result)
+      var allhist = result[0].concat(result[1], result[2],);
+
+      res.render("user-history", {data1:allhist});
+     
     });  
    
   };
