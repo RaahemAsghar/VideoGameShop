@@ -14,10 +14,8 @@
       />
       <%}%>
       <div class="card-body">
-        <h1 class="text-primary"><%=data.title%> </h1>
+        <h1 class="text-primary"><%=data.name%> </h1>
         <p class="card-text text-secondary"><%= data.tags %> </p>
-        <p class="card-text text-secondary">Categories</p>
-        <p class="card-text text-secondary">Platform: <%= data.platform%> </p>
         <h2>Description:-</h2>
         <p class="card-text">
             <%=data.description%>
@@ -44,8 +42,7 @@
                 disable = 'disabled'
             }
         %>
-        <a class="btn btn-primary  <%=disable%>"  href="/cart/add/game/<%=data.id%>">Add to Cart</a>
-        <a href="/game/rent/<%=data.id%>" class="btn btn-success <%=disable%>">Rent this game for PKR1000 per month</a>
+        <a class="btn btn-primary  <%=disable%>"  href="/cart/add/console/<%=data.id%>">Add to Cart</a>
       </div>
     </div>
   </div>

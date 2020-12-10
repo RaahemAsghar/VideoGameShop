@@ -25,7 +25,20 @@
             </tr>
           </thead>
           <tbody>
+
+
             <%var total = 0%>
+            <% data2.forEach((e)=>{%> 
+              <tr>
+                <td> <img class="img-responsive img-thumbnail cart-img" src=<%=e.console.image_url%>>  <%=e.console.name%></td>
+                <td><%=e.console.sale_price%></td>
+                <td><%=e.amount%></td>
+              </tr>  
+            <%
+          
+              total = total + parseInt(e.console.sale_price * e.amount)
+          })%>
+           
             <% data.forEach((e)=>{%> 
               <tr>
                 <td> <img class="img-responsive img-thumbnail cart-img" src=<%=e.game.image_url%>>  <%=e.game.title%></td>
@@ -34,8 +47,13 @@
               </tr>  
             <%
           
-              total = total + parseInt(e.game.sale_price)
+              total = total + parseInt(e.game.sale_price * e.amount)
           })%>
+
+
+
+
+
           <%if(total > 0){%>
           <tr>
             <td class="text-info fa-2x">Total Price</td>

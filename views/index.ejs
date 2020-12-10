@@ -11,7 +11,7 @@
   <%})%>
 <div class="row justify-content-center">
   <div class="col-6">
-    <form class="form" action="/user/search-result" method="GET">
+    <form class="form" action="/user/search-result" method="POST">
       <div class="form-group">
         <div class="input-group">
           <input type="text" name="search" class="form-control" placeholder="Search...">
@@ -22,31 +22,65 @@
   </div>
 </div>
 
+
+
+
+
+
 <h1 class="text-danger text-center mt-3">Latest Titles</h1>
 <div class="p-2">
+  <div>
+    <li class="nav-item active">
+      <div class="dropdown show">
+        <btn class="nav-link active dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          GROUP BY
+        </btn>
+        <div class="ml-2 mr-2">
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <% categories.forEach(c => {%>
+            <a class="dropdown-item" href="/user/groupCategory/<%= c.id %>"><%= c.name %></a>
+
+          <%})  %>
+          
+          
+          <a class="dropdown-item" href="/user/sortprice">PRICE</a>
+        </div>
+      </div>
+    </li>
+    </div>
   <div class="row">
-    <% for(var i =0; i < Math.min(4,data.length); i++){%>
+
+
+    <% for(var i =0; i < data1.length; i++){%>
     <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
       <div class="card shadow shadow-sm">
-        <a href="/game/<%=data[i].id%>">
+        <a href="/game/<%=data1[i].id%>">
+          <%
+            var image_url = data1[i].image_url
+            if(image_url.slice(0,4) != 'http'){
+              image_url = '/coollogo_com-12786558.png'
+            }
+    
+          %>
+
           <img
           class="game-image img-thumbnail img-responsive"
-          src="<%=data[i].image_url%>"
+          src=<%=image_url%>
           alt="Card image cap"
         />
         </a>
         <div class="card-body">
-          <p class="card-text">Title: <%= data[i].title %></p>
-          <!-- <p class="card-text"><%= data[i].tags %></p> -->
+          <p class="card-text">Title: <%= data1[i].title %></p>
+        
           <p class="card-text text-gray-700">
-            Platform: <%= data[i].platform %>
+            Platform: <%= data1[i].platform %>
           </p>
 
           <p class="card-text text-success">
-            <i class="fa fa-money"></i> PKR<%=data[i].sale_price%>
+            <i class="fa fa-money"></i> PKR<%=data1[i].sale_price%>
           </p>
           <% 
-            let stock = data[i].stock  
+            let stock = data1[i].stock  
             let dis = ''
             if(stock == 0){
               dis = 'disabled'
@@ -54,7 +88,59 @@
           %>
           Stock: <%=stock%>
           <div class="float-right">
-          <a href="/cart/add/game/<%=data[i].id%>" class="btn btn-primary <%=dis%>">Add to Cart</a>
+          <a href="/cart/add/game/<%=data1[i].id%>" class="btn btn-primary <%=dis%>">Add to Cart</a>
+        </div>
+
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</div>
+
+
+
+<div class="p-2">
+  <div class="row">
+    <% for(var i =0; i < data2.length; i++){%>
+    <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+      <div class="card shadow shadow-sm">
+        <a href="/console/<%=data2[i].id%>">
+          <%
+          var image_url = data2[i].image_url
+          if(image_url.slice(0,4) != 'http'){
+            image_url = '/coollogo_com-12786558.png'
+          }
+        %>
+
+        <img
+        class="game-image img-thumbnail img-responsive"
+        src=<%=image_url%>
+        alt="Card image cap"
+      />
+      </a>
+
+        <div class="card-body">
+
+          <p class="card-text">Title: <%= data2[i].name %></p>
+
+          <!-- <p class="card-text text-gray-700">
+            Platform: <%= data2[i].platform %>
+          </p> -->
+
+          <p class="card-text text-success">
+            <i class="fa fa-money"></i> PKR<%=data2[i].sale_price%>
+          </p>
+          <% 
+            let stock = data2[i].stock  
+            let dis = ''
+            if(stock == 0){
+              dis = 'disabled'
+            }
+          %>
+          Stock: <%=stock%>
+          <div class="float-right">
+          <a href="/cart/add/console/<%=data2[i].id%>" class="btn btn-primary <%=dis%>">Add to Cart</a>
         </div>
 
         </div>

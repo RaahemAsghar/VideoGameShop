@@ -8,7 +8,7 @@ const { fake } = require("faker");
 
 const getGames = async () => {
     var result;
-    request('https://api.rawg.io/api/games', function (error, response, body) {
+    request('https://api.rawg.io/api/games?page=3', function (error, response, body) {
         console.error('error:', error); // Print the error if one occurred
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
         result = body

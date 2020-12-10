@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS game(
     title TEXT,
     description TEXT,
     tags text,
-    sale_price VARCHAR(10),
-    rent_price VARCHAR(10),
+    sale_price int(10),
+    rent_price int(10),
     platform VARCHAR(50),
     image_url TEXT,
     stock INT DEFAULT 0,
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS transaction_history (
     user_id int,
     price VARCHAR(10),
     date_of_purchase DATE DEFAULT CURRENT_DATE,
-    Type_of_transaction ENUM ('Game/Rent','Game/Buy','Console/Buy'),
+    Type_of_transaction ENUM ('Game/Rent','Game/Buy','Game/Returned','Console/Buy'),
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );

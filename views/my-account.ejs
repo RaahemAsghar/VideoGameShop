@@ -10,30 +10,36 @@
             <div class="row text-center">
                 <div class="col-6">
                     <h5>First Name:</h5>
-                    <h7><%=user.first_name%></h7>
+                    <h7><%=data[0].first_name%></h7>
                 </div>
                 <div class="col-6">
                     <h5>Last Name:</h5>
-                    <h7><%=user.last_name%></h7>
+                    <h7><%=data[0].last_name%></h7>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-12">
                     <h5>Email:</h5>
-                    <h7><%=user.email%></h7>
+                    <h7><%=data[0].email%></h7>
                 </div>
             </div>
             <div class="row text-center mt-5">
                 <div class="col-12">
                     <h5>Billing and Shipping Address:</h5>
-                    <h7><%=user.address%></h7>
+                    <h7><%=data[0].address%></h7>
                 </div>
                
             </div>
             <div class="row text-center mt-5">
                 <div class="col-12">
                     <h5>Phone Number:</h5>
-                    <h7><%=user.phone%></h7>
+                    <h7><%=data[0].phone%></h7>
+                </div>
+            </div>
+            <div class="row text-center mt-5">
+                <div class="col-12">
+                    <h5>Store Credits:</h5>
+                    <h7><%=data[0].credits%></h7>
                 </div>
             </div>
 

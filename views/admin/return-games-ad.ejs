@@ -1,0 +1,57 @@
+<%-include('./includes/header')%>
+
+<div
+  class="table-responsive text-primary"
+  style="filter: blur(0px) brightness(100%)"
+>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="text-info">user_id</th>
+        <th class="text-info">game_id</th>
+        <th class="text-info">transaction_id</th>
+        <th class="text-info">reason</th>
+        <th class="text-info">credit_refund</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+        <% for(var i =0; i < data.length; i++){%>
+            <tr>
+              <td class="text-light"><%= data[i].user_id %></td>
+              <td class="text-light"><%= data[i].game_id %></td>
+              <td class="text-light"><%= data[i].transaction_id %></td>
+              <td class="text-light"><%= data[i].reason_for_return%></td>
+              <td class="text-light"><%= data[i].credit_returned %></td> 
+              <td>
+                <button
+                    id = "delete-game-btn"
+                    value="<%=data[i]%>"
+                    type="button"
+                    class="btn btn-success pt-0 pb-0 pl-1 pr-1"
+                    
+                  >
+                  <a href="/admin/return-games-ad/<%=data[i].transaction_id%>" class="btn btn-success"> Approve</a>
+                   
+                  </button>
+                </td>
+                <td>
+                  <button
+                      id = "delete-game-btn"
+                      value="<%=data[i]%>"
+                      type="button"
+                      class="btn btn-danger pt-0 pb-0 pl-1 pr-1"
+                      
+                    >
+                    <a href="/admin/rejectReturn/<%=data[i].transaction_id%>" class="btn btn-danger"> Reject</a>
+                     
+                    </button>
+                  </td>
+            </tr>
+          <% } %>
+    </tbody>
+  </table>
+</div>
+
+
+<%-include('includes/footer')%>
