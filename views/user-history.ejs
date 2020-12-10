@@ -1,4 +1,5 @@
 <%-include('includes/header')%>
+<h1 class="text-primary text-center mt-3">User History</h1>
 <div
   class="table-responsive text-primary"
   style="filter: blur(0px) brightness(100%)"
@@ -40,6 +41,15 @@
           <td class="text-dark"><strong><%= data3[i].price %></strong></td>
           <td class="text-dark"><strong><%= data3[i].date_of_purchase %></strong></td>
           <td class="text-dark"><strong><%= data3[i].Type_of_transaction %></strong></td>
+      </tr>
+  
+      <% } %>
+      <% for(var i =0; i < data4.length; i++){%>
+        <tr>
+          <td class="text-dark"><strong><%= data4[i].title %></strong></td>
+          <td class="text-dark"><strong><%= data4[i].price %></strong></td>
+          <td class="text-dark"><strong><%= data4[i].date_of_purchase %></strong></td>
+          <td class="text-dark"><strong><%= data4[i].Type_of_transaction %></strong></td>
       </tr>
   
       <% } %>

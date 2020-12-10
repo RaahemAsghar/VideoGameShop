@@ -1,0 +1,19 @@
+<%-include('includes/header')%>
+ 
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Success! Case Submitted!</strong> Admin will review your case and inform you.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <script>
+    setTimeout(function(){
+       window.location.href = 'http://localhost:5000/user/return-game';
+    }, 5000);
+ </script>
+ <p class="text-center">redirecting after 5 seconds.</p>
+
+
+  
+
+<%-include('includes/footer')%>

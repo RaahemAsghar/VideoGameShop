@@ -25,18 +25,30 @@
         </thead>
         <tbody>
           <%var total = 0%>
-          <% data.forEach((e)=>{%> 
+          <% data2.forEach((e)=>{%> 
             <tr>
-              <td> <img class="img-responsive img-thumbnail cart-img" src=<%=e.game.image_url%>>  <%=e.game.title%></td>
-              <td><%=e.game.sale_price%></td>
+              <td> <img class="img-responsive img-thumbnail cart-img" src=<%=e.console.image_url%>>  <%=e.console.name%></td>
+              <td><%=e.console.sale_price%></td>
               <td><%=e.amount%></td>
-              <td><a href="/cart/increase/game/<%=e.game.id%>" class="btn p-0 m-0"><span class="fa-2x text-danger">+</span></a></td>
-              <td><a href="/cart/decrease/game/<%=e.game.id%>" class="btn p-0 m-0"><span class="fa-2x text-danger">-</span></a></td>
+              <td><a href="/cart/increase/console/<%=e.console.id%>" class="btn p-0 m-0"><span class="fa-2x text-success">+</span></a></td>
+              <td><a href="/cart/decrease/console/<%=e.console.id%>" class="btn p-0 m-0"><span class="fa-2x text-danger">-</span></a></td>
             </tr>  
           <%
         
-            total = total + parseInt(e.game.sale_price)
+            total = total + parseInt(e.console.sale_price * e.amount)
         })%>
+        <% data.forEach((e)=>{%> 
+          <tr>
+            <td> <img class="img-responsive img-thumbnail cart-img" src=<%=e.game.image_url%>>  <%=e.game.title%></td>
+            <td><%=e.game.sale_price%></td>
+            <td><%=e.amount%></td>
+            <td><a href="/cart/increase/game/<%=e.game.id%>" class="btn p-0 m-0"><span class="fa-2x text-success">+</span></a></td>
+            <td><a href="/cart/decrease/game/<%=e.game.id%>" class="btn p-0 m-0"><span class="fa-2x text-danger">-</span></a></td>
+          </tr>  
+        <%
+      
+          total = total + parseInt(e.game.sale_price * e.amount)
+      })%>
         <%if(total > 0){%>
         <tr>
           <td class="text-info fa-2x">Total Price</td>

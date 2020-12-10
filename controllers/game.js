@@ -3,7 +3,8 @@ const getDatabase = require("../db/db").getDatabase;
 const mysql = require("mysql2");
 const uuid = require('uuid')
 module.exports.getGame = async (req, res) => {
-  const game_id = req.params.id;
+  const game_id = req.params.gid;
+  console.log(game_id)
   const get_q = `SELECT * FROM game WHERE id=${game_id}`;
   const db = getDatabase();
   const [rows, fields] = await db.promise().query(get_q);
@@ -68,3 +69,30 @@ module.exports.rentGame = async (req, res) => {
   }
 };
 
+
+
+module.exports.games = async (req, res)=>{
+  const gamesPerPage = 12
+  const pageno = req.params.page - 1
+  const db = getDatabase()
+  const [game_ids, fields] = await db.promise().query("SELECT id FROM game ORDER BY id DESC")
+  console.log(game_ids.length)
+  var total_pages = Math.ceil(game_ids.length / gamesPerPage);
+  //display gamesPerPage games per page
+
+  var games = []
+  var nextgames = game_ids.slice(pageno*gamesPerPage, pageno*gamesPerPage + gamesPerPage)
+  console.log(nextgames.length)
+  console.log(nextgames)
+  for(var i = 0;i < nextgames.length;i++){
+    var getgame = `SELECT * FROM game WHERE id = ${nextgames[i].id}`
+    var [game, f] = await db.promise().query(getgame)
+    games.push(game[0])
+
+  }
+
+  console.log("tot:",total_pages)
+  console.log("curr:",pageno)
+
+  res.render('games', {data1:games, totalPages:total_pages, currpage:pageno+1})
+}

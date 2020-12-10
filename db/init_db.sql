@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS transaction_history (
     user_id int,
     price VARCHAR(10),
     date_of_purchase DATE DEFAULT CURRENT_DATE,
-    Type_of_transaction ENUM ('Game/Rent','Game/Buy','Console/Buy'),
+    Type_of_transaction ENUM ('Game/Rent','Game/Buy','Game/Returned','Console/Buy'),
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );

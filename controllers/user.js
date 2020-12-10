@@ -3,6 +3,7 @@ const { get } = require("config");
 const getDatabase = require("../db/db").getDatabase;
 const resetSession = require("../middleware/middlewares").resetSession;
 const mysql = require("mysql2");
+const { showAddConsoleForm } = require("./admin");
 
 module.exports.getAccount = (req,res)=>{
   var db = getDatabase();
@@ -57,15 +58,47 @@ module.exports.sortByPrice = async (req,res)=>{
     
 }
 
-module.exports.getsearchResults = (req,res)=>{
+
+
+
+module.exports.getsearchResults = async (req,res)=>{
   // eval(require('locus'))
   var db = getDatabase();
-  var inputSearch = req.query.search
-  const Searchquery = `SELECT * FROM game WHERE title LIKE '%${inputSearch}%'` 
+  var inputSearch = req.body.search
+  var insplit = inputSearch.split(" ")
+  var Searchquery = `SELECT * FROM game WHERE`
+
+  for(var i = 0;i < insplit.length;i++){
+    Searchquery = Searchquery + ` tags LIKE '%${insplit[i]}%' `
+
+    if(i != insplit.length - 1){
+      Searchquery = Searchquery + 'OR'
+    }
+    
+
+  }
+
+  var Searchquery2 = `SELECT * FROM console WHERE`
+
+  for(var i = 0;i < insplit.length;i++){
+    Searchquery2 = Searchquery2 + ` tags LIKE '%${insplit[i]}%' `
+
+    if(i != insplit.length - 1){
+      Searchquery2 = Searchquery2 + 'OR'
+    }
+    
+
+  }
+
 
   db.query(Searchquery, (err, result) => {
     if (err) throw err;
-  res.render('search-results',{user:req.session.user, data:result});
+    db.query(Searchquery2, (err2,result2)=>{
+      if(err2) throw err2
+
+      res.render('search-results',{user:req.session.user, data:result, data2:result2});
+
+    })
   });
 }
 
@@ -114,23 +147,60 @@ module.exports.editAccount = async (req, res) => {
   }
 }
 
-module.exports.allGames = async (req, res) => {
-    const add_query = `SELECT * FROM game ORDER BY id DESC`;
+
+module.exports.allGamesConsoles = (req, res) => {
+    const game_query = `SELECT * FROM game ORDER BY id DESC LIMIT 4`;
+    const console_query = `SELECT * FROM console ORDER BY id DESC limit 0`;
+
     var db = getDatabase();
 
     var search = `SELECT * FROM category`;
     const [categories,f]=await db.promise().query(search);
     console.log(categories)
   
-    db.query(add_query, (err, result) => {
+    db.query(game_query, (err, result) => {
       if (err) throw err;
       //console.log(result);
-      res.render("index", {data:result,categories, msg:req.flash('index_msg')});
+
+      db.query(console_query, (err2, result2)=>{
+        if(err2) throw err2
+        
+
+        res.render("index", {data1:result,data2:result2,categories ,msg:req.flash('index_msg')});
+      })
+
     });  
   };
 
   module.exports.userHistory = (req, res) => {
-    const useHist_query = `SELECT game.title as title, T.price, T.date_of_purchase, T.Type_of_transaction FROM
+    const useHist_query = `SELECT game.title as title, T.price, DATE_FORMAT(T.date_of_purchase, "%D %M %Y") AS date_of_purchase, T.Type_of_transaction FROM
+     (SELECT * FROM transaction_history WHERE Type_of_transaction = 'Game/Buy' AND user_id = '${req.session.user.id}') AS T
+      INNER JOIN game ON T.product_id = game.id; 
+      SELECT game.title as title, T.price, DATE_FORMAT(T.date_of_purchase, "%D %M %Y") AS date_of_purchase, T.Type_of_transaction FROM
+     (SELECT * FROM transaction_history WHERE Type_of_transaction = 'Game/Rent' AND user_id = '${req.session.user.id}') AS T
+      INNER JOIN game ON T.product_id = game.id;
+
+      SELECT game.title as title, T.price, T.date_of_purchase, T.Type_of_transaction FROM
+     (SELECT * FROM transaction_history WHERE Type_of_transaction = 'Game/Returned' AND user_id = '${req.session.user.id}') AS T
+      INNER JOIN game ON T.product_id = game.id;
+      SELECT console.name as title, T.price, T.date_of_purchase, T.Type_of_transaction FROM
+
+     (SELECT * FROM transaction_history WHERE Type_of_transaction = 'Console/Buy' AND user_id = '${req.session.user.id}') AS T
+      INNER JOIN console ON T.product_id = console.id`
+    var db = getDatabase();
+  
+    db.query(useHist_query, (err, result) => {
+      if (err) throw err;
+      //console.log(result);
+      //var arr =[]
+
+      console.log(result)
+      res.render("user-history", {data1:result[0],data2:result[1],data3:result[2], data4:result[3]});
+    });  
+   
+  };
+  module.exports.showReturnGame = (req,res)=>{
+    const useHist_query = `SELECT game.title as title, T.id, T.price, T.date_of_purchase, T.Type_of_transaction FROM
      (SELECT * FROM transaction_history WHERE Type_of_transaction = 'Game/Buy' AND user_id = '${req.session.user.id}') AS T
       INNER JOIN game ON T.product_id = game.id; 
       SELECT game.title as title, T.price, T.date_of_purchase, T.Type_of_transaction FROM
@@ -146,7 +216,60 @@ module.exports.allGames = async (req, res) => {
       //console.log(result);
       //var arr =[]
 
-      console.log(result)
-      res.render("user-history", {data1:result[0],data2:result[1],data3:result[2]});
+      console.log("KAMEHAMEHA ",result)
+      res.render("return-game",{data1:result[0],data2:result[1],data3:result[2],user:req.session.user});
     });  
+    
   };
+  module.exports.returnGameResult = (req,res)=>{
+    
+    const search_query = `SELECT * FROM transaction_history WHERE id=${mysql.escape(req.params.id)} AND Type_of_transaction = 'Game/Buy'`;
+    //console.log("delete console",req.params.title)
+    var db = getDatabase();
+    db.query(search_query, (err, result) => {
+      if (err) throw err;
+      console.log(result)
+      const search_query_2 = `SELECT * FROM game WHERE id=${result[0].product_id}`;
+      db.query(search_query_2, (err, result2) => {
+        if (err) throw err;
+        res.render("return-game-result",{user:req.session.user, data: result, data2:result2});
+      //console.log(result);
+      //var arr =[]
+    });
+      console.log(result)
+      
+    }); 
+    
+  };
+  module.exports.returnGame = (req,res)=>{
+    console.log(req.body)
+    const add_query = `INSERT INTO returned_games
+    (game_id, reason_for_return, credit_returned, transaction_id, user_id)
+     VALUES 
+     (${mysql.escape(req.body.gameID)},
+      ${mysql.escape(req.body.reason)},
+       ${mysql.escape("0")},
+        ${mysql.escape(req.body.transid)},
+         ${mysql.escape(req.session.user.id)})`;
+  var db = getDatabase();
+  db.query(add_query, (err, result) => {
+    if (err) throw err;
+    console.log("Item added!");
+    res.render("Success");
+    
+  });
+  };
+  module.exports.success = (req, res) => {
+    
+      res.render("Success");
+  };
+  module.exports.gamesDue = (req, res) => {
+    const search_query = `SELECT game.id as id, game.title as title, DATE_FORMAT(rent.date_lent, "%d/%m/%Y") as lent, DATE_FORMAT(rent.date_due, "%d/%m/%Y") as due, rent.user_id FROM
+    game INNER JOIN rent on game.id=rent.game_id WHERE rent.user_id=${req.session.user.id}`;
+  var db = getDatabase();
+    db.query(search_query, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+    res.render("games_due", {user:req.session.user, data:result});
+  });
+};

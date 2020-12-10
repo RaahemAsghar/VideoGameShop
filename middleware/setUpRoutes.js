@@ -7,19 +7,20 @@ const db = require('../db/db').getDatabase()
 const usercontroller = require("../controllers/user");
 const gameRouter = require('../routes/game')
 const cartRouter = require('../routes/cart')
-
+const consoleRouter = require('../routes/console')
 const protectedUser = require('../middleware/middlewares').protectedUser
 
 module.exports.setRoutes = function (app) {
   app.use("/login", loginRouter);
   //app.use("/user/edit-account", protectedUser,Accedit);
 
-  app.get("/",usercontroller.allGames);
+  app.get("/",usercontroller.allGamesConsoles);
   app.use("/admin", adminRouter);
   app.use('/user',userRouter)
   app.use("/register", registerRouter);
   app.use('/game', gameRouter)
   app.use('/cart', cartRouter)
+  app.use('/console', consoleRouter)
 
 
   app.get("/make-admin", (req, res) => {
@@ -43,6 +44,6 @@ module.exports.setRoutes = function (app) {
   });
 
   app.get("*", (req, res) => {
-    res.render("404");
+    res.redirect('/');
   });
 };
