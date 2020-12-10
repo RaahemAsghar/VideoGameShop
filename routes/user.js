@@ -13,7 +13,7 @@ router.get('/search-result',protectedUser, userController.getsearchResults)
 router.get('/user-history',protectedUser, userController.userHistory)
 
 router.get('/sortprice',protectedUser, userController.sortByPrice)
-router.get('/groupCategory',protectedUser, userController.groupByCategory)
+router.get('/groupCategory/:id',protectedUser, userController.groupByCategory)
 
 
 module.exports = router;

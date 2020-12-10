@@ -17,25 +17,41 @@ module.exports.getAccount = (req,res)=>{
     
 }
 
-module.exports.groupByCategory = (req,res)=>{
+module.exports.groupByCategory =async  (req,res)=>{
   var db = getDatabase();
 
-  const Searchquery = `SELECT * FROM game_category GROUP BY category` ;
+  var cat_id  = req.params.id;
+
+  var search = `SELECT * FROM category`;
+    const [categories,f]=await db.promise().query(search);
+    console.log(categories)
+
+  const Searchquery = `SELECT
+  *
+FROM
+  game_category
+  INNER JOIN game ON game.id = game_category.game_id
+WHERE
+  game_category.category_id = '${cat_id}'` ;
   db.query(Searchquery, (err, result) => {
     if (err) throw err;
-    res.render('index',{user: req.session.user, data:result});
-  
+    res.render('index',{user: req.session.user,categories, data:result , msg:req.flash('index_msg')});
+
   });
     
 }
 
-module.exports.sortByPrice = (req,res)=>{
+module.exports.sortByPrice = async (req,res)=>{
   var db = getDatabase();
+
+  var search = `SELECT * FROM category`;
+    const [categories,f]=await db.promise().query(search);
+    console.log(categories)
   const Searchquery = `SELECT * FROM game ORDER BY sale_price ASC` 
 
   db.query(Searchquery, (err, result) => {
     if (err) throw err;
-    res.render("index", {data:result, msg:req.flash('index_msg')});
+    res.render("index", {data:result, categories,msg:req.flash('index_msg')});
   
   });
     
@@ -98,14 +114,18 @@ module.exports.editAccount = async (req, res) => {
   }
 }
 
-module.exports.allGames = (req, res) => {
+module.exports.allGames = async (req, res) => {
     const add_query = `SELECT * FROM game ORDER BY id DESC`;
     var db = getDatabase();
+
+    var search = `SELECT * FROM category`;
+    const [categories,f]=await db.promise().query(search);
+    console.log(categories)
   
     db.query(add_query, (err, result) => {
       if (err) throw err;
       //console.log(result);
-      res.render("index", {data:result, msg:req.flash('index_msg')});
+      res.render("index", {data:result,categories, msg:req.flash('index_msg')});
     });  
   };
 

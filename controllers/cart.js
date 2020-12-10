@@ -125,9 +125,11 @@ module.exports.checkout = async (req, res) => {
       }
     }
 // store credit
+
     const credit_query= `SELECT credits FROM user WHERE id = ${req.session.user.id}`;
         d_b.query(credit_query,(err,cresult)=>{
           if(err) throw err;
+          
           console.log(sum);
           if(sum >= 5000 && count >= 2){
           sum = sum*0.1;
