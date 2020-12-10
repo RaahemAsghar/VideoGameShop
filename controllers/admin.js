@@ -215,7 +215,6 @@ module.exports.addGame = async (req, res) => {
   rent_price = mysql.escape(rent_price);
   platform = mysql.escape(platform);
   image = mysql.escape(image);
-
   const add_query = `INSERT INTO game
     (title, description, tags, sale_price, rent_price, platform, image_url, stock)
      VALUES 
@@ -242,7 +241,7 @@ module.exports.addGame = async (req, res) => {
       });
       res.redirect("/admin/add-game");
     }
-    console.log("Item added!");
+    console.log("Item added!");``
     console.log(result);
     categories = [...categories]
     categories.forEach(element => {
@@ -251,14 +250,10 @@ module.exports.addGame = async (req, res) => {
         if(err) throw err
       })
     });
-
-
-  
-
-  
+  })
+}
 
   //req.flash("login_msg", "Item added successfully!");
-};
 
 module.exports.deleteGame = async (req, res) => {
   console.log("delete game", req.params.id);

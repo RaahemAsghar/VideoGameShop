@@ -15,13 +15,14 @@ module.exports.initSession = (req, res, next) => {
           consoles: [],
         })
       );
+
+      req.cookies.cart = JSON.stringify({
+        games: [],
+        consoles: [],
+      })
     }
-    req.cookies.cart = JSON.stringify({
-      games: [],
-      consoles: [],
-    })
-  } else {
-  }
+   
+  } 
   next();
 };
 

@@ -40,6 +40,8 @@ module.exports.getCart = async (req, res) => {
 
 module.exports.addToCartGame = async (req, res) => {
   const game_id = req.params.id;
+  console.log("add game to cart")
+  console.log("id",game_id)
   var cart = req.cookies.cart;
   cart = JSON.parse(cart);
 
@@ -108,7 +110,7 @@ module.exports.decreaseGame = (req, res) => {
     }
   }
   cart.games = games;
-  console.log(cart);
+  console.log("cart",cart);
   res.cookie("cart", JSON.stringify(cart));
   res.redirect("/cart");
 };
@@ -119,6 +121,7 @@ module.exports.decreaseGame = (req, res) => {
 module.exports.addToCartConsole = async (req, res) => {
   const console_id = req.params.id;
   var cart = req.cookies.cart;
+  console.log("add to cart console")
   cart = JSON.parse(cart);
 
   let check = true;
