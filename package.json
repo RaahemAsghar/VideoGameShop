@@ -27,10 +27,12 @@
     "faker": "^5.1.0",
     "flash": "^1.1.0",
     "fotology": "^1.2.2",
-    "moment": "^2.29.1",
     "locus": "^2.0.4",
+    "moment": "^2.29.1",
     "mysql": "^2.18.1",
+    "mysql-backup": "^1.0.0",
     "mysql2": "^2.2.5",
+    "mysqldump": "^3.2.0",
     "request": "^2.88.2",
     "uuid": "^8.3.1"
   }

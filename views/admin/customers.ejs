@@ -1,0 +1,31 @@
+<%-include('./includes/header')%>
+<div
+  class="table-responsive text-primary"
+  style="filter: blur(0px) brightness(100%)"
+>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="text-info">Id</th>
+        <th class="text-info">First Name</th>
+        <th class="text-info">Last Name</th>
+        <th class="text-info">Email</th>
+        <th class="text-primary">Delivery Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i =0; i < data.length; i++){%>
+      <tr>
+        <td class="text-light"><%= data[i].id %></td>
+        <td class="text-light"><%= data[i].first_name %></td>
+        <td class="text-light"><%= data[i].last_name %></td>
+        <td class="text-light"><%= data[i].email %></td>
+        <td class="text-light"><%= data[i].address %></td>
+      </tr>
+
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<%-include('./includes/footer')%>

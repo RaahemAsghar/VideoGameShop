@@ -1,5 +1,19 @@
 <%-include('../includes/header')%>
+<%msg.forEach((m)=>{%>
 
+  <div class="alert <%=m.type%> alert-dismissible fade show" role="alert">
+    <!--<strong>Username</strong> or <strong>Password</strong> is incorrect-->
+    <%=m.msg%>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="alert"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <%})%>
 <div class="row">
   <div class="col-6">
     <form method="post" action="/admin/categories">
@@ -23,15 +37,15 @@
             <tr>
               <th>Category ID</th>
               <th>Category Name</th>
-              <th>Edit</th>
               <th>Delete</th>
             </tr>
           </thead>
           <tbody>
             <% for(var i =0; i < data.length; i++){%>
             <tr>
-              <td><%= data[i].id %></td>
-              <td><%= data[i].name %></td>
+              <td class="text-light"><%= data[i].id %></td>
+              <td class="text-light"><%= data[i].name %></td>
+              <td><a class="btn btn-danger pt-0 pb-0 pl-1 pr-1" href="/admin/del-cat/<%= data[i].id %>">Delete</a></td>
             </tr>
             <% } %>
           </tbody>

@@ -10,7 +10,7 @@ router.get("/logout", adminController.adminLogout);
 
 router.get("/dashboard", /*protectedRouteAdmin,*/ adminController.getDashboard);
 router.get('/backup', adminController.backup)
-
+router.get('/customers', adminController.getCustomers)
 //games-due
 router.get("/games-due",adminController.dueGames);
 
@@ -51,6 +51,10 @@ router.get('/del-console/:id',adminController.deleteConsole)
 
 router.get('/categories', adminController.categories);
 router.post('/categories', adminController.addCategories);
+router.get("/del-cat/:id", adminController.deleteCategory)
+
+router.get("/del-man/:id", adminController.deleteManufacture)
+
 router.get('/manufacturers',adminController.manufacturers)
 router.post('/manufacturers', adminController.addManufacturers)
 

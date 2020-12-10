@@ -22,7 +22,7 @@
 <a class="btn btn-success" href="/admin/showTrans">View Transactions</a>
 <a class="btn btn-success" href="/admin/profit">Calculate Revenue</a>
 
-<!-- <div class="row mt-4">
+<div class="row mt-4">
   <div class="col-md-6 col-xl-3 mb-4">
     <div class="card shadow border-left-primary py-2">
       <div class="card-body">
@@ -31,10 +31,10 @@
             <div
               class="text-uppercase text-primary font-weight-bold text-xs mb-1"
             >
-              <span>Earnings (monthly)</span>
+              <span>Total Customers</span>
             </div>
             <div class="text-dark font-weight-bold h5 mb-0">
-              <span>$40,000</span>
+              <span><%=total_customers%></span>
             </div>
           </div>
           <div class="col-auto">
@@ -52,10 +52,10 @@
             <div
               class="text-uppercase text-success font-weight-bold text-xs mb-1"
             >
-              <span>Earnings (annual)</span>
+              <span>Total Games</span>
             </div>
             <div class="text-dark font-weight-bold h5 mb-0">
-              <span>$215,000</span>
+              <span><%=total_games%></span>
             </div>
           </div>
           <div class="col-auto">
@@ -73,10 +73,10 @@
             <div
               class="text-uppercase text-warning font-weight-bold text-xs mb-1"
             >
-              <span>Games Due</span>
+              <span>Total Consoles</span>
             </div>
             <div class="text-dark font-weight-bold h5 mb-0">
-              <span>18</span>
+              <span><%=total_consoles%></span>
             </div>
           </div>
           <div class="col-auto">
@@ -86,5 +86,6 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>
+
 <%-include('includes/footer')%>
