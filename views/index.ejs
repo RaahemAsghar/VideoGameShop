@@ -25,7 +25,7 @@
 <h1 class="text-danger text-center mt-3">Latest Titles</h1>
 <div class="p-2">
   <div class="row">
-    <% for(var i =0; i < data.length; i++){%>
+    <% for(var i =0; i < Math.min(4,data.length); i++){%>
     <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
       <div class="card shadow shadow-sm">
         <a href="/game/<%=data[i].id%>">
@@ -67,7 +67,7 @@
 <h1 class="text-danger text-center mt-3">Popular Titles</h1>
 <div class="p-2">
   <div class="row">
-    <% for(var i =0; i < data2.length; i++){%>
+    <% for(var i =0; i < Math.min(4,data2.length); i++){%>
     <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
       <div class="card shadow shadow-sm">
         <a href="/game/<%=data2[i].id%>">
