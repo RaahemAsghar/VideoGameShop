@@ -553,3 +553,61 @@ module.exports.addManufacturers = (req, res) => {
   });
   res.redirect("/admin/manufacturers");
 };
+
+module.exports.adReturnGame = (req, res) => {
+  
+  //console.log("Logging bosssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss, ",req.params.id);
+  const search_query = `SELECT * FROM returned_games WHERE transaction_id=${mysql.escape(req.params.id)}`;
+  var db = getDatabase();
+    db.query(search_query, (err, result) => {
+      if (err) throw err;
+      var T_ID = result[0].id
+      console.log("lol ",result[0].transaction_id)
+    const search_query_2 = `SELECT * FROM game WHERE id=${result[0].game_id}`;
+    db.query(search_query_2, (err, result2) => {
+      if (err) throw err;
+      console.log(result2)
+      const update_query = `UPDATE game SET stock = ${result2[0].stock + 1} WHERE id=${result[0].game_id}`;
+      db.query(update_query, (err, result3) => {
+        if (err) throw err;
+        const delete_query = `DELETE FROM returned_games WHERE game_id=${result[0].game_id} AND user_id=${result[0].user_id} AND transaction_id=${mysql.escape(req.params.id)}`;
+        db.query(delete_query, (err, result4) => {
+          console.log(result4)
+          if (err) throw err;
+        const search_query_3 = `SELECT credits FROM user WHERE id=${result[0].user_id}`;
+        db.query(search_query_3, (err, result5) => {
+          if (err) throw err;
+          const update_query_2 =  `UPDATE user SET credits = ${result5[0].credits + result2[0].sale_price} WHERE id=${result[0].user_id}`
+          db.query(update_query_2, (err, result6) => {
+            if (err) throw err;
+            const update_query_3 =  `UPDATE transaction_history SET Type_of_transaction = 'Game/Returned' WHERE user_id=${result[0].user_id}`
+          db.query(update_query_3, (err, result7) => {  
+            if (err) throw err;
+            res.redirect("/admin/dashboard");   
+
+});
+});
+});
+});
+});
+});
+});
+};
+module.exports.approve = (req, res) => {
+  const search_query = `SELECT * FROM returned_games`;
+  var db = getDatabase();
+    db.query(search_query, (err, result) => {
+      if (err) throw err;
+    res.render("admin/return-games-ad",{data:result})
+
+});
+};
+module.exports.reject = (req, res) => {
+  const delete_query = `DELETE FROM returned_games WHERE transaction_id = ${mysql.escape(req.params.id)}`;
+  var db = getDatabase();
+    db.query(delete_query, (err, result) => {
+      if (err) throw err;
+      res.redirect("/admin/dashboard");
+
+});
+};

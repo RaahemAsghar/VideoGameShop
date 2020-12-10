@@ -1,0 +1,30 @@
+<%-include('includes/header')%>
+<h1 class="text-primary text-center mt-3">Games Due</h1>
+<div
+  class="table-responsive text-primary"
+  style="filter: blur(0px) brightness(100%)"
+>
+
+
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="text-info">Title</th>
+        <th class="text-info">Date Lent</th>
+        <th class="text-info">Date Due</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i =0; i < data.length; i++){%>
+        <tr>
+          <td class="text-dark"><strong><%= data[i].title %></strong></td>
+          <td class="text-dark"><strong><%= data[i].lent %></strong></td>
+          <td class="text-dark"><strong><%= data[i].due %></strong></td>
+      </tr>
+  
+      <% } %>
+    
+  </tbody>
+</table>
+</div>
+<%-include('includes/footer')%>
