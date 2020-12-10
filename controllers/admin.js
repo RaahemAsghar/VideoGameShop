@@ -2,17 +2,29 @@ const bcrypt = require("bcryptjs");
 const getDatabase = require("../db/db").getDatabase;
 const resetSession = require("../middleware/middlewares").resetSession;
 const mysql = require("mysql2");
-var exec = require('child_process').exec;
-const fs = require('fs')
-const spawn = require('child_process').spawn
-const dumpFileName = `vgs.dump.sql`
-
-function multiply(){
+var exec = require("child_process").exec;
+const fs = require("fs");
+const spawn = require("child_process").spawn;
+const dumpFileName = `vgs.dump.sql`;
+const config = require("config");
+const moment = require("moment");
+function multiply() {
   a = Number(document.profit.people.value);
   b = Number(document.profi.price.value);
   c = a * b;
-  document.profit.total.value=c;
+  document.profit.total.value = c;
 }
+
+module.exports.getCustomers = (req, res) => {
+  const getCustomersQ =
+    "SELECT id, first_name, last_name, email, address FROM user";
+  const db = getDatabase();
+  db.query(getCustomersQ, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.render("admin/customers", { data: result });
+  });
+};
 
 module.exports.adminLoginGET = function (req, res) {
   if (req.session.isAuth) {
@@ -61,18 +73,52 @@ module.exports.adminLogout = function (req, res) {
   res.redirect("/admin");
 };
 
-module.exports.getDashboard = function (req, res) {
-  res.render("admin/dashboard", {msg:req.flash("admin_msg")});
+module.exports.getDashboard = async (req, res) => {
+  const totalsq = `SELECT COUNT(*) AS total_games FROM game;
+                  SELECT COUNT(*) AS total_consoles FROM console;
+                  SELECT COUNT(*) AS total_customers FROM user;`;
+  const db = getDatabase();
+
+  db.query(totalsq, (err, result) => {
+    if (err) throw err;
+    res.render("admin/dashboard", {
+      msg: req.flash("admin_msg"),
+      total_games: result[0][0].total_games,
+      total_consoles: result[1][0].total_consoles,
+      total_customers: result[2][0].total_customers,
+    });
+  });
 };
 
-module.exports.backup = function (req, res) {
-  var child = exec('mysqldump -u root -p vgs > vgs_backup.sql');
-  req.flash('admin_msg',{type:'alert-success', msg:'Database was backed up!'})
-  res.redirect('/admin')
+module.exports.backup = async (req, res) => {
+  const currDateTime = new Date();
+  const backupfile = moment().format("D-M-Y-h-mm-ssa").toString() + "-vgsbackup.sql";
+ 
+  const mysqldump = require("mysqldump");
+ 
+  req.flash("admin_msg", {
+    type: "alert-success",
+    msg: "Database was backed up!",
+  });
+
+  const db_config = {
+    host: "localhost",
+    user: `${config.get("db_user")}`,
+    multipleStatements: true,
+    database: "vgs",
+    password: "",
+  };
+
+  mysqldump({
+    connection: db_config,
+    dumpToFile: backupfile,
+  });
+
+  res.redirect("/admin");
 };
 module.exports.showProfitForm = function (req, res) {
   //console.log(req.body);
-  res.render('admin/profit')
+  res.render("admin/profit");
 };
 module.exports.Profit = function (req, res) {
   //console.log(req.body)
@@ -84,19 +130,17 @@ module.exports.Profit = function (req, res) {
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
-    else
-    {
+    else {
       const add_query_2 = `SELECT id, product_id, user_id, sum(price) as revenue, DATE_FORMAT(date_of_purchase, "%d/%m/%Y") as date, Type_of_transaction FROM transaction_history WHERE date_of_purchase BETWEEN ${start} AND ${end} ORDER BY date`;
       db.query(add_query_2, (err, result2) => {
-      if (err) throw err;
-      res.render('admin/showProfit', {data:result, data2:result2});
-  });
+        if (err) throw err;
+        res.render("admin/showProfit", { data: result, data2: result2 });
+      });
     }
-    
   });
 };
 module.exports.showProfit = function (req, res) {
-  res.render('admin/showProfit')
+  res.render("admin/showProfit");
 };
 module.exports.showTrans = function (req, res) {
   //console.log(req.body)
@@ -104,9 +148,8 @@ module.exports.showTrans = function (req, res) {
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
-    res.render('admin/showTrans', {data:result});
+    res.render("admin/showTrans", { data: result });
   });
-  
 };
 module.exports.sortTransDate = function (req, res) {
   //console.log(req.body)
@@ -114,7 +157,7 @@ module.exports.sortTransDate = function (req, res) {
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
-    res.render('admin/showTrans', {data:result});
+    res.render("admin/showTrans", { data: result });
   });
 };
 module.exports.sortTransPrice = function (req, res) {
@@ -123,7 +166,7 @@ module.exports.sortTransPrice = function (req, res) {
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
-    res.render('admin/showTrans', {data:result});
+    res.render("admin/showTrans", { data: result });
   });
 };
 module.exports.groupbyTrans = function (req, res) {
@@ -132,17 +175,17 @@ module.exports.groupbyTrans = function (req, res) {
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
-    res.render('admin/groupbyTrans', {data:result});
+    res.render("admin/groupbyTrans", { data: result });
   });
 };
 
 //Game Controllers
 module.exports.showAddGameForm = function (req, res) {
-  res.render("admin/games/add-game");
+  res.render("admin/games/add-game", { msg: req.flash("add_game_msg") });
 };
 
 module.exports.addGame = async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   //console.log(title)
   const stock = 0;
   var {
@@ -174,28 +217,43 @@ module.exports.addGame = async (req, res) => {
           ${platform}, ${image}, ${stock})`;
   var db = getDatabase();
   db.query(add_query, (err, result) => {
-    if (err) throw err;
-    console.log("Item added!");
+    if (err) {
+      req.flash("add_game_msg", {
+        msg: "An Error occured! Please Try Again.",
+        type: "alert-danger",
+      });
+      res.redirect("/admin/add-game");
+    }
+    if (!err) {
+      req.flash("add_game_msg", {
+        msg: "Successfully added game.",
+        type: "alert-success",
+      });
+      res.redirect("/admin/add-game");
+    }
   });
 
   //req.flash("login_msg", "Item added successfully!");
-  res.redirect("/admin/add-game");
 };
 
-module.exports.deleteGame = async (req,res) => {
-  console.log("delete game",req.params.id)
+module.exports.deleteGame = async (req, res) => {
+  console.log("delete game", req.params.id);
 
-  const deleteQuer = `DELETE FROM game WHERE id = ${req.params.id}`
+  const deleteQuer = `DELETE FROM game WHERE id = ${req.params.id}`;
 
-  const db = getDatabase()
+  const db = getDatabase();
 
-  db.query(deleteQuer, (err, res)=>{
-    if(err) throw err
-  })
-  
-  res.redirect('/admin/all-games')
-}
+  db.query(deleteQuer, (err, res) => {
+    if (err) throw err;
+  });
 
+  req.flash("all_games_msg", {
+    msg: "Successfully Deleted the game!",
+    type: "alert-success",
+  });
+
+  res.redirect("/admin/all-games");
+};
 
 module.exports.allGames = (req, res) => {
   const add_query = `SELECT * FROM game ORDER BY id DESC`;
@@ -204,10 +262,12 @@ module.exports.allGames = (req, res) => {
   db.query(add_query, (err, result) => {
     if (err) throw err;
     //console.log(result);
-    res.render("admin/games/all-games", {data:result});
-  });  
+    res.render("admin/games/all-games", {
+      data: result,
+      msg: req.flash("all_games_msg"),
+    });
+  });
 };
-
 
 module.exports.getAddStockGame = async (req, res) => {
   const get_stock_q = "SELECT id, title,stock FROM game ORDER BY id DESC";
@@ -253,25 +313,25 @@ module.exports.addStockGame = async (req, res) => {
   res.redirect("/admin/add-stock-game");
 };
 
-
-
 //End Game Controllers
 
 //Console Controllers
 module.exports.showAddConsoleForm = async (req, res) => {
-  const get_manq = 'SELECT * FROM manufacturer'
-  const db = getDatabase()
+  const get_manq = "SELECT * FROM manufacturer";
+  const db = getDatabase();
 
-  const [rows,fields] = await db.promise().query(get_manq)
+  const [rows, fields] = await db.promise().query(get_manq);
 
-  console.log(rows)
+  console.log(rows);
 
-
-  res.render("admin/consoles/add-console", { manufacturers:rows });
+  res.render("admin/consoles/add-console", {
+    manufacturers: rows,
+    msg: req.flash("add_console_msg"),
+  });
 };
 
 module.exports.addConsole = (req, res) => {
-  var { name, sale_price, image, tags, description,manufacturer } = req.body;
+  var { name, sale_price, image, tags, description, manufacturer } = req.body;
   const stock = 0;
 
   name = mysql.escape(name);
@@ -279,7 +339,7 @@ module.exports.addConsole = (req, res) => {
   image = mysql.escape(image);
   tags = mysql.escape(tags);
   description = mysql.escape(description);
-  manufacturer = mysql.escape(manufacturer)
+  manufacturer = mysql.escape(manufacturer);
 
   const add_query = `INSERT INTO console
     (name, description, tags, sale_price,image_url, stock,manufacturer_id) 
@@ -288,38 +348,55 @@ module.exports.addConsole = (req, res) => {
 
   const db = getDatabase();
   db.query(add_query, (err, result) => {
-    if (err) throw err;
-    console.log("Item added!");
+    if (err) {
+      req.flash("add_console_msg", {
+        msg: "An Error occured! Please Try Again.",
+        type: "alert-danger",
+      });
+      res.redirect("/admin/add-console");
+    }
+    if (!err) {
+      req.flash("add_console_msg", {
+        msg: "Successfully added console.",
+        type: "alert-success",
+      });
+      res.redirect("/admin/add-console");
+    }
   });
-
-  res.redirect("/admin/add-console");
 };
 
-module.exports.deleteConsole = async (req,res) => {
-  console.log("delete console",req.params.id)
+module.exports.deleteConsole = async (req, res) => {
+  console.log("delete console", req.params.id);
 
-  const deleteQuer = `DELETE FROM console WHERE id = ${req.params.id}`
+  const deleteQuer = `DELETE FROM console WHERE id = ${req.params.id}`;
 
-  const db = getDatabase()
+  const db = getDatabase();
 
-  db.query(deleteQuer, (err, res)=>{
-    if(err) throw err
-  })
-  
-  res.redirect('/admin/all-consoles')
-}
+  db.query(deleteQuer, (err, res) => {
+    if (err) throw err;
+  });
 
+  req.flash("all_consoles_msg", {
+    msg: "Successfully Deleted the console!",
+    type: "alert-success",
+  });
+
+  res.redirect("/admin/all-consoles");
+};
 
 module.exports.allConsoles = (req, res) => {
   const add_query = `SELECT * FROM console ORDER BY id DESC`;
   var db = getDatabase();
   db.query(add_query, (err, result) => {
     if (err) throw err;
-    res.render("admin/consoles/all-consoles", {data:result});
+    res.render("admin/consoles/all-consoles", {
+      data: result,
+      msg: req.flash("all_console_msg"),
+    });
   });
 };
 
-// games-due 
+// games-due
 module.exports.dueGames = (req, res) => {
   const due_q = `
   SELECT
@@ -329,14 +406,14 @@ module.exports.dueGames = (req, res) => {
   DATE_FORMAT(rent.date_due,"%d-%m-%Y") AS date_due 
   FROM (
   (rent INNER JOIN user ON rent.user_id = user.id) 
-  INNER JOIN game ON rent.game_id = game.id)`
+  INNER JOIN game ON rent.game_id = game.id)`;
 
   var db = getDatabase();
-  
+
   db.query(due_q, (err, result) => {
     if (err) throw err;
-    console.log(result)
-    res.render("admin/games-due", {data:result});
+    console.log(result);
+    res.render("admin/games-due", { data: result });
   });
 };
 
@@ -352,9 +429,6 @@ module.exports.getAddStockConsole = async (req, res) => {
     data: rows,
   });
 };
-
-
-
 
 module.exports.addStockConsole = async (req, res) => {
   const { console_id, stock } = req.body;
@@ -396,11 +470,14 @@ module.exports.categories = (req, res) => {
   db.query(add_query, (err, result) => {
     if (err) throw err;
     //console.log(result);
-    res.render("admin/games/categories", {data:result});
+    res.render("admin/games/categories", {
+      data: result,
+      msg: req.flash("add_cat_msg"),
+    });
   });
 };
 
-module.exports.addCategories = (req, res) =>{
+module.exports.addCategories = (req, res) => {
   const add_query = `INSERT INTO category
     (name) 
     VALUES 
@@ -411,8 +488,39 @@ module.exports.addCategories = (req, res) =>{
     if (err) throw err;
     console.log("Category added!");
   });
-
+  req.flash("add_cat_msg", {
+    msg: "Category Added",
+    type: "alert-success",
+  });
   res.redirect("/admin/categories");
+};
+
+module.exports.deleteCategory = (req, res) => {
+  const catid = req.params.id;
+  const db = getDatabase();
+
+  db.query(`DELETE FROM category WHERE id = ${catid}`, (err, result) => {
+    if (err) throw err;
+    req.flash("add_cat_msg", {
+      msg: "Successfully deleted.",
+      type: "alert-success",
+    });
+    res.redirect("/admin/categories");
+  });
+};
+
+module.exports.deleteManufacture = (req, res) => {
+  const manid = req.params.id;
+  const db = getDatabase();
+
+  db.query(`DELETE FROM manufacturer WHERE id = ${manid}`, (err, result) => {
+    if (err) throw err;
+    req.flash("man_msg", {
+      msg: "Successfully deleted.",
+      type: "alert-success",
+    });
+    res.redirect("/admin/manufacturers");
+  });
 };
 
 module.exports.manufacturers = (req, res) => {
@@ -421,7 +529,10 @@ module.exports.manufacturers = (req, res) => {
   db.query(add_query, (err, result) => {
     if (err) throw err;
     //console.log(result);
-    res.render("admin/consoles/manufacturers", {data:result});
+    res.render("admin/consoles/manufacturers", {
+      data: result,
+      msg: req.flash("man_msg"),
+    });
   });
 };
 
@@ -435,7 +546,10 @@ module.exports.addManufacturers = (req, res) => {
   db.query(add_query, (err, result) => {
     if (err) throw err;
     console.log("Manufacturer added!");
-    
+  });
+  req.flash("man_msg", {
+    msg: "Manufacture Added!",
+    type: "alert-success",
   });
   res.redirect("/admin/manufacturers");
 };

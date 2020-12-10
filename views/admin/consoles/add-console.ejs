@@ -1,5 +1,19 @@
 <%-include('../includes/header')%>
+<%msg.forEach((m)=>{%>
 
+  <div class="alert <%=m.type%> alert-dismissible fade show" role="alert">
+    <!--<strong>Username</strong> or <strong>Password</strong> is incorrect-->
+    <%=m.msg%>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="alert"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <%})%>
 <div class="row justify-content-center">
   <div class="col"> 
     <form action="" method="post">

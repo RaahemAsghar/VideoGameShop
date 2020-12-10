@@ -14,3 +14,27 @@ module.exports.getConsole = async (req, res) => {
     res.redirect("/");
   }
 };
+
+module.exports.consoles = async (req, res)=>{
+  const consolesPerPage = 12
+  const pageno = req.params.page - 1
+  const db = getDatabase()
+  const [console_ids, fields] = await db.promise().query("SELECT id FROM console ORDER BY id DESC")
+  var total_pages = Math.ceil(console_ids.length / consolesPerPage);
+  //display consolesPerPage consoles per page
+
+  var consoles = []
+  var nextconsoles = console_ids.slice(pageno*consolesPerPage, pageno*consolesPerPage + consolesPerPage)
+ 
+  for(var i = 0;i < nextconsoles.length;i++){
+    var getconsole = `SELECT * FROM console WHERE id = ${nextconsoles[i].id}`
+    var [console, f] = await db.promise().query(getconsole)
+    consoles.push(console[0])
+
+  }
+
+ 
+
+  res.render('consoles', {data1:consoles, totalPages:total_pages, currpage:pageno+1})
+}
+
