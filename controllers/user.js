@@ -12,11 +12,15 @@ module.exports.getsearchResults = (req,res)=>{
   // eval(require('locus'))
   var db = getDatabase();
   var inputSearch = req.query.search
-  const Searchquery = `SELECT * FROM game WHERE title LIKE '%${inputSearch}%'` 
+  const Searchquery = `SELECT * FROM game WHERE title LIKE '%${inputSearch}%';
+  SELECT * FROM game WHERE tags LIKE '%${inputSearch}%';
+  SELECT * FROM game WHERE description LIKE '%${inputSearch}%';
+  SELECT * FROM console WHERE name LIKE '%${inputSearch}%'` 
 
   db.query(Searchquery, (err, result) => {
     if (err) throw err;
-  res.render('search-results',{user:req.session.user, data:result});
+    var allresults = result[0].concat(result[1], result[2],);
+  res.render('search-results',{user:req.session.user, data:allresults, data2:result[3]});
   });
 }
 
