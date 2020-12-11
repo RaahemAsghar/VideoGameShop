@@ -17,14 +17,14 @@ router.post('/return-game-result/:id', userController.returnGame)
 router.get("/return-game-result/:id", protectedUser, userController.returnGameResult);
 router.get("/Success", protectedUser, userController.success);
 router.get("/games_due", protectedUser, userController.gamesDue);
+router.get('/sortprice', userController.sortByPrice)
+router.get('/groupCategory/:id', userController.groupByCategory)
 
 router.get('*', (req,res)=>{
     req.flash('login_msg', "You need to login first.")
     res.redirect('/user/my-account')
 })
 
-router.get('/sortprice',protectedUser, userController.sortByPrice)
-router.get('/groupCategory/:id',protectedUser, userController.groupByCategory)
 
 
 module.exports = router;

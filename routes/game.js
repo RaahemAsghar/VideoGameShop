@@ -9,5 +9,8 @@ router.get('/rent/:id', gameController.rentGame)
 
 router.get('/page/:page', gameController.games)
 
+router.get('/page/:page/category/:cat', gameController.gamesByCat)
+router.get('/priceasc/page/:page', gameController.sortByPriceGames)
+
 
 module.exports = router;

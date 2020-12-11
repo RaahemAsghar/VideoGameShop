@@ -20,23 +20,24 @@
       </div>
     </form>
   </div>
-</div>
-<div class="dropdown show">
-  <btn class="nav-link active dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    GROUP BY
-  </btn>
-  <div class="ml-2 mr-2">
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <% categories.forEach(c => {%>
-      <a class="dropdown-item" href="/user/groupCategory/<%= c.id %>"><%= c.name %></a>
-
-    <%})  %>
-    
-    
-    <a class="dropdown-item" href="/user/sortprice">PRICE</a>
+  <div class="dropdown show justify-content-center">
+    <btn class="nav-link active dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Group By
+    </btn>
+    <div class="ml-2 mr-2">
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <% categories.forEach(c => {%>
+        <a class="dropdown-item" href="/user/groupCategory/<%= c.id %>"><%= c.name %></a>
+  
+      <%})  %>
+      
+      
+      <a class="dropdown-item" href="/user/sortprice">Price</a>
+    </div>
+  </div>
   </div>
 </div>
-</div>
+
 
 <h1 class="text-danger text-center mt-3">Latest Titles</h1>
 <div class="p-2">

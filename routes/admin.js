@@ -8,13 +8,13 @@ router.post("/login", adminController.adminLoginPOST);
 
 router.get("/logout", adminController.adminLogout);
 
-router.get("/dashboard", /*protectedRouteAdmin,*/ adminController.getDashboard);
+router.get("/dashboard",  adminController.getDashboard);
 router.get('/backup', adminController.backup)
 router.get('/customers', adminController.getCustomers)
 //games-due
 router.get("/games-due",adminController.dueGames);
-
-
+router.get("/add-admin", adminController.getAddAdmin)
+router.post("/add-admin", adminController.addAdmin)
 router.get('/profit', adminController.showProfitForm)
 router.post('/profit', adminController.Profit)
 router.get("/showProfit", /*protectedRouteAdmin,*/ adminController.showProfit);

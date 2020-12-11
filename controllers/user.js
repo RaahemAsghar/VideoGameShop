@@ -67,13 +67,22 @@ module.exports.getsearchResults = async (req, res) => {
   var inputSearch = req.query.search;
   const Searchquery = `SELECT * FROM game WHERE title LIKE '%${inputSearch}%';
   SELECT * FROM game WHERE tags LIKE '%${inputSearch}%';
-  SELECT * FROM game WHERE description LIKE '%${inputSearch}%';
   SELECT * FROM console WHERE name LIKE '%${inputSearch}%'`;
 
   db.query(Searchquery, (err, result) => {
     if (err) throw err;
-    var allresults = result[0].concat(result[1], result[2]);
-    res.render("search-results", { data: allresults, data2: result[3] });
+    var allresults = result[0].concat(result[1]);
+    var noduplicates = [];
+    var finalresults = []
+    allresults.forEach((c) => {
+      if (!noduplicates.includes(c.title)) {
+          noduplicates.push(c.title);
+          finalresults.push(c);
+      }
+  });
+  console.log(finalresults)
+
+  res.render('search-results',{ data:finalresults, data2:result[2]});
   });
 };
 

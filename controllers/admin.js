@@ -187,7 +187,7 @@ module.exports.showAddGameForm = function (req, res) {
   db.query(query, (err, result) => {
     if (err) throw err;
     console.log(result)
-    res.render("admin/games/add-game",{categories:result});
+    res.render("admin/games/add-game",{categories:result, msg:req.flash("add_game_msg")});
   }); 
   
 };
@@ -599,7 +599,7 @@ module.exports.adReturnGame = (req, res) => {
           const update_query_2 =  `UPDATE user SET credits = ${result5[0].credits + result2[0].sale_price} WHERE id=${result[0].user_id}`
           db.query(update_query_2, (err, result6) => {
             if (err) throw err;
-            const update_query_3 =  `UPDATE transaction_history SET Type_of_transaction = 'Game/Returned' WHERE user_id=${result[0].user_id}`
+            const update_query_3 =  `UPDATE transaction_history SET Type_of_transaction = 'Game/Returned' WHERE user_id=${result[0].user_id} AND id=${mysql.escape(req.params.id)}`
           db.query(update_query_3, (err, result7) => {  
             if (err) throw err;
             res.redirect("/admin/dashboard");   
@@ -630,3 +630,60 @@ module.exports.reject = (req, res) => {
 
 });
 };
+
+module.exports.getAddAdmin = (req, res)=>{
+  res.render("admin/add-admin",{msg:req.flash('add_admin_msg')});
+  
+}
+module.exports.addAdmin = async (req, res)=>{
+  const {
+    first_name,
+    last_name,
+    email,
+    password,
+    password2,
+  } = req.body;
+
+  const errors = [];
+
+  if (password.length < 8) {
+    errors.push("Length of the password must be atleast 8");
+  }
+
+  if (password !== password2) {
+    errors.push("Passwords do not match");
+  }
+
+  //Check for a user with same email in the Database
+  const existing_admin_q = `SELECT * FROM admin WHERE email = '${email}'`;
+  var db = getDatabase();
+
+  const [rows, fields] = await db.promise().query(existing_admin_q);
+
+  if (rows.length > 0) {
+    errors.push(
+      "A admin with this Email already exists. Please use a different Email."
+    );
+  }
+  ///
+
+  if (errors.length > 0) {
+    req.flash("add_admin_msg", errors);
+    res.redirect("/admin/add-admin");
+  } else {
+    const salt = bcrypt.genSaltSync(10);
+    const pass_hash = bcrypt.hashSync(password, salt);
+    const register_query = `INSERT INTO admin
+    (first_name, last_name, email, password)
+     VALUES ('${first_name}', '${last_name}', '${email}', '${pass_hash}')`;
+     db = getDatabase();
+
+    db.query(register_query, (err, result) => {
+      if (err) throw err;
+      console.log("admin Registered!");
+    });
+
+    req.flash("add_admin_msg", "Congratulations! Admin added!");
+    res.redirect("/admin/add-admin");
+  }
+}
