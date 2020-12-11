@@ -43,6 +43,7 @@ module.exports.addToCartGame = async (req, res) => {
   console.log("add game to cart")
   console.log("id",game_id)
   var cart = req.cookies.cart;
+  console.log(cart)
   cart = JSON.parse(cart);
 
   let check = true;
@@ -60,7 +61,7 @@ module.exports.addToCartGame = async (req, res) => {
     });
   }
   cart.games = game_cart;
-  res.cookie("cart", JSON.stringify(cart));
+  res.cookie("cart", JSON.stringify(cart), { expires: new Date(Date.now() + 900000)});
   console.log(cart);
 
   res.redirect("/");
@@ -91,7 +92,7 @@ module.exports.increaseGame = async (req, res) => {
   }
   cart.games = games;
   console.log(cart);
-  res.cookie("cart", JSON.stringify(cart));
+  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + 900000)});
   res.redirect("/cart");
 };
 
@@ -111,7 +112,7 @@ module.exports.decreaseGame = (req, res) => {
   }
   cart.games = games;
   console.log("cart",cart);
-  res.cookie("cart", JSON.stringify(cart));
+  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + 900000)});
   res.redirect("/cart");
 };
 
@@ -139,7 +140,7 @@ module.exports.addToCartConsole = async (req, res) => {
     });
   }
   cart.consoles = console_cart;
-  res.cookie("cart", JSON.stringify(cart));
+  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + 900000)});
   console.log(cart);
 
   res.redirect("/");
@@ -171,7 +172,7 @@ module.exports.increaseConsole = async (req, res) => {
   }
   cart.consoles = consoles;
   console.log(cart);
-  res.cookie("cart", JSON.stringify(cart));
+  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + 900000)});
   res.redirect("/cart");
 };
 
@@ -191,7 +192,7 @@ module.exports.decreaseConsole = (req, res) => {
   }
   cart.consoles = consoles;
   console.log(cart);
-  res.cookie("cart", JSON.stringify(cart));
+  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + 900000)});
   res.redirect("/cart");
 };
 
@@ -214,7 +215,8 @@ module.exports.checkout = async (req, res) => {
       JSON.stringify({
         games: [],
         consoles: [],
-      })
+      }),
+      { expires: new Date(Date.now() + 900000)}
     );
     req.cookies.cart = JSON.stringify({
       games: [],

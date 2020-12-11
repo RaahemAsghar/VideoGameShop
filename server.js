@@ -14,17 +14,20 @@ const db_conn = require("./db/db").getDatabase();
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
 
+
 app.use(
   session({
     secret: `${config.get("session_secret")}`,
     saveUninitialized: true,
     resave: false,
     maxAge:500000,
-    cookie: { secure: false }
+    cookie: { 
+      maxAge:500000
+    }
   })
 );
-app.use(cookieParser());
 
+app.use(cookieParser());
 app.use(flash());
 
 app.set("view engine", "ejs");

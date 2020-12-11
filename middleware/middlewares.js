@@ -13,7 +13,8 @@ module.exports.initSession = (req, res, next) => {
         JSON.stringify({
           games: [],
           consoles: [],
-        })
+        }),
+        { expires: new Date(Date.now() + 900000)}
       );
 
       req.cookies.cart = JSON.stringify({
