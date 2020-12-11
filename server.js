@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 8080;
 const config = require("config");
 const path = require("path");
 const session = require("express-session");
@@ -17,8 +17,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
     secret: `${config.get("session_secret")}`,
-    saveUninitialized: false,
-    resave: true,
+    saveUninitialized: true,
+    resave: false,
+    maxAge:500000,
+    cookie: { secure: false }
   })
 );
 app.use(cookieParser());
@@ -36,6 +38,6 @@ app.use(setGlobals)
 
 setRoutes(app);
 
-app.listen(PORT, () => {
-  console.log("Server started at port: ", PORT);
+app.listen(5000, () => {
+  console.log("Server started at port: ", 5000);
 });

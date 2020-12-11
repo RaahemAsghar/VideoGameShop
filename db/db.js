@@ -4,19 +4,9 @@ const path = require("path");
 const sqlFile = path.join(__dirname, config.get("db_init_file"));
 const fs = require("fs");
 
-const db_config = {
-  host: "localhost",
-  user: `${config.get("db_user")}`,
-  multipleStatements: true,
-};
+console.log(config.get('db_config_azure'))
 
-// const db_config = {
-//   host: "gameshopbyarsh.mysql.database.azure.com",
-//   user: "gameshopbyarsh@gameshopbyarsh",
-//   password: 'VideoGameShop123',
-//   multipleStatements: true,
-//   port: 3306,
-// };
+const db_config = config.get('db_config_local')
 
 var connection;
 
@@ -47,7 +37,7 @@ function connect() {
 }
 
 module.exports.connectToDatabase = function () {
-  connect();
+    connect();
 };
 
 module.exports.getDatabase = function () {

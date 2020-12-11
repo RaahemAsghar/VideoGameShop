@@ -101,13 +101,7 @@ module.exports.backup = async (req, res) => {
     msg: "Database was backed up!",
   });
 
-  const db_config = {
-    host: "localhost",
-    user: `${config.get("db_user")}`,
-    multipleStatements: true,
-    database: "vgs",
-    password: "",
-  };
+  const db_config = config.get("db_config_azure")
 
   mysqldump({
     connection: db_config,

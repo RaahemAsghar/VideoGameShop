@@ -2,5 +2,27 @@
     "db_user":"root",
     "db_password":"root",
     "session_secret":"session_secret",
-    "db_init_file":"init_db.sql"
+    "db_init_file":"init_db.sql",
+    "db_config_local":{
+        "host": "localhost",
+        "user": "root",
+        "password":"",
+        "multipleStatements": true
+    },
+    "db_config_azure":{
+        "host": "videogsbyarsh.mariadb.database.azure.com",
+        "user": "gameshopbyarsh@videogsbyarsh",
+        "password": "VideoGameShop123",
+        "database":"vgs",
+        "multipleStatements": true,
+        "port": 3306
+    },
+    "db_config_eduactionhost":{
+        "host": "videogsbyarsh.mariadb.database.azure.com",
+        "user": "gameshopbyarsh@videogsbyarsh",
+        "password": "VideoGameShop123",
+        "multipleStatements": true,
+        "port": 3306
+    }
+    
 }

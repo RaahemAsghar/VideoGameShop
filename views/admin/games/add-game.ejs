@@ -35,7 +35,7 @@
       </div>
       <div class="form-group">
         <label class="text-light" for="exampleFormControlSelect2">Select Categories</label>
-        <select multiple class="form-control" name="categories" id="exampleFormControlSelect2">
+        <select multiple required="required" class="form-control" name="categories" id="exampleFormControlSelect2">
           <%categories.forEach((e)=>{%>
             <option value="<%=e.id%>"><%=e.name%></option>
 

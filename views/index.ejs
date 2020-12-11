@@ -11,8 +11,14 @@
   <%})%>
   <%-include('includes/search')%>
 
+  <%if(data1.length == 0 && data2.length == 0 && data3.length == 0){%>
+    <h1 class="text-danger text-center mt-3">Nothing to show here!</h1>
+    <%}%>
 
+
+<%if(data1.length > 0){%>
 <h1 class="text-danger text-center mt-3">Latest Titles</h1>
+<%}%>
 <div class="p-2">
   <div>
     
@@ -66,7 +72,10 @@
     <% } %>
   </div>
 </div>
-<h1 class="text-danger text-center mt-3">Latest Consoles</h1>  
+<%if(data3.length > 0){%>
+  <h1 class="text-danger text-center mt-3">Latest Consoles</h1>  
+  <%}%>
+  
 <div class="p-2">
   <div class="row">
     <% for(var i =0; i < data3.length; i++){%>
@@ -118,8 +127,10 @@
     
 
 
+<%if(data2.length > 0){%>
+  <h1 class="text-danger text-center mt-3">Popular Titles</h1>
+  <%}%>
 
-<h1 class="text-danger text-center mt-3">Popular Titles</h1>
 <div class="p-2">
   <div class="row">
     <% for(var i =0; i < data2.length; i++){%>

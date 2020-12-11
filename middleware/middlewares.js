@@ -21,6 +21,7 @@ module.exports.initSession = (req, res, next) => {
         consoles: [],
       })
     }
+
    
   } 
   next();
@@ -66,6 +67,18 @@ module.exports.protectedUser = function (req, res, next) {
     res.redirect("/login");
   } else if (req.session.isAuth && req.session.isAdmin) {
     res.redirect("/admin");
+  } else {
+    next();
+  }
+};
+
+
+
+
+module.exports.protectedFromAdmin = function (req, res, next) {
+  if (req.session.isAdmin) {
+    req.flash('index_msg',"You are logged in as admin!")
+    res.redirect("/");
   } else {
     next();
   }
