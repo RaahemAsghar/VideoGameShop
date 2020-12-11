@@ -51,6 +51,7 @@ module.exports.setGlobals = (req, res, next) => {
 
 module.exports.protectedAdmin = function (req, res, next) {
   if (!req.session.isAuth) {
+    req.flash('login_msg',"Login first!")
     res.redirect("/admin/login");
   } else if (req.session.isAuth && req.session.isUser) {
     res.redirect("/");
@@ -61,6 +62,7 @@ module.exports.protectedAdmin = function (req, res, next) {
 
 module.exports.protectedUser = function (req, res, next) {
   if (!req.session.isAuth) {
+    req.flash('login_msg',"Login first!")
     res.redirect("/login");
   } else if (req.session.isAuth && req.session.isAdmin) {
     res.redirect("/admin");

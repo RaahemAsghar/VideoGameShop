@@ -23,7 +23,7 @@
         
         
         <%}%>
-        <%if(locals.isAuth){%>
+        <%if(locals.isAuth && locals.isUser){%>
           <!-- <li class="nav-item active">
             <a class="nav-link" href="/login/logout">Logout</a>
           </li> -->
@@ -49,12 +49,21 @@
         <!-- <li class="nav-item active">
           <a class="nav-link" href="/register">About Us</a>
         </li> -->
+        <%if(!locals.isAdmin){%>
         <div class="nav-separator mt-2 mb-2"></div>
         <li class="nav-item active align-content-between">
           <a class="nav-link" href="/cart"><i class="fa cart-icon fa-cart-plus"></i>
             <span class="badge-counter text-info"><%= locals.shoppingcart.games.length + locals.shoppingcart.consoles.length%></span>
           </a>
         </li>
+        <%}%>
+        <%if(locals.isAdmin){%>
+          <li class="nav-item active align-content-between">
+            <a class="nav-link" href="/admin">
+              <span class="badge-counter text-info">Dashboard</span>
+            </a>
+          </li>
+          <%}%>
       </ul>
       <!-- <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search">

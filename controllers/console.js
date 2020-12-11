@@ -32,9 +32,10 @@ module.exports.consoles = async (req, res)=>{
     consoles.push(console[0])
 
   }
-
+  var search = `SELECT * FROM category`;
+  const [categories, g] = await db.promise().query(search);
  
 
-  res.render('consoles', {data1:consoles, totalPages:total_pages, currpage:pageno+1})
+  res.render('consoles', {data1:consoles, categories,totalPages:total_pages, currpage:pageno+1})
 }
 

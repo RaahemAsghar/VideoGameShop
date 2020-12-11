@@ -1,0 +1,29 @@
+<div class="row justify-content-center">
+    <div class="col-6">
+      <form class="form" action="/user/search-result" method="GET">
+        <div class="form-group">
+          <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Search...">
+            <button class="btn btn-dark" type="submit" value="search">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="dropdown show justify-content-center">
+      <btn class="nav-link active dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Group By
+      </btn>
+      <div class="ml-2 mr-2">
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <% categories.forEach(c => {%>
+          <a class="dropdown-item" href="/game/page/1/category/<%= c.id %>"><%= c.name %></a>
+    
+        <%})  %>
+        
+        
+        <a class="dropdown-item" href="/game/priceasc/page/1">Price</a>
+      </div>
+    </div>
+    </div>
+  </div>
+  

@@ -7,7 +7,8 @@ const db = require('../db/db').getDatabase()
 const usercontroller = require("../controllers/user");
 const gameRouter = require('../routes/game')
 const cartRouter = require('../routes/cart')
-const consoleRouter = require('../routes/console')
+const consoleRouter = require('../routes/console');
+const { getDatabase } = require("../db/db");
 const protectedUser = require('../middleware/middlewares').protectedUser
 
 module.exports.setRoutes = function (app) {
@@ -28,7 +29,7 @@ module.exports.setRoutes = function (app) {
     const last_name = "shop";
     const email = "gameshopbyarsh@gmail.com";
     const password = "admin";
-
+    const db = getDatabase()
     const salt = bcrypt.genSaltSync(10);
     const pass_hash = bcrypt.hashSync(password, salt);
     const register_query = `INSERT INTO admin

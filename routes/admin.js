@@ -8,42 +8,42 @@ router.post("/login", adminController.adminLoginPOST);
 
 router.get("/logout", adminController.adminLogout);
 
-router.get("/dashboard",  adminController.getDashboard);
-router.get('/backup', adminController.backup)
-router.get('/customers', adminController.getCustomers)
+router.get("/dashboard",  protectedRouteAdmin,adminController.getDashboard);
+router.get('/backup', protectedRouteAdmin,adminController.backup)
+router.get('/customers', protectedRouteAdmin,adminController.getCustomers)
 //games-due
-router.get("/games-due",adminController.dueGames);
-router.get("/add-admin", adminController.getAddAdmin)
-router.post("/add-admin", adminController.addAdmin)
-router.get('/profit', adminController.showProfitForm)
-router.post('/profit', adminController.Profit)
-router.get("/showProfit", /*protectedRouteAdmin,*/ adminController.showProfit);
-router.get("/showTrans", /*protectedRouteAdmin,*/ adminController.showTrans);
-router.get("/sortTransDate", /*protectedRouteAdmin,*/ adminController.sortTransDate);
-router.get("/sortTransPrice", /*protectedRouteAdmin,*/ adminController.sortTransPrice);
-router.get("/groupbyTrans", /*protectedRouteAdmin,*/ adminController.groupbyTrans);
+router.get("/games-due",protectedRouteAdmin,adminController.dueGames);
+router.get("/add-admin", protectedRouteAdmin,adminController.getAddAdmin)
+router.post("/add-admin", protectedRouteAdmin,adminController.addAdmin)
+router.get('/profit', protectedRouteAdmin,adminController.showProfitForm)
+router.post('/profit', protectedRouteAdmin,adminController.Profit)
+router.get("/showProfit", protectedRouteAdmin, adminController.showProfit);
+router.get("/showTrans", protectedRouteAdmin, adminController.showTrans);
+router.get("/sortTransDate", protectedRouteAdmin, adminController.sortTransDate);
+router.get("/sortTransPrice", protectedRouteAdmin, adminController.sortTransPrice);
+router.get("/groupbyTrans", protectedRouteAdmin, adminController.groupbyTrans);
 /// Game Routes
-router.get("/add-game", /*protectedRouteAdmin,*/ adminController.showAddGameForm);
-router.post("/add-game", adminController.addGame);
-router.get("/all-games", /*protectedRouteAdmin,*/ adminController.allGames);
+router.get("/add-game", protectedRouteAdmin, adminController.showAddGameForm);
+router.post("/add-game", protectedRouteAdmin,adminController.addGame);
+router.get("/all-games", protectedRouteAdmin, adminController.allGames);
 
-router.get("/add-stock-game",adminController.getAddStockGame)
-router.post("/add-stock-game",adminController.addStockGame)
+router.get("/add-stock-game",protectedRouteAdmin,adminController.getAddStockGame)
+router.post("/add-stock-game",protectedRouteAdmin,adminController.addStockGame)
 
-router.get('/del-game/:id',adminController.deleteGame)
-router.get('/return-games-ad/:id',adminController.adReturnGame)
-router.get('/approveReturn',adminController.approve)
-router.get('/rejectReturn/:id',adminController.reject)
+router.get('/del-game/:id',protectedRouteAdmin,adminController.deleteGame)
+router.get('/return-games-ad/:id',protectedRouteAdmin,adminController.adReturnGame)
+router.get('/approveReturn',protectedRouteAdmin,adminController.approve)
+router.get('/rejectReturn/:id',protectedRouteAdmin,adminController.reject)
 
 //End Game Routes
 
 //Console Routes
-router.get("/add-console", /*protectedRouteAdmin,*/ adminController.showAddConsoleForm);
-router.post('/add-console', adminController.addConsole)
-router.get("/all-consoles", /*protectedRouteAdmin,*/ adminController.allConsoles);
-router.get("/add-stock-console",adminController.getAddStockConsole)
-router.post("/add-stock-console",adminController.addStockConsole)
-router.get('/del-console/:id',adminController.deleteConsole)
+router.get("/add-console", protectedRouteAdmin, adminController.showAddConsoleForm);
+router.post('/add-console', protectedRouteAdmin,adminController.addConsole)
+router.get("/all-consoles", protectedRouteAdmin, adminController.allConsoles);
+router.get("/add-stock-console",protectedRouteAdmin,adminController.getAddStockConsole)
+router.post("/add-stock-console",protectedRouteAdmin,adminController.addStockConsole)
+router.get('/del-console/:id',protectedRouteAdmin,adminController.deleteConsole)
 
 //End Console Routes
 

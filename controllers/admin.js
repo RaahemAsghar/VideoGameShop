@@ -70,7 +70,7 @@ module.exports.adminLoginPOST = async (req, res) => {
 
 module.exports.adminLogout = function (req, res) {
   resetSession(req, res);
-  res.redirect("/admin");
+  res.redirect("/admin/login");
 };
 
 module.exports.getDashboard = async (req, res) => {
