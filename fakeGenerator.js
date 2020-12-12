@@ -3,10 +3,33 @@ const request = require("request");
 const getDatabase = require("./db/db").getDatabase;
 const connectToDatabase = require("./db/db").connectToDatabase;
 const mysql = require("mysql2");
-const { fake } = require("faker");
+const { fake, database } = require("faker");
 
-const getGames = async (page) => {
+var fs = require('fs')
+
+var download = function(uri, filename, callback){
+  request.head(uri, function(err, res, body){
+    console.log('content-type:', res.headers['content-type']);
+    console.log('content-length:', res.headers['content-length']);
+
+    request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+  });
+};
+
+
+
+
+
+
+const getGames = async (page,cat_id, cat) => {
   var result;
+  connectToDatabase();
+
+  const db = getDatabase();
+
+  db.query("use vgs");
+
+
   request(
     `https://api.rawg.io/api/games?page=${page}`,
     function (error, response, body) {
@@ -15,11 +38,8 @@ const getGames = async (page) => {
       result = body;
       const { results } = JSON.parse(body);
       const pc = results;
-      connectToDatabase();
+   
 
-      const db = getDatabase();
-
-      db.query("use vgs");
       results.forEach((element) => {
         var name = element.name;
         var platform = "PC";
@@ -37,15 +57,21 @@ const getGames = async (page) => {
         rent = mysql.escape(rent.toString());
         platform = mysql.escape(platform);
         var image = mysql.escape(element.background_image);
+        // download(element.background_image, `public/imgs/${element.background_image.split('/').slice(-1)}`, function(){
+        //         console.log('done');
+        // });
+
         //console.log(name, description, tags, sale, rent, platform, image);
 
         const add_query = `INSERT INTO game
               (title, description, tags, sale_price, rent_price, platform, image_url)
                VALUES (${name},${description},${tags},${sale},${rent},${platform}, ${image})`;
-
+        
         db.query(add_query, (err, result) => {
           if (err) throw err;
-          console.log("Item added!");
+          db.query(`INSERT INTO game_category VALUES(${result.insertId},${cat_id[Math.floor(Math.random() * 4)]})`)
+         
+          
         });
 
         //console.log(element);
@@ -70,6 +96,11 @@ const getUsers = async () => {
     var phone =  mysql.escape(Math.floor(Math.random() * 999999999999999) + 10000000)
     var address =  mysql.escape(faker.address.streetAddress())
 
+    var userW = 'username: ' + email + '\t\t\t\t\tpass: ' + pass + '\n';
+
+    fs.appendFile('usernames.txt', userW, function (err) {
+      if (err) throw err;
+    });
     var salt = bcrypt.genSaltSync(10);
     var password = bcrypt.hashSync(pass, salt);
     var q = `INSERT INTO user (first_name, last_name, email, password, phone_number, address) VALUES(${f_name},${l_name},${email},'${password}',${phone},${address})` 
@@ -87,10 +118,31 @@ const getUsers = async () => {
 };
 
 //getUsers()
-const generateData = ()=>{
-  for(var i = 1;i <= 50;i++){
-    getGames(i)
+const generateData = async ()=>{
+  // connectToDatabase();
+
+  // const db = getDatabase();
+
+  // db.query("use vgs");
+  var cat = ['Action', 'Adventure', 'Thriller', 'FPS', 'Role Playing']
+  var cat_id = [1155,1156,1157,1158,1159]
+
+
+
+  // for(var i = 0;i<5;i++){
+  //   var q = `INSERT INTO category (name) VALUES('${cat[i]}')`
+  //   console.log(q)
+  //   const [r,f] = await db.promise().query(q)
+  //   console.log(r)
+  //   cat_id.push(r.insertId)
+  // }
+  // console.log(cat_id)
+
+
+  for(var i = 1;i <= 2;i++){
+    getGames(i, cat_id, cat)
   }
 }
 
 generateData()
+console.log('finish')
