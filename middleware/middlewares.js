@@ -28,6 +28,26 @@ module.exports.initSession = (req, res, next) => {
   next();
 };
 
+module.exports.initCookies = (req,res, next)=>{
+  if (req.cookies.cart == undefined) {
+    res.cookie(
+      "cart",
+      JSON.stringify({
+        games: [],
+        consoles: [],
+      }),
+      { expires: new Date(Date.now() + 900000)}
+    );
+
+    req.cookies.cart = JSON.stringify({
+      games: [],
+      consoles: [],
+    })
+  }
+
+  next()
+}
+
 module.exports.resetSession = (req, res) => {
   req.session.isInit = true;
   req.session.user = {};

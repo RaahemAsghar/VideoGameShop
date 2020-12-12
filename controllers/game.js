@@ -1,15 +1,11 @@
 const bcrypt = require("bcryptjs");
 const getDatabase = require("../db/db").getDatabase;
 const mysql = require("mysql2");
-const uuid = require('uuid')
-
-
-
-
+const uuid = require("uuid");
 
 module.exports.getGame = async (req, res) => {
   const game_id = req.params.gid;
-  console.log(game_id)
+  console.log(game_id);
   const get_q = `SELECT * FROM game WHERE id=${game_id}`;
   const db = getDatabase();
   const [rows, fields] = await db.promise().query(get_q);
@@ -43,7 +39,7 @@ module.exports.rentGame = async (req, res) => {
       req.flash("index_msg", "You already have this game rented!!");
       res.redirect("/");
     } else {
-      const transaction_id = uuid.v4()
+      const transaction_id = uuid.v4();
       const rentq = `
                   INSERT INTO rent (user_id, game_id,date_due)
                   VALUES(${user_id}, ${game_id}, ${sql_date});
@@ -68,72 +64,103 @@ module.exports.rentGame = async (req, res) => {
         if (err) throw err;
       });
 
-      req.flash('index_msg',"You have successfully rented the game. Check 'Due Games' in My Account.")
-      res.redirect('/');
+      req.flash(
+        "index_msg",
+        "You have successfully rented the game. Check 'Due Games' in My Account."
+      );
+      res.redirect("/");
     }
   }
 };
 
-
-
-module.exports.games = async (req, res)=>{
-  const gamesPerPage = 12
-  const pageno = req.params.page - 1
-  const db = getDatabase()
-  const [game_ids, fields] = await db.promise().query("SELECT id FROM game ORDER BY id DESC")
-  console.log(game_ids.length)
+module.exports.games = async (req, res, next) => {
+  const gamesPerPage = 12;
+  const pageno = req.params.page - 1;
+  const db = getDatabase();
+  const [game_ids, fields] = await db
+    .promise()
+    .query("SELECT id FROM game ORDER BY id DESC");
+  console.log(game_ids.length);
   var total_pages = Math.ceil(game_ids.length / gamesPerPage);
   //display gamesPerPage games per page
+  if (pageno > total_pages - 1 || pageno < 0) {
+    res.redirect("/");
+    return
+  } else {
+    var games = [];
+    var nextgames = game_ids.slice(
+      pageno * gamesPerPage,
+      pageno * gamesPerPage + gamesPerPage
+    );
+    console.log(nextgames.length);
+    console.log(nextgames);
+    for (var i = 0; i < nextgames.length; i++) {
+      var getgame = `SELECT * FROM game WHERE id = ${nextgames[i].id}`;
+      var [game, f] = await db.promise().query(getgame);
+      games.push(game[0]);
+    }
+    var search = `SELECT * FROM category`;
+    const [categories, g] = await db.promise().query(search);
+    console.log(categories);
 
-  var games = []
-  var nextgames = game_ids.slice(pageno*gamesPerPage, pageno*gamesPerPage + gamesPerPage)
-  console.log(nextgames.length)
-  console.log(nextgames)
-  for(var i = 0;i < nextgames.length;i++){
-    var getgame = `SELECT * FROM game WHERE id = ${nextgames[i].id}`
-    var [game, f] = await db.promise().query(getgame)
-    games.push(game[0])
+    console.log("tot:", total_pages);
+    console.log("curr:", pageno);
 
+    res.render("games", {
+      data1: games,
+      link: "game",
+      totalPages: total_pages,
+      categories,
+      currpage: pageno + 1,
+    });
   }
-  var search = `SELECT * FROM category`;
-  const [categories, g] = await db.promise().query(search);
-  console.log(categories);
+};
 
-  console.log("tot:",total_pages)
-  console.log("curr:",pageno)
-
-  res.render('games', {data1:games, link:"game",totalPages:total_pages, categories,currpage:pageno+1})
-}
-
-
-module.exports.gamesByCat = async (req, res)=>{
-  const gamesPerPage = 12
-  const pageno = req.params.page - 1
+module.exports.gamesByCat = async (req, res, next) => {
+  const gamesPerPage = 12;
+  const pageno = req.params.page - 1;
   const cat_id = req.params.cat;
-  const db = getDatabase()
-  const [game_ids, fields] = await db.promise().query(`SELECT game_id AS id FROM game_category WHERE category_id = '${cat_id}'`)
-  console.log(game_ids)
+  const db = getDatabase();
+  const [game_ids, fields] = await db
+    .promise()
+    .query(
+      `SELECT game_id AS id FROM game_category WHERE category_id = '${cat_id}'`
+    );
+  console.log(game_ids);
   var total_pages = Math.ceil(game_ids.length / gamesPerPage);
-  var games = []
-  var nextgames = game_ids.slice(pageno*gamesPerPage, pageno*gamesPerPage + gamesPerPage)
-  console.log(nextgames.length)
-  console.log(nextgames)
-  for(var i = 0;i < nextgames.length;i++){
-    var getgame = `SELECT * FROM game WHERE id = ${nextgames[i].id}`
-    console.log(getgame)
-    var [game, f] = await db.promise().query(getgame)
-    games.push(game[0])
+  if (pageno > total_pages - 1 || pageno < 0) {
+    res.redirect("/");
+    
+  } else {
+    var games = [];
+    var nextgames = game_ids.slice(
+      pageno * gamesPerPage,
+      pageno * gamesPerPage + gamesPerPage
+    );
+    console.log(nextgames.length);
+    console.log(nextgames);
+    for (var i = 0; i < nextgames.length; i++) {
+      var getgame = `SELECT * FROM game WHERE id = ${nextgames[i].id}`;
+      console.log(getgame);
+      var [game, f] = await db.promise().query(getgame);
+      games.push(game[0]);
+    }
+    var search = `SELECT * FROM category`;
+    const [categories, g] = await db.promise().query(search);
+    console.log(categories);
 
+    console.log("tot:", total_pages);
+    console.log("curr:", pageno);
+
+    res.render("games", {
+      data1: games,
+      link: "category",
+      category: cat_id,
+      totalPages: total_pages,
+      categories,
+      currpage: pageno + 1,
+    });
   }
-  var search = `SELECT * FROM category`;
-  const [categories, g] = await db.promise().query(search);
-  console.log(categories);
-
-  console.log("tot:",total_pages)
-  console.log("curr:",pageno)
-
-  res.render('games', {data1:games, link:"category",category:cat_id,totalPages:total_pages, categories,currpage:pageno+1})
-
   // console.log(game_ids.length)
   // var total_pages = Math.ceil(game_ids.length / gamesPerPage);
 
@@ -144,40 +171,53 @@ module.exports.gamesByCat = async (req, res)=>{
   // console.log(categories);
 
   // const Searchquery = ;
-  
+
   // db.query(Searchquery, (err, result) => {
   //   if (err) throw err;
   //   res.render('games', {data1:games, totalPages:total_pages, categories,currpage:pageno+1})
   // });
-}
+};
 
-
-module.exports.sortByPriceGames = async (req, res)=>{
-  const gamesPerPage = 12
-  const pageno = req.params.page - 1
-  const db = getDatabase()
-  const [game_ids, fields] = await db.promise().query("SELECT id FROM game ORDER BY sale_price ASC")
-  console.log(game_ids.length)
-  console.log('hello')
+module.exports.sortByPriceGames = async (req, res, next) => {
+  const gamesPerPage = 12;
+  const pageno = req.params.page - 1;
+  const db = getDatabase();
+  const [game_ids, fields] = await db
+    .promise()
+    .query("SELECT id FROM game ORDER BY sale_price ASC");
+  console.log(game_ids.length);
+  console.log("hello");
   var total_pages = Math.ceil(game_ids.length / gamesPerPage);
   //display gamesPerPage games per page
+  if (pageno > total_pages - 1 || pageno < 0) {
+    res.redirect("/");
+    
+  } else {
+    var games = [];
+    var nextgames = game_ids.slice(
+      pageno * gamesPerPage,
+      pageno * gamesPerPage + gamesPerPage
+    );
+    console.log(nextgames.length);
+    console.log(nextgames);
+    for (var i = 0; i < nextgames.length; i++) {
+      var getgame = `SELECT * FROM game WHERE id = ${nextgames[i].id}`;
+      var [game, f] = await db.promise().query(getgame);
+      games.push(game[0]);
+    }
+    var search = `SELECT * FROM category`;
+    const [categories, g] = await db.promise().query(search);
+    console.log(categories);
 
-  var games = []
-  var nextgames = game_ids.slice(pageno*gamesPerPage, pageno*gamesPerPage + gamesPerPage)
-  console.log(nextgames.length)
-  console.log(nextgames)
-  for(var i = 0;i < nextgames.length;i++){
-    var getgame = `SELECT * FROM game WHERE id = ${nextgames[i].id}`
-    var [game, f] = await db.promise().query(getgame)
-    games.push(game[0])
+    console.log("tot:", total_pages);
+    console.log("curr:", pageno);
 
+    res.render("games", {
+      data1: games,
+      link: "price",
+      totalPages: total_pages,
+      categories,
+      currpage: pageno + 1,
+    });
   }
-  var search = `SELECT * FROM category`;
-  const [categories, g] = await db.promise().query(search);
-  console.log(categories);
-
-  console.log("tot:",total_pages)
-  console.log("curr:",pageno)
-
-  res.render('games', {data1:games, link:"price",totalPages:total_pages, categories,currpage:pageno+1})
-}
+};
