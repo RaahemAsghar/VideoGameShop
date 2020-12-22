@@ -5,7 +5,7 @@ const sqlFile = path.join(__dirname, config.get("db_init_file"));
 const fs = require("fs");
 
 
-const db_config = config.get('db_config_local')
+const db_config = config.get('db_config_azure')
 console.log(db_config)
 var connection;
 

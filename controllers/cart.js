@@ -5,6 +5,7 @@ const getDatabase = require("../db/db").getDatabase;
 const resetSession = require("../middleware/middlewares").resetSession;
 const mysql = require("mysql2");
 const uuid = require("uuid");
+const config = require('config')
 
 module.exports.getCart = async (req, res) => {
   var cart = req.cookies.cart;
@@ -61,7 +62,7 @@ module.exports.addToCartGame = async (req, res) => {
     });
   }
   cart.games = game_cart;
-  res.cookie("cart", JSON.stringify(cart), { expires: new Date(Date.now() + 900000)});
+  res.cookie("cart", JSON.stringify(cart), { expires: new Date(Date.now() + config.get('session_expiry'))});
   console.log(cart);
 
   res.redirect("/");
@@ -92,7 +93,7 @@ module.exports.increaseGame = async (req, res) => {
   }
   cart.games = games;
   console.log(cart);
-  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + 900000)});
+  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + config.get('session_expiry'))});
   res.redirect("/cart");
 };
 
@@ -112,7 +113,7 @@ module.exports.decreaseGame = (req, res) => {
   }
   cart.games = games;
   console.log("cart",cart);
-  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + 900000)});
+  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + config.get('session_expiry'))});
   res.redirect("/cart");
 };
 
@@ -140,7 +141,7 @@ module.exports.addToCartConsole = async (req, res) => {
     });
   }
   cart.consoles = console_cart;
-  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + 900000)});
+  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + config.get('session_expiry'))});
   console.log(cart);
 
   res.redirect("/");
@@ -172,7 +173,7 @@ module.exports.increaseConsole = async (req, res) => {
   }
   cart.consoles = consoles;
   console.log(cart);
-  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + 900000)});
+  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + config.get('session_expiry'))});
   res.redirect("/cart");
 };
 
@@ -192,7 +193,7 @@ module.exports.decreaseConsole = (req, res) => {
   }
   cart.consoles = consoles;
   console.log(cart);
-  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + 900000)});
+  res.cookie("cart", JSON.stringify(cart),{ expires: new Date(Date.now() + config.get('session_expiry'))});
   res.redirect("/cart");
 };
 
@@ -216,7 +217,7 @@ module.exports.checkout = async (req, res) => {
         games: [],
         consoles: [],
       }),
-      { expires: new Date(Date.now() + 900000)}
+      { expires: new Date(Date.now() + config.get('session_expiry'))}
     );
     req.cookies.cart = JSON.stringify({
       games: [],

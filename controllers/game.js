@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const getDatabase = require("../db/db").getDatabase;
 const mysql = require("mysql2");
 const uuid = require("uuid");
-
+const config = require('config')
 module.exports.getGame = async (req, res) => {
   const game_id = req.params.gid;
   console.log(game_id);
@@ -74,7 +74,7 @@ module.exports.rentGame = async (req, res) => {
 };
 
 module.exports.games = async (req, res, next) => {
-  const gamesPerPage = 12;
+  const gamesPerPage = config.get('products_per_page');
   const pageno = req.params.page - 1;
   const db = getDatabase();
   const [game_ids, fields] = await db
@@ -117,7 +117,7 @@ module.exports.games = async (req, res, next) => {
 };
 
 module.exports.gamesByCat = async (req, res, next) => {
-  const gamesPerPage = 12;
+  const gamesPerPage = config.get('products_per_page');
   const pageno = req.params.page - 1;
   const cat_id = req.params.cat;
   const db = getDatabase();
@@ -179,7 +179,7 @@ module.exports.gamesByCat = async (req, res, next) => {
 };
 
 module.exports.sortByPriceGames = async (req, res, next) => {
-  const gamesPerPage = 12;
+  const gamesPerPage = config.get('products_per_page');;
   const pageno = req.params.page - 1;
   const db = getDatabase();
   const [game_ids, fields] = await db

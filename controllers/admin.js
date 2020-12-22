@@ -8,6 +8,7 @@ const spawn = require("child_process").spawn;
 const dumpFileName = `vgs.dump.sql`;
 const config = require("config");
 const moment = require("moment");
+const request = require("request");
 function multiply() {
   a = Number(document.profit.people.value);
   b = Number(document.profi.price.value);
@@ -92,16 +93,17 @@ module.exports.getDashboard = async (req, res) => {
 
 module.exports.backup = async (req, res) => {
   const currDateTime = new Date();
-  const backupfile = moment().format("D-M-Y-h-mm-ssa").toString() + "-vgsbackup.sql";
- 
+  const backupfile =
+    moment().format("D-M-Y-h-mm-ssa").toString() + "-vgsbackup.sql";
+
   const mysqldump = require("mysqldump");
- 
+
   req.flash("admin_msg", {
     type: "alert-success",
     msg: "Database was backed up!",
   });
 
-  const db_config = config.get("db_config_azure")
+  const db_config = config.get("db_config_azure");
 
   mysqldump({
     connection: db_config,
@@ -175,19 +177,20 @@ module.exports.groupbyTrans = function (req, res) {
 
 //Game Controllers
 module.exports.showAddGameForm = function (req, res) {
-
-  var query = `SELECT * from category`
+  var query = `SELECT * from category`;
   var db = getDatabase();
   db.query(query, (err, result) => {
     if (err) throw err;
-    console.log(result)
-    res.render("admin/games/add-game",{categories:result, msg:req.flash("add_game_msg")});
-  }); 
-  
+    console.log(result);
+    res.render("admin/games/add-game", {
+      categories: result,
+      msg: req.flash("add_game_msg"),
+    });
+  });
 };
 
 module.exports.addGame = async (req, res) => {
-  console.log("body",req.body)
+  console.log("body", req.body);
 
   //console.log(title)
   const stock = 0;
@@ -199,9 +202,8 @@ module.exports.addGame = async (req, res) => {
     rent_price,
     platform,
     image,
-    categories
+    categories,
   } = req.body;
-
   title = mysql.escape(title);
   description = mysql.escape(description);
   tags = mysql.escape(tags);
@@ -218,9 +220,9 @@ module.exports.addGame = async (req, res) => {
         ${sale_price},
          ${rent_price},
           ${platform}, ${image}, ${stock});`;
+
   var db = getDatabase();
   db.query(add_query, (err, result) => {
-
     if (err) {
       req.flash("add_game_msg", {
         msg: "An Error occured! Please Try Again.",
@@ -235,19 +237,19 @@ module.exports.addGame = async (req, res) => {
       });
       res.redirect("/admin/add-game");
     }
-    console.log("Item added!");``
+    console.log("Item added!");
     console.log(result);
-    categories = [...categories]
-    categories.forEach(element => {
-      var addc = `INSERT INTO game_category VALUES(${result.insertId},${element})`
-      db.query(addc, (err, result2)=>{
-        if(err) throw err
-      })
+    categories = [...categories];
+    categories.forEach((element) => {
+      var addc = `INSERT INTO game_category VALUES(${result.insertId},${element})`;
+      db.query(addc, (err, result2) => {
+        if (err) throw err;
+      });
     });
-  })
-}
+  });
+};
 
-  //req.flash("login_msg", "Item added successfully!");
+//req.flash("login_msg", "Item added successfully!");
 
 module.exports.deleteGame = async (req, res) => {
   console.log("delete game", req.params.id);
@@ -568,75 +570,78 @@ module.exports.addManufacturers = (req, res) => {
 };
 
 module.exports.adReturnGame = (req, res) => {
-  
   //console.log("Logging bosssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss, ",req.params.id);
-  const search_query = `SELECT * FROM returned_games WHERE transaction_id=${mysql.escape(req.params.id)}`;
+  const search_query = `SELECT * FROM returned_games WHERE transaction_id=${mysql.escape(
+    req.params.id
+  )}`;
   var db = getDatabase();
-    db.query(search_query, (err, result) => {
-      if (err) throw err;
-      var T_ID = result[0].id
-      console.log("lol ",result[0].transaction_id)
+  db.query(search_query, (err, result) => {
+    if (err) throw err;
+    var T_ID = result[0].id;
+    console.log("lol ", result[0].transaction_id);
     const search_query_2 = `SELECT * FROM game WHERE id=${result[0].game_id}`;
     db.query(search_query_2, (err, result2) => {
       if (err) throw err;
-      console.log(result2)
-      const update_query = `UPDATE game SET stock = ${result2[0].stock + 1} WHERE id=${result[0].game_id}`;
+      console.log(result2);
+      const update_query = `UPDATE game SET stock = ${
+        result2[0].stock + 1
+      } WHERE id=${result[0].game_id}`;
       db.query(update_query, (err, result3) => {
         if (err) throw err;
-        const delete_query = `DELETE FROM returned_games WHERE game_id=${result[0].game_id} AND user_id=${result[0].user_id} AND transaction_id=${mysql.escape(req.params.id)}`;
+        const delete_query = `DELETE FROM returned_games WHERE game_id=${
+          result[0].game_id
+        } AND user_id=${result[0].user_id} AND transaction_id=${mysql.escape(
+          req.params.id
+        )}`;
         db.query(delete_query, (err, result4) => {
-          console.log(result4)
+          console.log(result4);
           if (err) throw err;
-        const search_query_3 = `SELECT credits FROM user WHERE id=${result[0].user_id}`;
-        db.query(search_query_3, (err, result5) => {
-          if (err) throw err;
-          const update_query_2 =  `UPDATE user SET credits = ${result5[0].credits + result2[0].sale_price} WHERE id=${result[0].user_id}`
-          db.query(update_query_2, (err, result6) => {
+          const search_query_3 = `SELECT credits FROM user WHERE id=${result[0].user_id}`;
+          db.query(search_query_3, (err, result5) => {
             if (err) throw err;
-            const update_query_3 =  `UPDATE transaction_history SET Type_of_transaction = 'Game/Returned' WHERE user_id=${result[0].user_id} AND id=${mysql.escape(req.params.id)}`
-          db.query(update_query_3, (err, result7) => {  
-            if (err) throw err;
-            res.redirect("/admin/dashboard");   
-
-});
-});
-});
-});
-});
-});
-});
+            const update_query_2 = `UPDATE user SET credits = ${
+              result5[0].credits + result2[0].sale_price
+            } WHERE id=${result[0].user_id}`;
+            db.query(update_query_2, (err, result6) => {
+              if (err) throw err;
+              const update_query_3 = `UPDATE transaction_history SET Type_of_transaction = 'Game/Returned' WHERE user_id=${
+                result[0].user_id
+              } AND id=${mysql.escape(req.params.id)}`;
+              db.query(update_query_3, (err, result7) => {
+                if (err) throw err;
+                res.redirect("/admin/dashboard");
+              });
+            });
+          });
+        });
+      });
+    });
+  });
 };
 module.exports.approve = (req, res) => {
   const search_query = `SELECT * FROM returned_games`;
   var db = getDatabase();
-    db.query(search_query, (err, result) => {
-      if (err) throw err;
-    res.render("admin/return-games-ad",{data:result})
-
-});
+  db.query(search_query, (err, result) => {
+    if (err) throw err;
+    res.render("admin/return-games-ad", { data: result });
+  });
 };
 module.exports.reject = (req, res) => {
-  const delete_query = `DELETE FROM returned_games WHERE transaction_id = ${mysql.escape(req.params.id)}`;
+  const delete_query = `DELETE FROM returned_games WHERE transaction_id = ${mysql.escape(
+    req.params.id
+  )}`;
   var db = getDatabase();
-    db.query(delete_query, (err, result) => {
-      if (err) throw err;
-      res.redirect("/admin/dashboard");
-
-});
+  db.query(delete_query, (err, result) => {
+    if (err) throw err;
+    res.redirect("/admin/dashboard");
+  });
 };
 
-module.exports.getAddAdmin = (req, res)=>{
-  res.render("admin/add-admin",{msg:req.flash('add_admin_msg')});
-  
-}
-module.exports.addAdmin = async (req, res)=>{
-  const {
-    first_name,
-    last_name,
-    email,
-    password,
-    password2,
-  } = req.body;
+module.exports.getAddAdmin = (req, res) => {
+  res.render("admin/add-admin", { msg: req.flash("add_admin_msg") });
+};
+module.exports.addAdmin = async (req, res) => {
+  const { first_name, last_name, email, password, password2 } = req.body;
 
   const errors = [];
 
@@ -670,7 +675,7 @@ module.exports.addAdmin = async (req, res)=>{
     const register_query = `INSERT INTO admin
     (first_name, last_name, email, password)
      VALUES ('${first_name}', '${last_name}', '${email}', '${pass_hash}')`;
-     db = getDatabase();
+    db = getDatabase();
 
     db.query(register_query, (err, result) => {
       if (err) throw err;
@@ -680,4 +685,4 @@ module.exports.addAdmin = async (req, res)=>{
     req.flash("add_admin_msg", "Congratulations! Admin added!");
     res.redirect("/admin/add-admin");
   }
-}
+};

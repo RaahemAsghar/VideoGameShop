@@ -16,11 +16,11 @@ div#preloader {
 }
 .game-image{
   height: 200px;
-  width: 100%;
+  min-width: 100%;
 }
 .game-image-big{
   height: inherit;
-  width: 100%;
+  min-width: 100%;
 }
 
 .fa.fa-gamepad {

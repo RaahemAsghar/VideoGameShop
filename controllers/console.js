@@ -1,5 +1,5 @@
 const getDatabase = require("../db/db").getDatabase;
-
+const config = require('config')
 module.exports.getConsole = async (req, res) => {
   const console_id = req.params.id;
   console.log(console_id)
@@ -16,7 +16,7 @@ module.exports.getConsole = async (req, res) => {
 };
 
 module.exports.consoles = async (req, res)=>{
-  const consolesPerPage = 12
+  const consolesPerPage = config.get('products_per_page')
   const pageno = req.params.page - 1
   const db = getDatabase()
   const [console_ids, fields] = await db.promise().query("SELECT id FROM console ORDER BY id DESC")

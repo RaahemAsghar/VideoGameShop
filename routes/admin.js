@@ -49,14 +49,14 @@ router.get('/del-console/:id',protectedRouteAdmin,adminController.deleteConsole)
 
 
 
-router.get('/categories', adminController.categories);
-router.post('/categories', adminController.addCategories);
-router.get("/del-cat/:id", adminController.deleteCategory)
+router.get('/categories', protectedRouteAdmin,adminController.categories);
+router.post('/categories', protectedRouteAdmin,adminController.addCategories);
+router.get("/del-cat/:id", protectedRouteAdmin,adminController.deleteCategory)
 
-router.get("/del-man/:id", adminController.deleteManufacture)
+router.get("/del-man/:id", protectedRouteAdmin,adminController.deleteManufacture)
 
-router.get('/manufacturers',adminController.manufacturers)
-router.post('/manufacturers', adminController.addManufacturers)
+router.get('/manufacturers',protectedRouteAdmin,adminController.manufacturers)
+router.post('/manufacturers', protectedRouteAdmin,adminController.addManufacturers)
 
 router.get("*", (req, res) => {
   res.redirect("/admin/dashboard");

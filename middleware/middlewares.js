@@ -1,3 +1,5 @@
+const config = require('config')
+
 module.exports.initSession = (req, res, next) => {
   if (req.session.isInit == undefined) {
     console.log("called");
@@ -14,7 +16,7 @@ module.exports.initSession = (req, res, next) => {
           games: [],
           consoles: [],
         }),
-        { expires: new Date(Date.now() + 900000)}
+        { expires: new Date(Date.now() + config.get('session_expiry'))}
       );
 
       req.cookies.cart = JSON.stringify({
@@ -36,7 +38,7 @@ module.exports.initCookies = (req,res, next)=>{
         games: [],
         consoles: [],
       }),
-      { expires: new Date(Date.now() + 900000)}
+      { expires: new Date(Date.now() + config.get('session_expiry'))}
     );
 
     req.cookies.cart = JSON.stringify({

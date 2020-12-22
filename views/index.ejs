@@ -9,8 +9,19 @@
       </button>
   </div>
   <%})%>
-  <%-include('includes/search')%>
-
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <form class="form" action="/user/search-result" method="GET">
+        <div class="form-group">
+          <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Search...">
+            <button class="btn btn-dark" type="submit" value="search">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  
   <%if(data1.length == 0 && data2.length == 0 && data3.length == 0){%>
     <h1 class="text-danger text-center mt-3">Nothing to show here!</h1>
     <%}%>
@@ -27,19 +38,19 @@
 
 
     <% for(var i =0; i < data1.length; i++){%>
-    <div class="col-lg-3 d-flex col-md-6 col-sm-12 mt-3">
-      <div class="card shadow shadow-sm">
+    <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+      <div class="card shadow shadow-sm h-100">
         <a href="/game/<%=data1[i].id%>">
           <%
             var image_url = data1[i].image_url
             if(image_url.slice(0,4) != 'http'){
-              image_url = '/coollogo_com-12786558.png'
+              image_url = './coollogo_com-12786558.png'
             }
     
           %>
 
           <img
-          class="game-image img-thumbnail img-responsive"
+          class="img-thumbnail img-responsive game-image "
           src=<%=image_url%>
           alt="Card image cap"
         />
@@ -79,8 +90,8 @@
 <div class="p-2">
   <div class="row">
     <% for(var i =0; i < data3.length; i++){%>
-        <div class="col-lg-3 d-flex col-md-6 col-sm-12 mt-3">
-          <div class="card shadow shadow-sm">
+        <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+          <div class="card shadow shadow-sm h-100">
             <a href="/console/<%=data3[i].id%>">
               <%
               var image_url = data3[i].image_url
@@ -134,13 +145,13 @@
 <div class="p-2">
   <div class="row">
     <% for(var i =0; i < data2.length; i++){%>
-    <div class="col-lg-3 d-flex col-md-6 col-sm-12 mt-3">
-      <div class="card shadow shadow-sm">
+    <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+      <div class="card shadow shadow-sm h-100">
         <a href="/game/<%=data2[i].id%>">
           <%
             var image_url = data2[i].image_url
             if(image_url.slice(0,4) != 'http'){
-              image_url = '/coollogo_com-12786558.png'
+              image_url = '//coollogo_com-12786558.png'
             }
     
           %>

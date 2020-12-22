@@ -23,6 +23,8 @@
         "password": "VideoGameShop123",
         "multipleStatements": true,
         "port": 3306
-    }
+    },
+    "products_per_page":8,
+    "session_expiry":8.64e+7
     
 }

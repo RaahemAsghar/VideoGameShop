@@ -22,9 +22,9 @@ app.use(
     secret: `${config.get("session_secret")}`,
     saveUninitialized: true,
     resave: false,
-    maxAge:500000,
+    maxAge:config.get('session_expiry'),
     cookie: { 
-      maxAge:500000
+      maxAge:config.get('session_expiry'),
     }
   })
 );
@@ -44,6 +44,6 @@ app.use(setGlobals)
 
 setRoutes(app);
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log("Server started at port: ", PORT);
 });
